@@ -68,6 +68,9 @@ class USER_Model{
                         //Si no hay atributos Clave y unique duplicados es que hay campos sin completar
                         return 'ERROR: Introduzca todos los valores de todos los campos'; // introduzca un valor para el usuario
                     }
+                    else{
+                        return "Registrado correctamente";
+                    }
                 }else{ //si hay un login igual
                     return 'ERROR: Hay un login igual'; 
                 }
