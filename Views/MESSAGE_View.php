@@ -26,7 +26,6 @@ function render(){
       include 'HEADER_View.php';
 ?>
      
-
     <section id="banner">
             <h2>Mensaje del sistema</h2>
             <p><?php echo $this->mensaje ?></p>

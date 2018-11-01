@@ -1,5 +1,7 @@
 <?php 
 include_once '../Functions/Authentication.php';
+include '../Locales/Strings_SPANISH.php';
+
  ?>
 <html>
 	<head>
@@ -25,20 +27,21 @@ include_once '../Functions/Authentication.php';
 									<li><a href="#">Rankings</a></li>
 								</ul>
 							</li>
+							<li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
 							<li>
 								<?php 
 									if(IsAuthenticated()){
 								?>
-										<a href="../Functions/Desconectar.php" class="button">Cerrar sesión</a></li>
+										<a href="../Functions/Desconectar.php" class="button">Cerrar sesión</a>
 								<?php 
 									}
 									else{
 								?>
-										<a href="../Controllers/REGISTER_Controller.php" class="button">Registrarse</a></li>
+										<a href="../Controllers/REGISTER_Controller.php" class="button">Registrarse</a>
 									<?php 
 									}
 								?>
-
+							</li>	
 						</ul>
 					</nav>
 				</header>
