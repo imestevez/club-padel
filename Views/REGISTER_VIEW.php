@@ -10,17 +10,17 @@ class Register{
 
 function render(){
 
-    include '../Views/HEADERBLACK_View.php'; 
+    include '../Views/HEADER_View.php'; 
 ?>
 
 
     <!-- Main -->
     <section id="main" class="container medium">
         <header>
-            <h2>Registrarse </h2>
+            <h2>Registrarse</h2>
         </header>
         <div class="box">
-            <form method="post" action="#">
+            <form method="post" action="../Controllers/REGISTER_Controller.php">
                 <div class="row gtr-50 gtr-uniform">
                     <!--<div class="col-6 col-12-mobilep">
 									<input type="text" name="name" id="name" value="" placeholder="Name" />

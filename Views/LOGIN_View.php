@@ -10,7 +10,7 @@ class Login{
 
 function render(){
 
-    include '../Views/HEADERBLACK_View.php'; 
+    include '../Views/HEADER_View.php'; 
 ?>
 
     <!-- Main -->
@@ -29,7 +29,7 @@ function render(){
                     </div>
                     <div class="col-12">
                         <ul class="actions special">
-                            <li><a href="../Controllers/LOGIN_Controller.php"><input type="submit" value="Acceder" /></a></li>
+                            <li><a href="../Controllers/LOGIN_Controller.php?"><input type="submit" value="Acceder" /></a></li>
                         </ul>
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 
 if(!isset($_POST['dni'])){ //si no se introdujo el login
 	include_once '../Views/REGISTER_View.php';
@@ -29,9 +28,10 @@ else{
 		//$respuesta = $USER->comprobarRegistro(); //comprueba que los datos están correctamente
 
 	//if ($respuesta == 'true'){ //si estan correctamente
-		$respuesta = $USER->ADD(); //añade al usuaurio en la BD
+		$respuesta = $USER->ADD(); //añade al usuario en la BD
 		include_once '../Views/MESSAGE_View.php';
-		new MESSAGE($respuesta['mensaje'], '../index.php');
+		//new MESSAGE($respuesta['mensaje'], '../index.php');
+		new MESSAGE($respuesta, '../index.php');
 		//}	
 	//}
 }

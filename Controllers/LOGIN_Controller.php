@@ -5,7 +5,6 @@
     if (IsAuthenticated()){
         header('Location: ../index.php'); //vuelve al index.php
     }
-
     else{
         if(!isset($_REQUEST['login']) && !(isset($_REQUEST['password']))){ // si no se introdujo un login y contrasña
             include '../Views/LOGIN_View.php';
@@ -22,7 +21,6 @@
     
             if ($respuesta == 'true'){ //si se introdujeron correctamente
                 session_start(); //inicia sesion
-                
                 $_SESSION['login'] = $_REQUEST['login']; //guarda en la variable $_SESSION el nombre de usuario
                 header('Location:../index.php'); //redirige al index.php (estando autenticado)
             }

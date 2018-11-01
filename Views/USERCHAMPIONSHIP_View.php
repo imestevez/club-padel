@@ -1,16 +1,13 @@
 <?php
 
 class UserChampionship{
-
-
 	function __construct(){	
 		$this->render();
 	}
 
-
 function render(){
 
-    include '../Views/HEADERBLACK_View.php'; 
+    include '../Views/HEADER_View.php'; 
 ?>
     <!-- Main -->
     <section class="box">

@@ -10,7 +10,7 @@ class OpenChampionship{
 
 function render(){
 
-    include '../Views/HEADERBLACK_View.php'; 
+    include '../Views/HEADER_View.php'; 
 ?>
 
 
