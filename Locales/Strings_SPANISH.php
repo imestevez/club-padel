@@ -71,7 +71,6 @@ array(
 	'October' => 'Octubre',
 	'october' => 'Octubre',
 
-
 	'NOVEMBER' => 'Noviembre',
 	'November' => 'Noviembre',
 	'november' => 'Noviembre',

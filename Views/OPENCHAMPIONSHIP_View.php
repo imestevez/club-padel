@@ -31,7 +31,7 @@ function render(){
 							<tr>
 								<td>Torneito</td>
 								<td>12/08/1997</td>
-								<td><a href="#" class="button " >Inscribirse</a></td>
+								<td><a href="#" class="button small" >Inscribirse</a></td>
 							</tr>
 							<tr>
 								<td>Torneo ocho</td>
