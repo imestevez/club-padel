@@ -16,7 +16,7 @@
             include '../Functions/Access_DB.php'; //incluye la conexión a la BD
             include '../Models/USER_Model.php'; //incluye el Modelo de usuarios
     
-            $usuario = new USER_Model('','',$_REQUEST['login'],$_REQUEST['password']); //crea un usuario con el login y password insertados
+            $usuario = new USER_Model($_REQUEST['login'],$_REQUEST['password'],'','',''); //crea un usuario con el login y password insertados
             $respuesta = $usuario->login(); //Comprueba que existe el login y se corresponde con las contraseña introducida
     
             if ($respuesta == 'true'){ //si se introdujeron correctamente
