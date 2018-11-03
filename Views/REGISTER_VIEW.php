@@ -29,17 +29,26 @@ function render(){
 									<input type="email" name="email" id="email" value="" placeholder="Email" />
 								</div>-->
                     <div class="col-12">
-                        <input type="text"  id="subject" value="" placeholder="Nombre" name="name" />
-                    </div>
-                    <div class="col-12">
-                        <input type="text"  id="subject" value="" placeholder="Email" name="email" />
-                    </div>
-                    <div class="col-12">
-                        <input type="text"  id="subject" value="" placeholder="Usuario" name="dni" />
+                        <input type="text"  id="subject" value="" placeholder="Usuario" name="login" />
                     </div>
                     <div class="col-12">
                         <input type="password" id="message" placeholder="Contraseña" name="password"></input>
                     </div>
+                    <div class="col-12">
+                        <input type="text"  id="subject" value="" placeholder="Nombre" name="nombre" />
+                    </div>
+                    <div class="col-12">
+                        <input type="text"  id="subject" value="" placeholder="Apellidos" name="apellidos" />
+                    </div>
+
+                    <div class="col-12">
+                        <select name="genero">
+                          <option value="">Género</option>
+                          <option value="h">Masculino</option>
+                          <option value="m">Femenino</option>
+                        </select> 
+                    </div>
+                    
                     <div class="col-12">
                         <ul class="actions special">
                             <li><a href="../Controllers/REGISTER_Controller.php"><input type="submit" value="Continuar" /></a></li>

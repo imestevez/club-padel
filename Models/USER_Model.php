@@ -3,17 +3,17 @@
 class USER_Model{
     var $login;
     var $password;
-    var $name;
-    var $surname;
-    var $gender;
+    var $nombre;
+    var $apellidos;
+    var $genero;
     var $mysqli;
 
-    function __construct($login,$password,$name,$surname, $gender){
+    function __construct($login,$password,$nombre,$apellidos, $genero){
         $this->login = $login;
         $this->password = $password;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->gender = $gender;
+        $this->nombre = $nombre;
+        $this->apellidos = $apellidos;
+        $this->genero = $genero;
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
@@ -58,14 +58,14 @@ class USER_Model{
                     $sql = "INSERT INTO USUARIO(
                     login,
                     password,
-                    name,
-                    surname,
-                    gender) VALUES(
+                    nombre,
+                    apellidos,
+                    genero) VALUES(
                                         '$this->login',
                                         '$this->password',
-                                        '$this->name',
-                                        '$this->surname',
-                                        '$this->gender'
+                                        '$this->nombre',
+                                        '$this->apellidos',
+                                        '$this->genero'
                                     )";
                     
                     if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
