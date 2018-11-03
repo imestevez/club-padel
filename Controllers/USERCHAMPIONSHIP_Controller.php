@@ -2,8 +2,8 @@
                 
     session_start();
 
-    include '../Views/USERCHAMPIONSHIP_View.php'; 
-    include '../Views/OPENCHAMPIONSHIP_View.php'; 
+    include '../Views/CHAMPIONSHIP/USERCHAMPIONSHIP_View.php'; 
+    include '../Views/CHAMPIONSHIP/OPENCHAMPIONSHIP_View.php'; 
 
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
