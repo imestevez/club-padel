@@ -22,9 +22,8 @@ class USER_Model{
     function login(){
 
         $sql = "SELECT * FROM USUARIO WHERE (
-            (login = '$this->login')
+            (LOGIN = '$this->login')
         )";
-        echo $this->login." ".$this->password;
 
         $res = $this->mysqli->query($sql);
         $num_rows = mysqli_num_rows($res);
@@ -34,7 +33,7 @@ class USER_Model{
         }
         else{//si no hay 0 tuplas
             $tupla = $res->fetch_array();
-            if ($tupla['password'] == $this->password){//si coinciden las contraseñas
+            if ($tupla['PASSWORD'] == $this->password){//si coinciden las contraseñas
                 return true;
             }
             else{//si no coinciden las contraseñas
