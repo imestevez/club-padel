@@ -27,16 +27,24 @@ include '../Locales/Strings_SPANISH.php';
 									<li><a href="#">Rankings</a></li>
 								</ul>
 							</li>
-							<li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
+							<li><a href="../Controllers/PROMOTE_MATCHES_Controller.php">Promocionar Partidos</a></li>
 							<li>
 								<?php 
 									if(IsAuthenticated()){
 								?>
+										<a href="#" class="button" >
+											<input type="image" id="login" src="../Views/images/avatar.png">
+										</a>
+									</li>	
+									<li>
 										<a href="../Functions/Desconectar.php" class="button">Cerrar sesión</a>
 								<?php 
 									}
 									else{
 								?>
+										<a href="../Controllers/LOGIN_Controller.php" class="button">Acceder</a>
+									</li>	
+									<li>
 										<a href="../Controllers/REGISTER_Controller.php" class="button">Registrarse</a>
 									<?php 
 									}
