@@ -1,6 +1,6 @@
 <?php
 
-class Promocionar_Partidos{
+class PROMOTE_MATCHES_ADD{
 	var $semana;
 
 	function __construct(){	
@@ -69,34 +69,34 @@ function render(){
 						</thead>
 						<tbody>
 							<tr>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0]?>&hora=9" class="button alt small">9:00</a></a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[2]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[3]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[4]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[5]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[6]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[7]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[1][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[2][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[3][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[4][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[5][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[6][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[7][1]?>&hora=9"class="button small">9:00</a></td>
 							</tr>
 							<tr>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[2]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[3]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[4]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[5]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[6]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[7]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[1][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[2][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[3][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[4][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[5][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[6][1]?>&hora=11"class="button small">11:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[7][1]?>&hora=11"class="button small">11:00</a></td>
 							</tr>	
 							<tr>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[2]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[3]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[4]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[5]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[6]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[7]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[1][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[2][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[3][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[4][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[5][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[6][1]?>&hora=13"class="button small">13:00</a></td>
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[7][1]?>&hora=13"class="button small">13:00</a></td>
 							</tr>				
 						</tbody>
 					</table>
