@@ -32,7 +32,7 @@ function render(){
                         <input type="text"  id="subject" value="" placeholder="Usuario" name="login" />
                     </div>
                     <div class="col-12">
-                        <input type="password" id="message" placeholder="Contraseña" name="password"></input>
+                        <input type="password" id="message" placeholder="Contraseña" name="password"/>
                     </div>
                     <div class="col-12">
                         <input type="text"  id="subject" value="" placeholder="Nombre" name="nombre" />
@@ -51,7 +51,7 @@ function render(){
                     
                     <div class="col-12">
                         <ul class="actions special">
-                            <li><a href="../Controllers/REGISTER_Controller.php"><input type="submit" value="Continuar" /></a></li>
+                            <li><a href="../Controllers/REGISTER_Controller.php"><input type="submit" value="Continuar" ></a></li>
                         </ul>
                     </div>
                 </div>
