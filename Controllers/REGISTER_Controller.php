@@ -1,7 +1,7 @@
 <?php
 
 
-if(!isset($_POST['dni'])){ //si no se introdujo el login
+if(!isset($_POST['login'])){ //si no se introdujo el login
 	include_once '../Views/REGISTER_View.php';
 	$register = new Register();//muestra la vista de registro
 }
@@ -14,16 +14,20 @@ else{
 
 	}else{ //si envía el formulario
         */
-	$name = $_REQUEST['name'];
-	$email = $_REQUEST['email'];
-	$dni = $_REQUEST['dni'];
+
+    $login = $_REQUEST['login'];
 	$password = $_REQUEST['password'];
+	$nombre = $_REQUEST['nombre'];
+	$apellidos = $_REQUEST['apellidos'];
+	$genero = $_REQUEST['genero'];
 
 	$USER = new USER_Model(
-		$name, 
-		$email, 
-		$dni, 
-		$password);
+		$login, 
+		$password,
+		$nombre, 
+		$apellidos,
+		$genero
+		);
 
 		//$respuesta = $USER->comprobarRegistro(); //comprueba que los datos están correctamente
 

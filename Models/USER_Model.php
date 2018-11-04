@@ -1,18 +1,19 @@
 <?php
 
 class USER_Model{
-
-    var $name;
-    var $dni;
-    var $email;
+    var $login;
     var $password;
+    var $nombre;
+    var $apellidos;
+    var $genero;
     var $mysqli;
 
-    function __construct($name,$email,$dni,$password){
-        $this->name = $name;
-        $this->email = $email;
-        $this->dni = $dni;
+    function __construct($login,$password,$nombre,$apellidos, $genero){
+        $this->login = $login;
         $this->password = $password;
+        $this->nombre = $nombre;
+        $this->apellidos = $apellidos;
+        $this->genero = $genero;
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
@@ -21,9 +22,9 @@ class USER_Model{
     function login(){
 
         $sql = "SELECT * FROM USUARIO WHERE (
-            (dni = '$this->dni')
+            (LOGIN = '$this->login')
         )";
-        //edit
+
         $res = $this->mysqli->query($sql);
         $num_rows = mysqli_num_rows($res);
 
@@ -32,7 +33,7 @@ class USER_Model{
         }
         else{//si no hay 0 tuplas
             $tupla = $res->fetch_array();
-            if ($tupla['password'] == $this->password){//si coinciden las contraseñas
+            if ($tupla['PASSWORD'] == $this->password){//si coinciden las contraseñas
                 return true;
             }
             else{//si no coinciden las contraseñas
@@ -43,9 +44,9 @@ class USER_Model{
 
     function ADD()
     {
-        if (($this->dni <> '')){ // si el atributo clave de la entidad no esta vacio
+        if (($this->login <> '')){ // si el atributo clave de la entidad no esta vacio
             // construimos el sql para buscar esa clave en la tabla
-            $sql = "SELECT * FROM USUARIO WHERE (dni = '$this->dni')"; //comprobar que no hay claves iguales
+            $sql = "SELECT * FROM USUARIO WHERE (login = '$this->login')"; //comprobar que no hay claves iguales
 
             if (!$result = $this->mysqli->query($sql)){ //si da error la ejecución de la query
                 return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
@@ -54,14 +55,16 @@ class USER_Model{
                 if ($num_rows == 0){ //miramos si no existe el login
                     //Construimos la sentencia sql de inserción en la bd
                     $sql = "INSERT INTO USUARIO(
-                    name,
-                    email,
-                    dni,
-                    password) VALUES(
-                                        '$this->name',
-                                        '$this->email',
-                                        '$this->dni',
-                                        '$this->password'
+                    login,
+                    password,
+                    nombre,
+                    apellidos,
+                    genero) VALUES(
+                                        '$this->login',
+                                        '$this->password',
+                                        '$this->nombre',
+                                        '$this->apellidos',
+                                        '$this->genero'
                                     )";
                     
                     if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
@@ -72,7 +75,7 @@ class USER_Model{
                         return "Registrado correctamente";
                     }
                 }else{ //si hay un login igual
-                    return 'ERROR: Hay un login igual'; 
+                    return 'ERROR: El login introducido ya existe'; 
                 }
             }
         }else{ //Si no se introduce un login

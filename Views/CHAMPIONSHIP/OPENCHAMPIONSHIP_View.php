@@ -36,7 +36,7 @@ function render(){
 							<tr>
 								<td>Torneo ocho</td>
 								<td>12/13/2019</td>
-								<td><a href="#" class="button " >Inscribirse</a></td>
+								<td><a href="#" class="button small" >Inscribirse</a></td>
 							</tr>					
 						</tbody>
 					</table>
