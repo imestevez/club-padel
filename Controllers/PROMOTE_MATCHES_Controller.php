@@ -66,10 +66,7 @@ function get_data_form(){
     	default:
             $MATCH = new MATCH_Model('','');
             $tuplas = $MATCH->SHOWALL();
-
-
-
-            new PROMOTE_MATCHES();
+            new PROMOTE_MATCHES($tuplas, '../Controllers/PPROMOTE_MATCHES.php');
     		break;
     }
     ?>

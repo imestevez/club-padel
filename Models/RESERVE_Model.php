@@ -29,7 +29,7 @@ class RESERVE_Model{
 	            }else { //si la ejecución de la query no da error
 	                $num_rows = mysqli_num_rows($result);
 
-	                if ($num _rows == 0){ //miramos si no existe el login
+	                if ($num_rows == 0){ //miramos si no existe el login
 	                    //Construimos la sentencia sql de inserción en la bd
 	                    $sql = "INSERT INTO RESERVA(
 	                    USUARIO_LOGIN,

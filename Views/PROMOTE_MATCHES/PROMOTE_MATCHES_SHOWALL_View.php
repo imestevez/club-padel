@@ -1,10 +1,10 @@
 <?php
 
 class PROMOTE_MATCHES{
-	var $semana;
+	var $tuplas;
 
-	function __construct(){	
-	
+	function __construct($tuplas){	
+		$this->tuplas = $tuplas;
 		$this->render();
 	}
 
@@ -28,42 +28,33 @@ function render(){
 							<tr>
 								<th>Fecha</th>
 								<th>Hora</th>
-								<th>Numero Inscritos</th>
 								<th>Pista</th>
+								<th>Numero Inscritos</th>
 								<th><a class="button small" href="../Controllers/PROMOTE_MATCHES_Controller.php?action=ADD">Promocionar</a></th>
 							</tr>
 						</thead>
 						<tbody>
+					<?php 
+								while($row = mysqli_fetch_array($this->tuplas)){
+					?>
 							<tr>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[1][1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[2][1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[3][1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[4][1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[5][1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[6][1]?>&hora=9"class="button small">9:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[7][1]?>&hora=9"class="button small">9:00</a></td>
+								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+									<?=$row['FECHA']?>
+									</a>
+								</td>
+									<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+									<?=$row['FECHA']?>
+									</a>
+								</td>
+									<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+									<?=$row['PISTA_ID']?>
+									</a>
+								</td>
 							</tr>
-							<tr>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[1][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[2][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[3][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[4][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[5][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[6][1]?>&hora=11"class="button small">11:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[7][1]?>&hora=11"class="button small">11:00</a></td>
-							</tr>	
-							<tr>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[1][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[2][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[3][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[4][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[5][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[6][1]?>&hora=13"class="button small">13:00</a></td>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[7][1]?>&hora=13"class="button small">13:00</a></td>
-							</tr>				
+					<?php
+						}
+					?>
+									
 						</tbody>
 					</table>
 				</div>
