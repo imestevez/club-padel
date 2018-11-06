@@ -43,9 +43,8 @@ function render(){
 
                     <div class="col-12">
                         <select name="genero">
-                          <option value="">Género</option>
-                          <option value="h">Masculino</option>
                           <option value="m">Femenino</option>
+                          <option value="h">Masculino</option>
                         </select> 
                     </div>
                     

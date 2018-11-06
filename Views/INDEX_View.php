@@ -15,14 +15,14 @@ class Index {
             <h2>SóloPádelPro</h2>
             <p>Administra los servicios de tu club de pádel preferido ahora</p>
             <ul class="actions special">
-                <li><a href="../Controllers/LOGIN_Controller.php" class="button primary">Acceder</a></li>
                 <?php
                 if(IsAuthenticated()){
                 ?>    
                     <li><a href="../Functions/Desconectar.php" class="button">Desconectarse</a></li>
                 <?php
                 }else{
-                ?>    
+                ?>
+                    <li><a href="../Controllers/LOGIN_Controller.php" class="button primary">Acceder</a></li>
                     <li><a href="../Controllers/REGISTER_Controller.php" class="button">Registrarse</a></li>
                 <?php    
                 }
