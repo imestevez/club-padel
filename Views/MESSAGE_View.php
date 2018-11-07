@@ -29,6 +29,10 @@ function render(){
     <section id="banner">
             <h2>Mensaje del sistema</h2>
             <p><?php echo $this->mensaje ?></p>
+            <div>
+            	<a class="button primary" href=<?php echo $this->origen?>>Continuar</a>
+            </div>
+
     </section>
     
 

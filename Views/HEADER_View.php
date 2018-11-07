@@ -9,6 +9,9 @@ include '../Locales/Strings_SPANISH.php';
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../assets/css/tcal.css" />
+
+		<script type="text/javascript" src="../assets/js/tcal.js"></script> 
 	</head>
 	<body class="is-preload">
 		<div id="page-wrapper">
@@ -27,6 +30,7 @@ include '../Locales/Strings_SPANISH.php';
 							<li>
 								<a href="#" class="icon fa-angle-down">Campeonatos</a>
 								<ul>
+									<li><a href="../Controllers/CHAMPIONSHIP_Controller.php?action=FORMADD">Nuevo Campeonato</a></li>
 									<li><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=USERCHAMPIONSHIPS">Tus Campeonatos</a></li>
 									<li><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS">Campeonatos abiertos</a></li>
 									<li><a href="#">Rankings</a></li>

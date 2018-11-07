@@ -41,7 +41,7 @@ function render(){
 
 					<div id="bt_campeonatos">
 						<p>Si quieres apuntarte a otro campeonato, hazlo aquí</p>
-						<a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS" class="button " >Campeonatos abiertos</a>
+						<a href="../Controllers/CHAMPIONSHIP_Controller.php?action=FORMADD" class="button " >Campeonatos abiertos</a>
 					</div>
 
 				</div>
