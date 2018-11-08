@@ -32,9 +32,11 @@ class RESERVE_Model{
 	                if ($num_rows == 0){ //miramos si no existe el login
 	                    //Construimos la sentencia sql de inserción en la bd
 	                    $sql = "INSERT INTO RESERVA(
+	                    ID,
 	                    USUARIO_LOGIN,
 	                    PISTA_ID,
 	                    FECHA) VALUES(
+	                    					NULL,
 	                                        '$this->user_login',
 	                                        '$this->pista_ID',
 	                                        '$this->fecha'

@@ -38,17 +38,21 @@ function render(){
 								while($row = mysqli_fetch_array($this->tuplas)){
 					?>
 							<tr>
-								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+								<td>
 									<?=$row['FECHA']?>
-									</a>
 								</td>
-									<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
-									<?=$row['FECHA']?>
-									</a>
+								<td>
+									<?=$row['HORA_INICIO']?>
 								</td>
-									<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+								<td>
 									<?=$row['PISTA_ID']?>
-									</a>
+								</td>
+								<td>
+									<?=$row[0]?>
+								</td>
+								<td>
+									<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&id=$row['ID']">Borrar</a></th>
+							</tr>
 								</td>
 							</tr>
 					<?php

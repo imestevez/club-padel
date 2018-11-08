@@ -16,7 +16,7 @@ class PARTIDO_Model{
 
     function ADD()
     {
-        if (($this->FECHA <> '') || ($this->reserva_ID <> '')){ // si los atributos estan vacios
+        if (($this->fecha <> '') || ($this->reserva_ID <> '')){ // si los atributos estan vacios
             // construimos el sql para buscar esa clave en la tabla
             $sql = "SELECT * FROM PARTDO";
             if (!$result = $this->mysqli->query($sql)){ //si da error la ejecución de la query
@@ -25,8 +25,10 @@ class PARTIDO_Model{
                 $num_rows = mysqli_num_rows($result);
 
                     $sql = "INSERT INTO USUARIO(
+                    ID,
                     FECHA,
                     RESERVA_ID) VALUES(
+                                        NULL,
                                         '$this->fecha',
                                         '$this->reserva_ID'
                                         )";
@@ -55,10 +57,13 @@ class PARTIDO_Model{
 
     function SHOWALL(){
 
-    $sql = "SELECT PA.FECHA, PI.NOMBRE
-            FROM PARTIDO PA, RESERVA R, PISTA PI
-            WHERE (PA.RESERVA_ID = R.ID) AND (R.PISTA_ID = PI.ID)
-            GROUP BY PA.ID";
+    $sql = "SELECT COUNT(U.ID), PA.ID, PA.FECHA, PA.PISTA_ID, PI.NOMBRE, H.HORA_INICIO
+            FROM PARTIDO PA, RESERVA R, PISTA PI, USUARIO_PARTIDO U, HORARIO H
+            WHERE (PA.RESERVA_ID = R.ID) 
+                    AND (R.PISTA_ID = PI.ID) 
+                    AND (U.PARTIDO_ID = PA.ID) 
+                    AND (H.ID = PA.HORARIO_ID)
+            ORDER BY PA.ID";
 var_dump("\n\n\n") ;      
 var_dump($sql);
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
