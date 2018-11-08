@@ -2,11 +2,11 @@
                 
     session_start();
 
-    include '../Models/RESERVE_Model.php';
-    include '../Models/MATCH_Model.php';
+    include '../Models/RESERVA_Model.php';
+    include '../Models/PARTIDO_Model.php';
 
-    include '../Views/PROMOTE_MATCHES/PROMOTE_MATCHES_ALTA_View.php'; 
-    include '../Views/PROMOTE_MATCHES/PROMOTE_MATCHES_SHOWALL_View.php'; 
+    include '../Views/PROMOCIONAR_PARTIDOS/PROMOCIONAR_PARTIDOS_ALTA_View.php'; 
+    include '../Views/PROMOCIONAR_PARTIDOS/PROMOCIONAR_PARTIDOS_SHOWALL_View.php'; 
 
 function get_data_form(){
     if(isset( $_REQUEST['login'])){
@@ -24,13 +24,13 @@ function get_data_form(){
     }else{
         $pista_ID = NULL;
     }
-    $RESERVE = new RESERVE_Model(
+    $RESERVA = new RESERVA_Model(
         $login, 
         $pista_ID,
         $fecha
         );
 
-    return $RESERVE;
+    return $RESERVA;
 }
 
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
@@ -41,20 +41,20 @@ function get_data_form(){
     switch ($action) {
     	case 'ADD':
     		if (!$_POST){ //si viene del showall (no es un post)
-    			new PROMOTE_MATCHES_ADD();
+    			new PROMOCIONAR_PARTIDOS_ADD();
 			}
 			else{ //si viene del add 
-				$RESERVE = get_data_form(); //get data from form
-				$message = $RESERVE->ADD(); //recupera una lista de datos de la reserva añadid
-                if($message['reserva_ID'] <> NULL){
+				$RESERVA = get_data_form(); //get data from form
+				$mensaje = $RESERVA->ADD(); //recupera una lista de datos de la reserva añadid
+                if($mensaje['reserva_ID'] <> NULL){
                     if(isset($_REQUEST['fecha'])){
                         $fecha = $_REQUEST['fecha'];
-                        $reserva_ID = $message['reserva_ID'];
-                        $MATCH = new MATCH_Model($fecha,$reserva_ID);
-                        $message = $MATCH->ADD();
+                        $reserva_ID = $mensaje['reserva_ID'];
+                        $PARTIDO = new PARTIDO_Model($fecha,$reserva_ID);
+                        $mensaje = $PARTIDO->ADD();
                     }
                 }
-				$users = new MESSAGE($message, '../Controllers/PPROMOTE_MATCHES.php'); //muestra el mensaje despues de la sentencia sql
+				$users = new mensaje($mensaje, '../Controllers/PPROMOCIONAR_PARTIDOS.php'); //muestra el mensaje despues de la sentencia sql
 			}
     		break;
     	case 'DELETE':
@@ -64,9 +64,9 @@ function get_data_form(){
     		# code...
     		break;
     	default:
-            $MATCH = new MATCH_Model('','');
-            $tuplas = $MATCH->SHOWALL();
-            new PROMOTE_MATCHES($tuplas, '../Controllers/PPROMOTE_MATCHES.php');
+            $PARTIDO = new PARTIDO_Model('','');
+            $tuplas = $PARTIDO->SHOWALL();
+            new PROMOCIONAR_PARTIDOS($tuplas, '../Controllers/PPROMOCIONAR_PARTIDOS.php');
     		break;
     }
     ?>

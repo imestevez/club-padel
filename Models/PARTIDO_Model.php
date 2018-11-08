@@ -1,6 +1,6 @@
 <?php
 
-class MATCH_Model{
+class PARTIDO_Model{
     var $fecha;
     var $reserva_ID;
     var $mensaje;

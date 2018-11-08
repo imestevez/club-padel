@@ -1,6 +1,6 @@
 <?php
 
-class PROMOTE_MATCHES{
+class PROMOCIONAR_PARTIDOS{
 	var $tuplas;
 
 	function __construct($tuplas){	
@@ -30,7 +30,7 @@ function render(){
 								<th>Hora</th>
 								<th>Pista</th>
 								<th>Numero Inscritos</th>
-								<th><a class="button small" href="../Controllers/PROMOTE_MATCHES_Controller.php?action=ADD">Promocionar</a></th>
+								<th><a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=ADD">Promocionar</a></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -38,15 +38,15 @@ function render(){
 								while($row = mysqli_fetch_array($this->tuplas)){
 					?>
 							<tr>
-								<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+								<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
 									<?=$row['FECHA']?>
 									</a>
 								</td>
-									<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+									<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
 									<?=$row['FECHA']?>
 									</a>
 								</td>
-									<td><a href="../Controllers/PROMOTE_MATCHES_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
+									<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?dia=<?=$this->semana[0][1]?>&hora=9" class="button alt small">
 									<?=$row['PISTA_ID']?>
 									</a>
 								</td>
