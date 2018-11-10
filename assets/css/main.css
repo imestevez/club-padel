@@ -346,7 +346,12 @@ code {
     margin: 0 0.25em;
     padding: 0.25em 0.65em;
 }
-
+.oculto{
+        visibility: hidden;
+        width: 0px;
+        height: 0px;
+        margin: 0px;
+}
 .align-left {
     text-align: left;
 }
@@ -3565,4 +3570,5 @@ body.landing #main {
     #cta {
         padding: 2.5em 1em 3em 1em;
     }
+
 }
