@@ -3,7 +3,7 @@
 class PROMOCIONAR_PARTIDOS{
 	var $tuplas;
 
-	function __construct($tuplas){	
+	function __construct($tuplas,$origen){	
 		$this->tuplas = $tuplas;
 		$this->render();
 	}
@@ -14,7 +14,6 @@ function render(){
     include '../Views/HEADER_View.php'; 
 
 ?>
-
 
     <!-- Main -->
 	<section id="main" class="container">
@@ -27,7 +26,8 @@ function render(){
 						<thead >
 							<tr>
 								<th>Fecha</th>
-								<th>Hora</th>
+								<th>Hora Inicio</th>
+								<th>Hora Fin</th>
 								<th>Pista</th>
 								<th>Numero Inscritos</th>
 								<th><a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=ADD">Promocionar</a></th>
@@ -35,28 +35,36 @@ function render(){
 						</thead>
 						<tbody>
 					<?php 
-								while($row = mysqli_fetch_array($this->tuplas)){
+					while($row = mysqli_fetch_array($this->tuplas)){
+						if($row['ID'] <> NULL){
+							$fecha = explode("-", $row['FECHA']);
+							$hora_inicio = explode(":", $row["HORA_INICIO"]);
+							$hora_fin = explode(":", $row["HORA_FIN"]);
 					?>
 							<tr>
 								<td>
-									<?=$row['FECHA']?>
+									<?=$fecha[2]."/".$fecha[1]."/".$fecha[0]?>
 								</td>
 								<td>
-									<?=$row['HORA_INICIO']?>
+									<?=$hora_inicio[0].":".$hora_inicio[1]?>
+								</td>
+								<td>
+									<?=$hora_fin[0].":".$hora_fin[1]?>
 								</td>
 								<td>
 									<?=$row['PISTA_ID']?>
 								</td>
 								<td>
-									<?=$row[0]?>
+									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-									<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&id=$row['ID']">Borrar</a></th>
+									<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&id=<?=$row['ID']?>">Borrar</a></th>
 							</tr>
 								</td>
 							</tr>
 					<?php
 						}
+					}
 					?>
 									
 						</tbody>
@@ -67,6 +75,6 @@ function render(){
         include '../Views/FOOTER_View.php';
         } //fin metodo render
     
-    } //fin Login
+    } //fin class
     
     ?>
