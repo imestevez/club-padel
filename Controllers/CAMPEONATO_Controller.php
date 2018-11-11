@@ -2,6 +2,7 @@
 
 	session_start();
 	include "../Views/CHAMPIONSHIP/ADDCHAMPIONSHIP_View.php";
+    include "../Views/CHAMPIONSHIP/CAMPEONATOSCERRADOS_View.php";
     include "../Models/CHAMPIONSHIP_Model.php";
     include "../Views/INDEX_View.php";
 
@@ -43,6 +44,10 @@
     	case 'FORMADD':
             new ChampionshipAdd();
             break;
+
+        case 'CAMPEONATOSCERRADOS':
+            new CampeonatosCerrados();
+            break;    
     }
 
 

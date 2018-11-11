@@ -6,6 +6,8 @@ class CHAMPIONSHIP_Model{
 	var $fecha;
     var $mensaje;
 
+    var $lista;
+
 	var $mysql;
 
 	function __construct($nombre,$fecha){
@@ -48,6 +50,24 @@ class CHAMPIONSHIP_Model{
         }
         else{
             $this->mensaje = "ERROR: En la consulta de la base de datos.";
+        }
+
+    }
+
+    //Mostramos los campeonatos con fecha de inscripción pasada
+    function SHOW_CLOSE(){
+
+        $fecha_actual = date("Y-m-d");
+        $sql = "SELECT * FROM CAMPEONATO WHERE (FECHA < $fecha_actual)";
+
+        $result = $this->mysqli->query($result);
+
+        if($result){
+            return $result;
+        }
+        else{
+            else $this->mensaje "ERROR: en la sentencia sql";
+            return $this->mensaje;
         }
 
     }
