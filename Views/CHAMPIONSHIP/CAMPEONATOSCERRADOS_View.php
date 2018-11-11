@@ -13,11 +13,15 @@
 
 		    include '../Views/HEADER_View.php'; 
 ?>
-
-
+	<section id="main" class="container">
+		<header>
+		   <h2>Campeonatos Cerrados</h2>
+		    <p>Crea grupos y enfrentamientos sobre cada campeonato cerrado</p>
+		 </header>
+		 <div class="row">
+		<div class="col-12">
 		    <!-- Main -->
 		    <section class="box">
-		        <h3>Campeonatos cerrados</h3>
 						<div class="table-wrapper">
 							<table>
 								<thead >
@@ -40,7 +44,9 @@
 
 						</div>
 		    </section>
-
+		    </div>
+		</div>			
+    </section>
 		    <?php
 		        include '../Views/FOOTER_View.php';
 		        } //fin metodo render

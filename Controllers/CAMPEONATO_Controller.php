@@ -3,7 +3,7 @@
 	session_start();
 	include "../Views/CHAMPIONSHIP/ADDCHAMPIONSHIP_View.php";
     include "../Views/CHAMPIONSHIP/CAMPEONATOSCERRADOS_View.php";
-    include "../Models/CHAMPIONSHIP_Model.php";
+    include "../Models/CAMPEONATO_Model.php";
     include "../Views/INDEX_View.php";
 
 
@@ -27,7 +27,7 @@
             $fecha = $_REQUEST['fecha'];
         }
 
-        return new CHAMPIONSHIP_Model($nombre,$fecha);
+        return new CAMPEONATO_Model($nombre,$fecha);
 
     }
 
@@ -46,7 +46,9 @@
             break;
 
         case 'CAMPEONATOSCERRADOS':
-            new CampeonatosCerrados();
+            $CAMPEONATO = new CAMPEONATO_Model('','');
+            $datos = $CAMPEONATO->SHOW_CLOSE();
+            new CampeonatosCerrados($datos);
             break;    
     }
 
