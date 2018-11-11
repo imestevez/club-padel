@@ -73,10 +73,10 @@ class PARTIDO_Model{
 
     function SHOWALL(){
 
-    $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-            FROM PARTIDO P, HORARIO H
-            WHERE      (H.ID = P.HORARIO_ID)
-            ORDER BY P.ID";
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H
+                WHERE      (H.ID = P.HORARIO_ID)
+                ORDER BY P.ID";
 
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
@@ -86,7 +86,68 @@ class PARTIDO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             return $resultado;
         }  
-    }// fin del método SHOWALL_Horarios
+    }// fin del método SHOWALL_Partidos
+    
+    function SHOWALL_Login($login){
+
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U
+                WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID)
+                ORDER BY P.ID";
+
+            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            return $resultado;
+        }  
+    }// fin del método SHOWALL_Partidos
+
+    function SHOW_Futuros(){
+       //  var_dump("\n\n\n");
+        $fecha_completa = getdate();
+        $hora = date('H:i:s');
+        $fecha = date('Y-m-d');
+
+
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H
+                WHERE       (H.ID = P.HORARIO_ID) 
+                        AND 
+                           ( (H.HORA_INICIO > '$hora') AND (P.FECHA = '$fecha') )
+                        ||  (P.FECHA > '$fecha')
+                ORDER BY P.ID";
+     //   var_dump($sql);
+
+            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            return $resultado;
+        }  
+    }// fin del método SHOW_Futuros
+    
+    function SHOW_Futuros_Login($login){
+
+
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U
+                WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID)
+                ORDER BY P.ID";
+
+            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            return $resultado;
+        }
+    }     //fin del metodo SHOW_Futuros_Login
 
     function DELETE(){
 

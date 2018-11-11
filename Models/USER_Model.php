@@ -83,7 +83,19 @@ class USER_Model{
         }
                     
     } // fin del metodo ADD
+    function GET_ROL(){
+        $sql = "SELECT R.NOMBRE FROM ROL R, USUARIO U
+                WHERE U.LOGIN = '$this->login' AND U.ROL_ID = R.ID  ";
+                var_dump("\n\n\n".$sql);
 
-}
+        if (!($result = $this->mysqli->query($sql))){ 
+                return NULL; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
+        }
+        else{
+            $rol = mysqli_fetch_array($result); 
+            return $rol["NOMBRE"];
+        }
+    }
+} //fin de la clase
 
 ?>

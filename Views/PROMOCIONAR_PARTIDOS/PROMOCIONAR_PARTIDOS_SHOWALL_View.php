@@ -1,10 +1,10 @@
 <?php
 
 class PROMOCIONAR_PARTIDOS{
-	var $tuplas;
+	var $horarios;
 
-	function __construct($tuplas,$origen){	
-		$this->tuplas = $tuplas;
+	function __construct($horarios,$origen){	
+		$this->horarios = $horarios;
 		$this->render();
 	}
 
@@ -35,8 +35,8 @@ function render(){
 						</thead>
 						<tbody>
 					<?php 
-					while($row = mysqli_fetch_array($this->tuplas)){
-						if($row['ID'] <> NULL){
+						if($this->horarios <> NULL){
+							while($row = mysqli_fetch_array($this->horarios)){
 							$fecha = explode("-", $row['FECHA']);
 							$hora_inicio = explode(":", $row["HORA_INICIO"]);
 							$hora_fin = explode(":", $row["HORA_FIN"]);
@@ -62,11 +62,10 @@ function render(){
 							</tr>
 								</td>
 							</tr>
-					<?php
-						}
-					}
-					?>
-									
+				<?php
+						}//fin del while
+					}//fin del if
+				?>
 						</tbody>
 					</table>
 				</div>
