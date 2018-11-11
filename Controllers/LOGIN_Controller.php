@@ -18,11 +18,17 @@
     
             $usuario = new USER_Model($_REQUEST['login'],$_REQUEST['password'],'','',''); //crea un usuario con el login y password insertados
             $respuesta = $usuario->login(); //Comprueba que existe el login y se corresponde con las contraseña introducida
-    
             if ($respuesta == 'true'){ //si se introdujeron correctamente
-                session_start(); //inicia sesion
-                $_SESSION['login'] = $_REQUEST['login']; //guarda en la variable $_SESSION el nombre de usuario
-                header('Location:../index.php'); //redirige al index.php (estando autenticado)
+                //session_start(); //inicia sesion
+                $respuesta =  $usuario->GET_ROL();
+                if($respuesta <> NULL){
+                    $_SESSION['login'] = $_REQUEST['login']; //guarda en la variable $_SESSION el nombre de usuario
+                    $_SESSION['rol'] = $respuesta;
+                    header('Location:../index.php'); //redirige al index.php (estando autenticado)
+                }else{
+                    $respuesta = 'ERROR: No se ha podido conectar con la base de datos';
+                    new MESSAGE($respuesta, './LOGIN_Controller.php'); //muestra el mensaje correspondiente al usuario y vuelve al Login controller
+                }
             }
             else{//si no se introdujeron correctamente
                 new MESSAGE($respuesta, './LOGIN_Controller.php'); //muestra el mensaje correspondiente al usuario y vuelve al Login controller
