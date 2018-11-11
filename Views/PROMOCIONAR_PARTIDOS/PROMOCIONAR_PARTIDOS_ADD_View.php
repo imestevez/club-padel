@@ -56,8 +56,7 @@ function render(){
 										<?=$value[1]?>
 									</td>
 									<td><input class="oculto" name="pista_ID" readonly value="<?=$key?>">
-										<input type="submit" class="small" value="Promocionar"></th>
-								</tr>
+										<input type="submit" class="small" value="Promocionar">
 									</td>
 								</tr>
 								<input class="oculto" name="horario_ID" readonly value="<?=$this->horario['ID']?>">

@@ -37,9 +37,9 @@ function render(){
 					<?php 
 						if($this->horarios <> NULL){
 							while($row = mysqli_fetch_array($this->horarios)){
-							$fecha = explode("-", $row['FECHA']);
-							$hora_inicio = explode(":", $row["HORA_INICIO"]);
-							$hora_fin = explode(":", $row["HORA_FIN"]);
+								$fecha = explode("-", $row['FECHA']);
+								$hora_inicio = explode(":", $row["HORA_INICIO"]);
+								$hora_fin = explode(":", $row["HORA_FIN"]);
 					?>
 							<tr>
 								<td>
