@@ -16,7 +16,7 @@ function render(){
 
     <!-- Main -->
     <section class="box">
-        <h3>Tus Campeonatos</h3>
+        <h3>Campeonatos Abiertos</h3>
 
 				<div class="table-wrapper">
 					<table>
@@ -31,12 +31,12 @@ function render(){
 							<tr>
 								<td>Torneito</td>
 								<td>12/08/1997</td>
-								<td><a href="#" class="button small" >Inscribirse</a></td>
+								<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=INSCRIBIRCAMPEONATO" class="button small" >Inscribirse</a></td>
 							</tr>
 							<tr>
 								<td>Torneo ocho</td>
 								<td>12/13/2019</td>
-								<td><a href="#" class="button small" >Inscribirse</a></td>
+								<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=INSCRIBIRCAMPEONATO" class="button small" >Inscribirse</a></td>
 							</tr>					
 						</tbody>
 					</table>

@@ -11,9 +11,9 @@ class COUPLE_Model{
 
 	function __construct($login1, $login2, $captain){
 
-		$this->login1 = login1;
-		$this->login2 = login2;
-		$this->captain = captain;
+		$this->login1 = $login1;
+		$this->login2 = $login2;
+		$this->captain = $captain;
 
 		include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
