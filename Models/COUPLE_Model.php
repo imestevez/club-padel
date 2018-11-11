@@ -24,9 +24,9 @@ class COUPLE_Model{
 	function ADD(){
 
 		//Comprobación de que los logins introducidos están registrados como usuarios
-		$sql_log1 = "SELECT * FROM USUARIO WHERE (LOGIN='$this->login1')";
-		$sql_log2 = "SELECT * FROM USUARIO WHERE (LOGIN='$this->login2')";
-		$sql_cap = "SELECT * FROM USUARIO WHERE (LOGIN='$this->captain')";
+		$sql_log1 = "SELECT * FROM USUARIO WHERE (login='$this->login1')";
+		$sql_log2 = "SELECT * FROM USUARIO WHERE (login='$this->login2')";
+		$sql_cap = "SELECT * FROM USUARIO WHERE (login='$this->captain')";
 
 		$result_log1 = $this->mysqli->query($sql_log1);
 		$result_log2 = $this->mysqli->query($sql_log2);
@@ -51,10 +51,11 @@ class COUPLE_Model{
 		$result_c2 = $this->mysqli->query($sql_c2);	
 
 		//Sentencia de creación de la pareja
-		$sql = "INSERT INTO PAREJA('ID', 'JUGADOR_1', 'JUGADOR_2', 'CAPITAN') VALUES(0,$this->login1,$this->login2,$this->captain)";
+		$sql = "INSERT INTO PAREJA(ID,JUGADOR_1, JUGADOR_2, CAPITAN) VALUES(0,'$this->login1','$this->login2','$this->captain')";
 
 		if($result_log1 and $result_log2 and $result_cap){
 			//Comprobación de que los miembros de la pareja son usuarios distintos
+
 			if($this->login1 <> $this->login2){
 				//Comprobación de que alguno de los miembros del equipo es el capitan
 				if( ($this->login1 == $this->captain) or ($this->login2 == $this->captain) ){
@@ -62,14 +63,13 @@ class COUPLE_Model{
 					if($result_c1 and $result_c2){
 						$num_rows_c1 = mysqli_num_rows($result_c1);
 						$num_rows_c2 = mysqli_num_rows($result_c2);
-						if(($num_rows_c1 > 0) and ($num_rows_c2 > 0)){
+						if(($num_rows_c1 == 0) and ($num_rows_c2 == 0)){
 							//Creación de la pareja
-							$result = $this->mysqli->query($sql);
-							if($result){
-								$this->mensaje = "Pareja registrada con éxito";
+							if(!($result = $this->mysqli->query($sql))){
+								$this->mensaje = "ERROR: En la sentencia sql.";
 							}
 							else{
-								$this->mensaje = "ERROR: En la sentencia sql.";
+								$this->mensaje = "Pareja registrada con éxito";
 							}
 						}
 						else{
@@ -91,7 +91,7 @@ class COUPLE_Model{
 		else{
 			$this->mensaje = "ERROR: Alguno de los miembros de la pareja no está registrado como usuario.";
 		}
-
+		return $this->mensaje;
 	}
 }
 

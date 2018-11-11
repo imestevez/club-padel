@@ -33,6 +33,7 @@ include '../Locales/Strings_SPANISH.php';
 									<li><a href="../Controllers/CHAMPIONSHIP_Controller.php?action=FORMADD">Nuevo Campeonato</a></li>
 									<li><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=USERCHAMPIONSHIPS">Tus Campeonatos</a></li>
 									<li><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS">Campeonatos abiertos</a></li>
+									<li><a href="../Controllers/CAMPEONATO_Controller.php?action=CAMPEONATOSCERRADOS">Campeonatos cerrados</a></li>
 									<li><a href="#">Rankings</a></li>
 								</ul>
 							</li>

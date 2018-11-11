@@ -5,7 +5,6 @@
     include '../Views/CHAMPIONSHIP/USERCHAMPIONSHIP_View.php'; 
     include '../Views/CHAMPIONSHIP/OPENCHAMPIONSHIP_View.php';
     include '../Views/CHAMPIONSHIP/INSCRIBIRCAMPEONATO_View.php';
-    include '../Models/COUPLE_Model.php';
 
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
@@ -27,13 +26,7 @@
             $loginPareja = $_REQUEST['loginPareja'];
         }
 
-        if(isset($_REQUEST['capitan'])){
-            $capitan = $_REQUEST['capitan'];
-        }
-
-        return new COUPLE_Model($login,$loginPareja, $capitan);
-  
-
+        return new COUPLE_Model($login,$loginPareja, $login);
     }
 
     Switch($action){
@@ -50,7 +43,7 @@
                 $PAREJA = get_data_form();
                 $mensaje = $PAREJA->ADD();
                 include_once '../Views/MESSAGE_View.php';
-                new MESSAGE($mensaje, "../Controllers/USERCHAMPIONSHIP_Controller.php");
+                new MESSAGE($mensaje, "../Controllers/USERCHAMPIONSHIP_Controller.php?action=USERCHAMPIONSHIPS");
         break;
     }
     

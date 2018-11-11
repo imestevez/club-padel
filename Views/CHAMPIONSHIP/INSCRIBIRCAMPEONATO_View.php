@@ -1,5 +1,6 @@
 <?php
 
+
 class InscribirCampeonato{
 
 
@@ -23,16 +24,10 @@ function render(){
             <form method="post" action="../Controllers/USERCHAMPIONSHIP_Controller.php">
                 <div class="row gtr-50 gtr-uniform">
                     <div class="col-12">
-                        <input type="hidden" value="<php $_SESSION['login']?>" id="login" name="login" />
+                        <input type="hidden" value="<?= $_SESSION['login']?>" id="login" name="login" />
                     </div>
                     <div class="col-12">
                         <input type="text" value="" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
-                    </div>
-                    <div class="col-12">
-                        <select name="capitan">
-                          <option value="<php $_SESSION['login']?>">Yo</option>
-                          <option value="<php $loginPareja ?>">Mi pareja</option>
-                        </select> 
                     </div>
 
                     <div class="col-12">

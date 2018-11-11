@@ -2,6 +2,7 @@
 
 class OpenChampionship{
 
+	
 
 	function __construct(){	
 		$this->render();
@@ -28,16 +29,12 @@ function render(){
 							</tr>
 						</thead>
 						<tbody>
+							<?php foreach ($campeonatos as &$campeonato) {?>
 							<tr>
-								<td>Torneito</td>
-								<td>12/08/1997</td>
-								<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=INSCRIBIRCAMPEONATO" class="button small" >Inscribirse</a></td>
+								<td><?php $campeonato ?></td>
+								<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=INSCRIBIRCAMPEONATO?id=" class="button small" >Inscribirse</a></td>
 							</tr>
-							<tr>
-								<td>Torneo ocho</td>
-								<td>12/13/2019</td>
-								<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=INSCRIBIRCAMPEONATO" class="button small" >Inscribirse</a></td>
-							</tr>					
+							<?php }?>				
 						</tbody>
 					</table>
 
