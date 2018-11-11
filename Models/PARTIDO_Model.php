@@ -96,7 +96,6 @@ class PARTIDO_Model{
                 WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID) AND (U.USUARIO_LOGIN = '$login')
                 GROUP BY P.ID
                 ORDER BY P.FECHA, H.HORA_INICIO";
-                var_dump("\n\n\n".$sql);
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 

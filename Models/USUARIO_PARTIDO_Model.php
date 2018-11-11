@@ -33,7 +33,6 @@ class USUARIO_PARTIDO_Model{
                                     NULL,
                                     '$this->login',
                                     '$this->partido_ID')";
-                var_dump("\n\n\n".$sql);
                 if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
                     //Si no hay atributos Clave y unique duplicados es que hay campos sin completar
                     $this->mensaje['mensaje'] = 'ERROR: No se podido inscribir al usuario';

@@ -47,27 +47,23 @@ function get_data_form(){
     switch ($action) {
     	case 'ADD':
     		if (!$_POST){ //si viene del showall (no es un post)
-                if(isset($_SESSION["rol"])){
-                    if($_SESSION["rol"] == 'ADMIN'){
-                        if(isset($_REQUEST['id'])){
-                            $PARTIDO = new PARTIDO_Model($_REQUEST['id'],'','','','','');
-                            $resultado = $PARTIDO->SHOW_Usuarios_Diponibles();
-                            if(!is_string( $resultado)){
-                                new INSCRIBIRSE_PARTIDOS_ADD($resultado,$_REQUEST['id']);
-                            }else{
-                              $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                            }
+                if($_SESSION["rol"] == 'ADMIN'){ //si es el admin
+                    if(isset($_REQUEST['id'])){
+                        $PARTIDO = new PARTIDO_Model($_REQUEST['id'],'','','','','');
+                        $resultado = $PARTIDO->SHOW_Usuarios_Diponibles();
+                        if(!is_string( $resultado)){
+                            new INSCRIBIRSE_PARTIDOS_ADD($resultado,$_REQUEST['id']);
+                        }else{
+                          $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
                         }
-                    }else{
-                        
-                        $USUARIO_PARTIDO = get_data_form();
-                        $resultado =  $USUARIO_PARTIDO->ADD();
-                        $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                    }
-                }else{
-                  $result = new MESSAGE('EROR: No se ha podido acceder al rol', '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                    }//
+                }else{ //si no es el admin
+                    
+                    $USUARIO_PARTIDO = get_data_form();
+                    $resultado =  $USUARIO_PARTIDO->ADD();
+                    $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }
-            }else{
+            }else{ //si  viene del post
                 $USUARIO_PARTIDO = get_data_form();
                 $resultado =  $USUARIO_PARTIDO->ADD();
                 $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
@@ -82,16 +78,9 @@ function get_data_form(){
             }
     		break;
     	case 'SHOW_PARTIDOS':
-
-                    $PARTIDO = new PARTIDO_Model('','','', '', '', '');
-                    $partidos = $PARTIDO->SHOW_Futuros();
-                    new INSCRIBIRSE_PARTIDOS($partidos, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php');
-             /*   }else{
-                    $PARTIDO = new PARTIDO_Model('','','', '', '', '');
-                    $partidos = $PARTIDO->SHOW_Futuros_Login($_SESSION["login"]);
-                    new INSCRIBIRSE_PARTIDOS($partidos, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php');
-                }
-            }*/
+                $PARTIDO = new PARTIDO_Model('','','', '', '', '');
+                $partidos = $PARTIDO->SHOW_Futuros();
+                new INSCRIBIRSE_PARTIDOS($partidos, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php');
     		break;
     	default:
 
