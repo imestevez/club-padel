@@ -37,6 +37,7 @@ include '../Locales/Strings_SPANISH.php';
 								</ul>
 							</li>
 							<li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
+							<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Inscribirse Partidos</a></li>		
 							<li><a href="#" class="button" >
 									<input type="image" id="login" src="../Views/images/avatar.png">
 								</a>
