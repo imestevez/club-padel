@@ -37,11 +37,29 @@ include '../Locales/Strings_SPANISH.php';
 									<li><a href="#">Rankings</a></li>
 								</ul>
 							</li>
+						<?php
+							if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+						?>
 							<li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
-							<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Inscribirse Partidos</a></li>		
-							<li><a href="#" class="button" >
+						<?php
+							}
+						?>
+						<li>
+							<a href="#" class="icon fa-angle-down">Inscripciones Partidos</a>
+							<ul>
+								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Tus Inscripciones</a></li>		
+								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>		
+
+							</ul>
+						</li>
+							<li><a href="#" class="class="icon fa-angle-down" >
 									<input type="image" id="login" src="../Views/images/avatar.png">
 								</a>
+								<ul>
+									<li><a href="#" ><?=$_SESSION["rol"]?></a>
+									</li>		
+								</ul>
+
 							</li>
 							<li>
 									<a href="../Functions/Desconectar.php" class="button">Cerrar sesión</a>
