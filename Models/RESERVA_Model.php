@@ -14,8 +14,12 @@ class RESERVA_Model{
     function __construct($id,$fecha,$user_login,$pista_ID,$horario_ID){
     	$this->id = $id;
     	if($fecha <> ''){
-    		$fecha = explode("/", $fecha);
-    		$this->fecha = date_format(new DateTime(date('Y-m-d', mktime(0,0,0,$fecha[1],$fecha[0],$fecha[2]))),'Y-m-d');
+    		$fecha_aux = explode("/", $fecha);
+            if(is_array($fecha_aux)){ //si viene con formato d/m/y
+        		$this->fecha = date_format(new DateTime(date('Y-m-d', mktime(0,0,0,$fecha_aux[1],$fecha_aux[0],$fecha_aux[2]))),'Y-m-d');
+            }else{
+                 $this->fecha = $fecha; //si viene con formato y-m-d
+            }
     	}
     	$this->user_login = $user_login;
     	$this->pista_ID = $pista_ID;
@@ -32,25 +36,25 @@ class RESERVA_Model{
 
     function ADD()
     {
-	 if (($this->user_login <> '') || ($this->pista_ID <> '')){ // si los atributos vienen vacios
+	 if (  ($this->user_login <> '') || ($this->pista_ID <> '') 
+        || ($this->horario_ID <> '') || ($this->fecha <> '')){ // si los atributos vienen vacios
 	            // construimos el sql para buscar esa clave en la tabla
 	            $sql = "SELECT * FROM RESERVA";
 	            if (!$result = $this->mysqli->query($sql)){ //si da error la ejecución de la query
 	                return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
 	            }else { //si la ejecución de la query no da error
-	                $num_rows = mysqli_num_rows($result);
-
-	                if ($num_rows == 0){ //miramos si no existe el login
-	                    //Construimos la sentencia sql de inserción en la bd
-	                    $sql = "INSERT INTO RESERVA(
+	                   
+                        $sql = "INSERT INTO RESERVA(
 	                    ID,
 	                    USUARIO_LOGIN,
 	                    PISTA_ID,
-	                    FECHA) VALUES(
+	                    FECHA,
+                        HORARIO_ID) VALUES(
 	                    					NULL,
 	                                        '$this->user_login',
 	                                        '$this->pista_ID',
-	                                        '$this->fecha'
+	                                        '$this->fecha',
+                                            '$this->horario_ID'
 	                                    )";
 	                    
 	                    if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
@@ -58,13 +62,13 @@ class RESERVA_Model{
 	                        return $this->mensaje; // introduzca un valor para el usuario
 	                    }
 	                    else{
-	                    	$this->mensaje['reserva_ID'] = mysql_insert_id();
+                            $result = $this->mysqli->query("SELECT @@identity AS ID"); //recoge el id de la ultima inserccion
+                            if ($row = mysqli_fetch_array($result)) {
+                                $this->mensaje['reserva_ID'] = $row[0];
+                            }   
                     	    $this->mensaje['mensaje'] = 'Registrado correctamente';
-                        return $this->mensaje; // introduzca un valor para el usuario
+                            return $this->mensaje; // introduzca un valor para el usuario
 	                    }
-	                }else{ //si hay un login igual
-	                   // return 'ERROR: El login introducido ya existe'; 
-	                }
 	            }
         }else{ //Si no se introduce un login
                 $this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos'; // Itroduzca un valor para el usuario
@@ -77,7 +81,6 @@ class RESERVA_Model{
 		$sql = "SELECT * FROM RESERVA 
 				WHERE  FECHA BETWEEN '$this->hoy' AND  '$this->hoy_mas6'
 				ORDER BY FECHA";
-			var_dump("\n\n\n". $sql);
 
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
@@ -118,12 +121,11 @@ class RESERVA_Model{
 
         	if(($num_rows1 == 0) && (($num_rows2 == 0) )){ //Si no hay reservas ni partidos ese dia a esa hora
 				$sql = "SELECT * FROM PISTA ORDER BY ID";
-
 		        if (!($resultado = $this->mysqli->query($sql)) ){
 		          return 'ERROR: Fallo en la consulta sobre la base de datos'; 
 		        }else{
                     while($row = mysqli_fetch_array($resultado)){                                
-                                    $pistasLibres[$row["ID"]] = array($row["NOMBRE"],$row["TIPO"]);
+                        $pistasLibres[$row["ID"]] = array($row["NOMBRE"],$row["TIPO"]);
                     }
 		        	return $pistasLibres;
 		        }

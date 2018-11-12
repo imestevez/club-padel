@@ -23,6 +23,8 @@ class PARTIDO_Model{
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
+        $this->UPDATE();
+
     }
 
     function ADD()
@@ -69,16 +71,42 @@ class PARTIDO_Model{
         }
                     
     } // fin del metodo ADD
+    function UPDATE(){
 
+        $sql = "SELECT * FROM PARTIDO";
+
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+           $num_rows = mysqli_num_rows($resultado);
+            $list = NULL;
+           while ($row = mysqli_fetch_array($resultado)) {
+                $list[$row["ID"]] = $row["INSCRIPCIONES"];
+            } //fin while 
+            if($list <> NULL){
+                foreach ($list as $key => $value) {
+
+                    $sql = "UPDATE PARTIDO SET INSCRIPCIONES = (SELECT COUNT(*) 
+                                                                    FROM USUARIO_PARTIDO 
+                                                                    WHERE (PARTIDO_ID = '$key')  ) 
+                            WHERE ID = '$key'";
+                    if(!$resultado = $this->mysqli->query($sql)){
+                       $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+                    }
+                }//fin del foreach
+            }//fin del id
+        }//fin else
+    }  // fin del metodo UPDATE   
 
     function SHOWALL(){
 
-        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, 
+                        P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
                 FROM PARTIDO P, HORARIO H
                 WHERE      (H.ID = P.HORARIO_ID)
-                GROUP BY P.ID
-                ORDER BY P.FECHA, H.HORA_INICIO";
-
+                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
@@ -87,7 +115,33 @@ class PARTIDO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             return $resultado;
         }  
-    }// fin del método SHOWALL_Partidos
+    }// fin del método SHOWALL
+    
+    function EDIT(){
+        $sql = "UPDATE PARTIDO SET RESERVA_ID = '$this->reserva_ID'
+                WHERE ID = '$this->id'";
+            if(!$resultado = $this->mysqli->query($sql)){
+               return  'ERROR: Fallo en la consulta sobre la base de datos';
+            }else{
+                return true;
+            }
+    }// fin del método EDIT
+    function SHOWALL_Inscripciones(){
+
+        $sql = "SELECT P.ID, UP.USUARIO_LOGIN, P.FECHA, P.PISTA_ID, P.HORARIO_ID, 
+                        P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO UP
+                WHERE      (H.ID = P.HORARIO_ID) AND (P.ID = UP.PARTIDO_ID)
+                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
+            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            return $resultado;
+        }  
+    }// fin del método SHOWALL_Inscripciones
     
     function SHOWALL_Login($login){
 
@@ -95,7 +149,7 @@ class PARTIDO_Model{
                 FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U
                 WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID) AND (U.USUARIO_LOGIN = '$login')
                 GROUP BY P.ID
-                ORDER BY P.FECHA, H.HORA_INICIO";
+                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
@@ -106,12 +160,69 @@ class PARTIDO_Model{
         }  
     }// fin del método SHOWALL_Partidos
 
+    function SHOW_FuturosLogin($login){
+        $fecha_completa = getdate();
+        $hora = date('H:i:s');
+        $fecha = date('Y-m-d');
+            
+        $sql = "SELECT * FROM USUARIO_PARTIDO WHERE USUARIO_LOGIN = '$login'";
+            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado1 = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            $num_rows1 = mysqli_num_rows($resultado1);
+
+
+            $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H
+                WHERE      ( (H.ID = P.HORARIO_ID) 
+                        AND (P.INSCRIPCIONES < 4) )
+                        AND 
+                          ( ( (H.HORA_INICIO > '$hora') AND (P.FECHA = '$fecha') )
+                        ||  (P.FECHA > '$fecha'))
+                GROUP BY P.ID        
+                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
+
+                if (!($resultado2 = $this->mysqli->query($sql))){
+                    $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+                    return $this->mensaje; 
+                }
+                else{  //si se ejecuta la query
+                    $listPartidos = NULL;
+                    $listInscripcion = NULL;
+
+                    if($resultado1 <> NULL){ //si hay tuplas
+                        while($row = mysqli_fetch_array($resultado1)){
+                            $listInscripcion[$row["PARTIDO_ID"]] = "Inscrito";
+                        }
+                    }
+
+                    if($resultado2 <> NULL) {
+                        if($listInscripcion == NULL ){ //si no esta inscrito en ningun partido
+                            while($row = mysqli_fetch_array($resultado2)){                                
+                                $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["PISTA_ID"],$row["INSCRIPCIONES"]);
+                            }   
+                        }else{ //si esta inscrito en algun partido
+                             while($row = mysqli_fetch_array($resultado2)){
+                                if( !array_key_exists($row["ID"],  $listInscripcion)){
+                                    $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["PISTA_ID"],$row["INSCRIPCIONES"]);
+                                }
+                            }//fin del while
+                        }//fin del else
+                    }
+                    return $listPartidos;
+                }//fin del else
+            return NULL;
+        }  
+    }// fin del método SHOW_Futuros
+
     function SHOW_Futuros(){
         $fecha_completa = getdate();
         $hora = date('H:i:s');
         $fecha = date('Y-m-d');
-
-
+        $listPartidos = NULL;
         $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
                 FROM PARTIDO P, HORARIO H
                 WHERE      ( (H.ID = P.HORARIO_ID) 
@@ -120,14 +231,19 @@ class PARTIDO_Model{
                           ( ( (H.HORA_INICIO > '$hora') AND (P.FECHA = '$fecha') )
                         ||  (P.FECHA > '$fecha'))
                 GROUP BY P.ID        
-                ORDER BY P.FECHA";
+                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
             return $this->mensaje; 
         }
         else{ // si la busqueda es correcta devolvemos el recordset resultado
-            return $resultado;
+            if($resultado <> NULL) {
+                  while($row = mysqli_fetch_array($resultado)){                                
+                    $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["PISTA_ID"],$row["INSCRIPCIONES"]);
+                    }   
+                }
+                return $listPartidos;
         }  
     }// fin del método SHOW_Futuros
     
@@ -138,7 +254,7 @@ class PARTIDO_Model{
                 FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U
                 WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID) AND (P.INSCRIPCIONES < 4)
                 GROUP BY P.ID        
-                ORDER BY P.FECHA, H.HORA_INICIO";
+                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
 
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
@@ -151,6 +267,8 @@ class PARTIDO_Model{
     }     //fin del metodo SHOW_Futuros_Login
 
     function SHOW_Usuarios_Diponibles(){
+
+
         $sql = "SELECT U.LOGIN, U.NOMBRE, U.APELLIDOS
                 FROM USUARIO_PARTIDO UP, USUARIO U
                 WHERE  (UP.USUARIO_LOGIN = U.LOGIN)  AND (UP.PARTIDO_ID = '$this->id') 
@@ -162,10 +280,9 @@ class PARTIDO_Model{
             $usuariosLibres = NULL;
             $usuariosPartido = NULL;
 
-            $num_rows = mysqli_num_rows($resultado);
-
-            $sql2   = "SELECT * FROM USUARIO ORDER BY LOGIN";
-
+            $sql2   = "SELECT U.LOGIN, U.NOMBRE, U.APELLIDOS FROM USUARIO U, ROL R
+                        WHERE (U.ROL_ID = R.ID)  AND (R.NOMBRE = 'DEPORTISTA') 
+                        ORDER BY LOGIN";
             if ( !($resultado2 = $this->mysqli->query($sql2))  ){
                 return 'ERROR: Fallo en la consulta sobre la base de datos'; 
             }else{
@@ -191,7 +308,7 @@ class PARTIDO_Model{
                 return $usuariosLibres;
              }//fin del else
         }//fin del else
-            return $resultado;
+            return NULL;
     }// fin del métodoSHOW_Usuarios_Diponibles
     function DELETE(){
 
@@ -203,5 +320,15 @@ class PARTIDO_Model{
             return 'Borrado correctamente';
         }
     }// fin del método DELETE
+
+    function ADD_RESERVA(){
+        $sql = "SELECT * FROM PARTIDO WHERE ID = '$this->id' ";
+          if(!$resultado = $this->mysqli->query($sql) ){
+            return NULL; 
+        }else{
+            $row = mysqli_fetch_array($resultado);
+            return $row;
+        }        
+    }//fin del metodo ADD_RESERVA
 }
 ?>
