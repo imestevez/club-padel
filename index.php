@@ -1,6 +1,5 @@
 <?php
 
-date_default_timezone_set("Europe/Spain");
 session_start();
 
 include './Functions/Authentication.php';
