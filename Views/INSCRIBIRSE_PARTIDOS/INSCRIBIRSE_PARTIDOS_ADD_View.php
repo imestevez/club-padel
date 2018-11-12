@@ -70,4 +70,4 @@ function render(){
     
     } //fin class
     
-    ?>s
+    ?>
