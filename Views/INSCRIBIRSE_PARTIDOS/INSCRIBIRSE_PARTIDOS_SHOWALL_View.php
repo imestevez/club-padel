@@ -64,10 +64,17 @@ function render(){
 								</td>
 								<td>
 						<?php
-							if($baja == true){
+							if( ($baja == true) && ($row['INSCRIPCIONES'] < 4) ){
 						?>
 									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">DAR DE BAJA</a>
 						<?php
+							}
+							if($row['INSCRIPCIONES'] >= 4){
+						?>
+									<a class="button alt small">RESERVA</a>
+
+						<?php
+							
 							}
 						?>
 								</td>

@@ -86,8 +86,8 @@ function get_data_form(){
             break;
     	case 'DELETE':
             if (!$_POST){ //si viene del showall (no es un post)
-                if(isset($_REQUEST["id"])){
-                    $PARTIDO = new PARTIDO_Model($_REQUEST["id"], '', '', '', '', '');
+                if(isset($_REQUEST["partido_ID"])){
+                    $PARTIDO = new PARTIDO_Model($_REQUEST["partido_ID"], '', '', '', '', '');
                     $mensaje = $PARTIDO->DELETE();
                     $partidos = new MESSAGE($mensaje, '../Controllers/PROMOCIONAR_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }

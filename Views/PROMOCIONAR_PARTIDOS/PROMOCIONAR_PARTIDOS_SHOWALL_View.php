@@ -58,7 +58,7 @@ function render(){
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-									<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&id=<?=$row['ID']?>">Borrar</a></th>
+									<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">Borrar</a></th>
 							</tr>
 								</td>
 							</tr>
