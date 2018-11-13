@@ -25,7 +25,6 @@ class USUARIO_PARTIDO_Model{
             return NULL;
         }else { //si la ejecución de la query no da error
             $row = mysqli_fetch_array($resultado);
-            var_dump("\n\n-----------".$row[0]);
             return $row[0];
         }
     }//fin CHECK_INSCRIPCIONES
