@@ -28,13 +28,36 @@ include '../Locales/Strings_SPANISH.php';
 							?>
 							<li><a href="../index.php">Reservar Pistas</a></li>
 							<li>
-								<a href="#" class="icon fa-angle-down">Campeonatos</a>
+								<a class="icon fa-angle-down">Campeonatos</a>
 								<ul>
-									<li><a href="../Controllers/CHAMPIONSHIP_Controller.php?action=FORMADD">Nuevo Campeonato</a></li>
-									<li><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=USERCHAMPIONSHIPS">Tus Campeonatos</a></li>
-									<li><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS">Campeonatos abiertos</a></li>
-									<li><a href="../Controllers/CAMPEONATO_Controller.php?action=CAMPEONATOSCERRADOS">Campeonatos cerrados</a></li>
-									<li><a href="#">Rankings</a></li>
+									<li><a >Rankings</a></li>
+									<li>
+										<a>Gest. de Campeonatos</a>
+										<ul>
+											<li><a href="#">Tus Campeonatos</a></li>
+											<li><a href="#">Campeonatos abiertos</a></li>
+											<?php
+												if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+											?>
+												<li><a href="../Controllers/CAMPEONATO_Controller.php?action=CAMPEONATOSCERRADOS">Campeonatos cerrados</a></li>
+											<?php
+												}
+											?>
+										</ul>
+									</li>
+									<li>
+										<a>Gest. de enfrentamientos</a>
+										<ul>
+											<li><a href="#">Próximos</a></li>
+											<?php
+												if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
+											?>
+												<li><a href="#">Establecer horarios</a></li>
+											<?php
+												}
+											?>
+										</ul>
+									</li>
 								</ul>
 							</li>
 						<?php

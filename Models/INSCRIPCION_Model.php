@@ -7,9 +7,10 @@ class INSCRIPCION_Model{
 
 	var $mysqli;
 
-	function __construct($id,$pareja_id,$categoria_id){
+	function __construct($pareja_id,$categoria_id){
 		$this->pareja_id = $pareja_id;
 		$this->categoria_id = $categoria_id;
+
 		include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
 	}
@@ -41,9 +42,13 @@ class INSCRIPCION_Model{
     } // fin del metodo ADD
 
     //Función para asignar grupo a las parejas en una categoría de un campeonato
-    function SET_GRUPO(){
-        $sql_up = "UPDATE INSCRIPCION SET() WHERE ()";
+    function SET_GRUPO($grupo_id){
+        $sql_up = "UPDATE INSCRIPCION SET GRUPO_ID = '$grupo_id'
+                                 WHERE ((PAREJA_ID = '$this->pareja_id') and (CAM_CAT_ID = '$this->categoria_id'))";
+
+        $res = $this->mysqli->query($sql_up);
     }
-}
+
+   } 
 
 ?>

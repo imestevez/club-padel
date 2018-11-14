@@ -36,7 +36,7 @@
 									<tr>
 										<td><?php echo $row['ID']?></td>
 										<td><?php echo $row['NOMBRE']?></td>
-										<td><a href="../Controllers/CAMPEONATO_Controller.php?action=GENERAR" class="button small" >Generar Enfrentamientos</a></td>
+										<td><a href="../Controllers/CAMPEONATO_Controller.php?action=GENERAR&id=<?php echo $row['ID']?>" class="button small" >Generar Enfrentamientos</a></td>
 									</tr>
 			<?php } ?>										
 								</tbody>

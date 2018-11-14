@@ -13,6 +13,12 @@
         $action = '';
     }
 
+    if(isset($_REQUEST['id']))  {
+        $id = $_REQUEST['id'];
+    }else{//Si no trae accion
+        $id = '';
+    }
+
     //Función para recoger los datos del formulario de add de campeonatos
     function get_data_form(){
 
@@ -35,9 +41,9 @@
     switch ($action) {
     	case 'Añadir':
 
-    			$CAMPEONATO = get_data_form();
-                $mensaje = $CAMPEONATO->ADD();
-                new MESSAGE($mensaje, "../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS");
+    		$CAMPEONATO = get_data_form();
+            $mensaje = $CAMPEONATO->ADD();
+            new MESSAGE($mensaje, "../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS");
 
     		break;
 
@@ -49,7 +55,13 @@
             $CAMPEONATO = new CAMPEONATO_Model('','');
             $datos = $CAMPEONATO->SHOW_CLOSE();
             new CampeonatosCerrados($datos);
-            break;    
+            break; 
+
+        case 'GENERAR':
+            $CAMPEONATO = new CAMPEONATO_Model('','');
+            $mensaje = $CAMPEONATO->GENERAR_GRUPOS($id);
+            new MESSAGE($mensaje, "../Controllers/CAMPEONATO_Controller.php?action=CAMPEONATOSCERRADOS");
+            break;       
     }
 
 
