@@ -47,14 +47,18 @@ class CAMPEONATO_Model{
     function SHOWALL(){
 
         $sql = "SELECT * FROM CAMPEONATO";
-        $result = $this->mysqli->query($sql);
-        if($result){
-            //Devolvemos recordset de campeonatos
-            return $result;
+        if (!($result = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
         }
-        else{
-            $this->mensaje = "ERROR: En la consulta de la base de datos.";
-        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            if($result <> NULL) {
+                  while($row = mysqli_fetch_array($result)){                                
+                    $listPartidos[$row["ID"]] = array($row["NOMBRE"],$row["FECHA"]);
+                    }   
+                }
+                return $listPartidos;
+        }  
     }
 
     //Mostramos los campeonatos con fecha de inscripción pasada
@@ -156,11 +160,33 @@ class CAMPEONATO_Model{
         }
         
     }
+
     /*
     //Función para generar los enfrentamientos
     function GENERAR_ENFRENTAMIENTOS(){
 
     }*/
+
+    //Funcion que devuelve las categorias correspondientes a un campeonato
+    function GET_CATEGORIAS($id_campeonato){
+        echo "GET DE CATEGORIAS";
+        $sql = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE (CAMPEONATO_ID = '$id_campeonato')";
+
+        $result = $this->mysqli->query($sql); 
+
+        if (!($result = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            if($result <> NULL) {
+                  while($row = mysqli_fetch_array($result)){                                
+                    $listCategorias[$row["CAMPEONATO_ID"]] = array($row["CAMPEONATO_ID"],$row["CATEGORIA_ID"]);
+                    }   
+                }
+        return $listCategorias;
+        }  
+    }
 
 
 ?>

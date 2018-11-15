@@ -1,6 +1,6 @@
 <?php
 
-class COUPLE_Model{
+class PAREJA_Model{
 
 	var $login1;
 	var $login2;

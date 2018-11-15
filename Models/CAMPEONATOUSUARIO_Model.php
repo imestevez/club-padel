@@ -1,6 +1,6 @@
 <?php
 
-class USERCHAMPONSHIP_Model{
+class CAMPEONATOUSUARIO_Model{
 
 	var $login;
 
@@ -17,15 +17,6 @@ class USERCHAMPONSHIP_Model{
 	}
 
 
-	switch ($action) {
-		case 'SHOWALL':
-			
-			break;
-		
-		default:
-			# code...
-			break;
-	}
 
 	//Función para obtener los campeonatos en los que participa un usuario
 	function SHOWALL(){
@@ -40,12 +31,23 @@ class USERCHAMPONSHIP_Model{
 		while($num_rows_par and $row_par = mysqli_fetch_array($resultado)){
 			$id_par = $row['ID'];
 
-			//Buscamos las inscripciones 
+			//Buscamos campeonatos de las parejas
 			$sql_camp = "SELECT * FROM INSCRIPCION WHERE (PAREJA_ID = '$this->id_par')";
-			$result_camp = $this->mysqli->query($sql_camp);
+		    if (!($result = $this->mysqli->query($sql))){
+		        $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+		        return $this->mensaje; 
+		    }
+		    else{ // si la busqueda es correcta devolvemos el recordset resultado
+		        if($result <> NULL) {
+		              while($row = mysqli_fetch_array($result)){                                
+		                $listInscripciones[$row["PAREJA_ID"]] = array($row["PAREJA_ID"],$row["CATEGORIA_ID"]);
+		                }
+
+		            }
+		            return $listInscripciones;
+		    } 
 		}
 
-		//Buscamos campeonatos de las parejas
 	}
 
 }
