@@ -35,7 +35,6 @@ function render(){
 							</tr>
 						</thead>
 						<tbody>
-					<form method="post" action="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=ADD">
 
 					<?php 
 						if( ($this->partidos <> NULL) &&  ( !is_string($this->partidos))) {
@@ -44,6 +43,8 @@ function render(){
 									$hora_inicio = explode(":", $value[1]);
 									$hora_fin = explode(":", $value[2]);
 							?>
+			<form method="post" action="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=ADD">
+							
 									<tr>
 										<td>
 											<?=$fecha[2]."/".$fecha[1]."/".$fecha[0]?>

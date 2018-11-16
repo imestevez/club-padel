@@ -15,10 +15,7 @@ class RESERVA_Model{
     	$this->id = $id;
     	if($fecha <> ''){
     		$fecha_aux = explode("/", $fecha);
-            if(is_array($fecha_aux) && sizeof($fecha_aux) > 1){ //si viene con formato d/m/y
-            var_dump("\n\n\n".$fecha);
-            var_dump("\n\n\n".$fecha_aux);
-
+            if( (is_array($fecha_aux)) && (sizeof($fecha_aux) > 1) ){ //si viene con formato d/m/y
         		$this->fecha = date_format(new DateTime(date('Y-m-d', mktime(0,0,0,$fecha_aux[1],$fecha_aux[0],$fecha_aux[2]))),'Y-m-d');
             }else{
                  $this->fecha = $fecha; //si viene con formato y-m-d

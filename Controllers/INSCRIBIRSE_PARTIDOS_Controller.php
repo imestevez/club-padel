@@ -131,15 +131,7 @@ function get_data_recordset($tupla){
                  }
              }
             break;
-        case 'SHOWCURRENT':
-             if($_SESSION["rol"] == 'ADMIN'){
-                if(isset($_REQUEST["partido_ID"])){
-                    $PARTIDO = new PARTIDO_Model($_REQUEST["partido_ID"],'','', '', '', '');
-                    $partidos = $PARTIDO->SHOWALL_Inscripciones();
-                    $VIEW = new SHOW_INSCRIPCIONES($partidos);
-                    $VIEW->renderAdmin();
-                }
-            }
+
     	default:
             if($_SESSION["rol"] == 'ADMIN'){
                 $PARTIDO = new PARTIDO_Model('','','', '', '', '');
