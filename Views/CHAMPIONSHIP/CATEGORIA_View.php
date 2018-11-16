@@ -3,9 +3,11 @@
 
 class CATEGORIA{
     var $categorias;
+    var $pareja_ID;
 
-    function __construct($categorias){
+    function __construct($categorias, $pareja_ID){
         $this->categorias=$categorias;
+        $this->pareja_ID=$pareja_ID;        
         $this->render();
     }
 
@@ -16,25 +18,35 @@ function render(){
 ?>
     
     <!-- Main -->
-    <section id="main" class="container medium">
+     <section id="main" class="container">
         <header>
-            <h2>Seleccione la categoría</h2>
-
+           <h2>Categoría</h2>
+           <p>Seleccione la categoría en la que desea inscribirse</p>
         </header>
+
         <div class="box">
             <form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php">
                 <div class="row gtr-50 gtr-uniform">
 
-                    <div class="col-12">
-                        <input type="text" value="" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
-                    </div>
-                    <div class="col-12">
-                        <input class="oculto" name="campeonato_ID" readonly value="<?= $_REQUEST['campeonato_ID']?>">
-                    </div>
                     
+                    <div class="col-12">
+                        <input class="oculto" name="pareja_ID" readonly value="<?= $this->pareja_ID?>">
+                    </div>
+                    <select name="cam_cat_ID">
+                        <?php 
+                        if( ($this->categorias <> NULL) &&  ( !is_string($this->categorias))) {
+                                foreach ($this->categorias as $key => $value) {
+                        ?>
+                            <option value="<?=$key?>"><?=$value[0]?><?=$value[1]?></option>
+                        <?php
+                                }//fin del while
+                            }//fin del if
+                        ?>  
+                    </select>
+
 
                     <div class="col-12">
-                            <input type="submit" name="action" value="Añadir"  >
+                            <input type="submit" name="action" value="CATEGORIA"  >
                     </div>
                 </div>
             </form>

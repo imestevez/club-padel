@@ -16,11 +16,12 @@ function render(){
 ?>
     
     <!-- Main -->
-    <section id="main" class="container medium">
+    <section id="main" class="container">
         <header>
-            <h2>Inscripción en el campeonato <?= $_REQUEST['nombre']?></h2>
-
+           <h2>Inscripción en el campeonato</h2>
+           <p><?= $_REQUEST['nombre']?></p>
         </header>
+        
         <div class="box">
             <form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php">
                 <div class="row gtr-50 gtr-uniform">

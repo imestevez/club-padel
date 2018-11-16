@@ -12,8 +12,11 @@ function render(){
     include '../Views/HEADER_View.php'; 
 ?>
     <!-- Main -->
-    <section class="box">
-        <h3>Tus Campeonatos</h3>
+     <section id="main" class="container">
+        <header>
+		   <h2>Tus campeonatos</h2>
+		   <p>Consulta los campeonatos en los que te has inscrito</p>
+		</header>
 
 				<div class="table-wrapper">
 					<table>
@@ -45,7 +48,7 @@ function render(){
 
 					<div id="bt_campeonatos">
 						<p>Si quieres apuntarte a otro campeonato, hazlo aquí</p>
-						<a href="../Controllers/CAMPEONATO_Controller.php?action=FORMADD" class="button " >Campeonatos abiertos</a>
+						<a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS" class="button " >Campeonatos abiertos</a>
 					</div>
 
 				</div>

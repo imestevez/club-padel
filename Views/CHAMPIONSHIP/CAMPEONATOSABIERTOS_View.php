@@ -17,8 +17,11 @@ function render(){
 
 
     <!-- Main -->
-    <section class="box">
-        <h3>Campeonatos Abiertos</h3>
+    <section id="main" class="container">
+        <header>
+		   <h2>Campeonatos abiertos</h2>
+		   <p>Consulta los campeonatos abiertos</p>
+		 </header>
 
 				<div class="table-wrapper">
 					<table>
@@ -31,12 +34,13 @@ function render(){
 							</tr>
 						</thead>
 						<tbody>
-						<form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=INSCRIBIRCAMPEONATO">
 
 					<?php 
 					if( ($this->campeonatos <> NULL) &&  ( !is_string($this->campeonatos))) {
 							foreach ($this->campeonatos as $key => $value) {
 							?>
+						<form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=INSCRIBIRCAMPEONATO">
+							
 									<tr>
 										<td>
 											<?=$key?>
@@ -53,12 +57,13 @@ function render(){
 											<input type="submit" class="small" value="Inscribir">
 										</td>
 									</tr>
-							</form>	
+						
+						</form>			
 
 					<?php
 							}//fin del while
 						}//fin del if
-					?>		
+					?>
 					</tbody>
 					</table>
 

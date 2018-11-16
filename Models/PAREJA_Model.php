@@ -93,6 +93,27 @@ class PAREJA_Model{
 		}
 		return $this->mensaje;
 	}
+
+	function GET_ID(){
+        
+		$sql = "SELECT ID FROM PAREJA WHERE (
+				((JUGADOR_1 = '$this->login1') AND
+				(JUGADOR_2 = '$this->login2') AND
+				(CAPITAN = '$this->captain') ) 
+				OR
+				((JUGADOR_2 = '$this->login1') AND
+				(JUGADOR_1 = '$this->login2') AND
+				(CAPITAN = '$this->captain')) 
+				) ";
+		if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+           return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+        	$row=mysqli_fetch_array($resultado);
+            return $row["ID"];
+        } 
+	}
 }
 
 ?>

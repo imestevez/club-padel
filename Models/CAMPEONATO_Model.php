@@ -54,11 +54,14 @@ class CAMPEONATO_Model{
         }
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             if($result <> NULL) {
-                  while($row = mysqli_fetch_array($result)){                                
-                    $listPartidos[$row["ID"]] = array($row["NOMBRE"],$row["FECHA"]);
-                    }   
+                while($row = mysqli_fetch_array($result)){                                
+                    $listCampeonatos[$row["ID"]] = array($row["NOMBRE"],$row["FECHA"]);
                 }
-                return $listPartidos;
+                return $listCampeonatos;  
+            }else{
+                $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+                return $this->mensaje; 
+            }
         }  
     }
 
@@ -222,7 +225,7 @@ class CAMPEONATO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             if($result <> NULL) {
                   while($row = mysqli_fetch_array($result)){                                
-                    $listCategorias[$row["CAMPEONATO_ID"]] = array($row["CAMPEONATO_ID"],$row["CATEGORIA_ID"]);
+                    $listCategorias[$row["ID"]] = array($row["CAMPEONATO_ID"],$row["CATEGORIA_ID"]);
                     }   
                 }
         return $listCategorias;

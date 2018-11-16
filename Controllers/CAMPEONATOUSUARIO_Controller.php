@@ -5,10 +5,12 @@
     include '../Models/CAMPEONATO_Model.php';
     include '../Models/CAMPEONATOUSUARIO_Model.php';
     include '../Models/PAREJA_Model.php';
+    include '../Models/INSCRIPCION_Model.php';
 
     include '../Views/CHAMPIONSHIP/CAMPEONATOUSUARIO_View.php'; 
     include '../Views/CHAMPIONSHIP/CAMPEONATOSABIERTOS_View.php';
     include '../Views/CHAMPIONSHIP/INSCRIBIRCAMPEONATO_View.php';
+    include '../Views/CHAMPIONSHIP/CATEGORIA_View.php';
 
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
@@ -33,6 +35,22 @@
         return new PAREJA_Model($login,$loginPareja, $login);
     }
 
+    function get_data_form_inscripcion(){
+
+        $pareja_ID = '';
+        $cam_cat_ID = '';
+
+        if(isset($_REQUEST['pareja_ID'])){
+            $pareja_ID = $_REQUEST['pareja_ID'];
+        }
+
+        if(isset($_REQUEST['cam_cat_ID'])){
+            $cam_cat_ID = $_REQUEST['cam_cat_ID'];
+        }
+
+        return new INSCRIPCION_Model($pareja_ID,$cam_cat_ID);
+    }
+
     Switch($action){
         case 'CAMPEONATOUSUARIO':
             $CAMPEONATOSUSUARIO = new CAMPEONATOUSUARIO_Model($_SESSION["login"]);
@@ -43,9 +61,15 @@
 
             $CAMPEONATO = new CAMPEONATO_Model('','','');
             $campeonatos = $CAMPEONATO->SHOWALL();
-            $VIEW = new CampeonatosAbiertos($campeonatos);
+            if(is_string($campeonatos)){
+                $mensajes = new MESSAGE($campeonatos, '../Controllers/CAMPEONATOUSUARIO_Controller.php');
+            }else{
+                $VIEW = new CampeonatosAbiertos($campeonatos);
+            }
+            
         break;
         case 'INSCRIBIRCAMPEONATO':
+
             if(isset($_REQUEST["campeonato_ID"])){
                     $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],$_REQUEST["nombre"],'');
                     $VIEW = new InscribirCampeonato($CAMPEONATO);
@@ -54,11 +78,18 @@
         case 'Añadir':
                 $PAREJA = get_data_form();
                 $PAREJA->ADD();
+                $pareja_ID= $PAREJA->GET_ID();
                 if(isset($_REQUEST["campeonato_ID"])){
                     $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],'','');
                     $categorias = $CAMPEONATO->GET_CATEGORIAS($_REQUEST["campeonato_ID"]);
-                    $VIEW = new CATEGORIA($categorias);
+                    $VIEW = new CATEGORIA($categorias,$pareja_ID);
                 }
+        break;
+        case 'CATEGORIA':
+
+                    $INSCRIPCION = get_data_form_inscripcion();
+                    $inscripcion=$INSCRIPCION->ADD();
+                    $VIEW = new MESSAGE($inscripcion, '../Controllers/CAMPEONATOUSUARIO_Controller.php');
         break;
     }
     
