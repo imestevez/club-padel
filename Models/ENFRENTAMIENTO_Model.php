@@ -12,7 +12,7 @@ class ENFRENTAMIENTO_Model{
 
 	var $mysql;
 
-	function __construct($grupo_id,$resultado,$pareja_1,$pareja_1,$reserva_id){
+	function __construct($grupo_id,$resultado,$pareja_1,$pareja_2,$reserva_id){
 
     	$this->grupo_id = $grupo_id;
     	$this->resultado = $resultado;
@@ -50,14 +50,12 @@ class ENFRENTAMIENTO_Model{
                     $this->mensaje = "ERROR: En la inserción en la bd";
                 }
             }
-        }else{
-            $this->mensaje = "ERROR: En la sentencia sql"
         }
-    }
-
+        else{
+            $this->mensaje = "ERROR: En la sentencia sql";
+        }
+    }      
     
-        
-    }
 }
 
 ?>

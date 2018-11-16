@@ -18,6 +18,7 @@ class CAMPEONATO_Model{
         include_once '../Functions/Access_DB.php';
         include_once '../Models/GRUPO_Model.php';
         include_once '../Models/INSCRIPCION_Model.php';
+        include_once '../Models/ENFRENTAMIENTO_Model.php';
 
         $this->mysqli = ConnectDB();
 
@@ -81,6 +82,7 @@ class CAMPEONATO_Model{
 
     //A partir de un campeonato generamos grupos para cada categoría según el número de parejas inscritas
     function GENERAR_GRUPOS($id_campeonato){
+        
         echo "VOY A GENERAR GRUPOS";
         //Obtenemos las categorias del campeonato
         $sql_cat = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE (CAMPEONATO_ID = '$id_campeonato')";
@@ -128,7 +130,6 @@ class CAMPEONATO_Model{
                                                                      
             }
             
-
             //Si las parejas que quedan por asignar grupo son menos de 8, las repartimos entre los restantes grupos, cumpliendo que no haya más de 12
             $grupo_actual = $num_grupos;
             while($num_inscritos > 0 and $inscripcion = mysqli_fetch_array($result_insc)){
@@ -155,17 +156,57 @@ class CAMPEONATO_Model{
         }
         
         //Generamos los enfrentamientos para la primera fase
-        //$this->GENERAR_ENFRENTAMIENTOS();
-        return "GRUPOS GENERADOS CON EXITO";
-        }
-        
-    }
+        return $this->GENERAR_ENFRENTAMIENTOS();
 
-    /*
+        }
+    
+
     //Función para generar los enfrentamientos
     function GENERAR_ENFRENTAMIENTOS(){
+        $sql_grupos = "SELECT * FROM GRUPO";
+        $result_grupos = $this->mysqli->query($sql_grupos);
 
-    }*/
+        while ($row_grupo = mysqli_fetch_array($result_grupos)) {
+            $num_grupo = $row_grupo['ID'];
+
+            //Buscamos todas las parejas que pertenecen a un grupo
+            $sql_par = "SELECT * FROM INSCRIPCION WHERE (GRUPO_ID = '$num_grupo')";
+            $result_par = $this->mysqli->query($sql_par);
+            $i = 0;
+
+            //Convertimos el recordset de parejas de un grupo en un array
+            while($row_pareja = mysqli_fetch_array($result_par)){
+                $parejas[$i] = $row_pareja['PAREJA_ID'];
+                $i++;
+            }
+            $num_parejas = mysqli_num_rows($result_par);
+
+            //Realizamos los cruces de las parejas, todos juegan contra todos
+            for ($i=0; $i < $num_parejas; $i++) { 
+
+                $pareja1_id = $parejas[$i];
+
+                for ($j=0; $j < $num_parejas; $j++) { 
+
+                    //Comprobamos si ya exise el enfrentamiento
+                    $pareja2_id = $parejas[$j];
+                    $sql_com = "SELECT * FROM ENFRENTAMIENTO WHERE (
+                        ( (PAREJA_1 = '$pareja1_id') and (PAREJA_2 = '$pareja2_id') ) or
+                        ( (PAREJA_2 = '$pareja1_id') and (PAREJA_1 = '$pareja2_id') ) 
+                    )";
+                    $result_com = $this->mysqli->query($sql_com);
+                    if(mysqli_num_rows($result_com) == 0 and ($pareja1_id <> $pareja2_id)){ //Si no existe
+                        $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model($num_grupo, null, $pareja1_id, $pareja2_id, null);
+                        $ENFRENTAMIENTO->ADD();
+                    }
+                    
+                }   
+            }
+
+        }
+
+        return "ENFRENTAMIENTO GENERADOS CON ÉXITO";
+    }
 
     //Funcion que devuelve las categorias correspondientes a un campeonato
     function GET_CATEGORIAS($id_campeonato){
@@ -187,6 +228,13 @@ class CAMPEONATO_Model{
         return $listCategorias;
         }  
     }
+    
+
+
+    }
+
+    
+    
 
 
 ?>
