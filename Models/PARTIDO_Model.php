@@ -36,10 +36,11 @@ class PARTIDO_Model{
                             AND (HORARIO_ID = '$this->horario_ID')
                             AND (PISTA_ID = '$this->pista_ID')";
 
-            if (!$result = $this->mysqli->query($sql)){ //si da error la ejecución de la query
+            if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
                 return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
             }else { //si la ejecución de la query no da error
-                    
+                    $num_rows = mysqli_num_rows($resultado);
+                    if($num_rows == 0){
                         $sql = "INSERT INTO PARTIDO(
                         ID,
                         FECHA,
@@ -54,7 +55,7 @@ class PARTIDO_Model{
                                             '$this->pista_ID',
                                             '0'
                                             )";
-                        if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
+                        if (!($resultado = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
                             //Si no hay atributos Clave y unique duplicados es que hay campos sin completar
                             $this->mensaje['mensaje'] = 'ERROR: No se podido registrar el partido';
                             return $this->mensaje; // introduzca un valor para el usuario
@@ -63,6 +64,10 @@ class PARTIDO_Model{
     	                    $this->mensaje['mensaje'] = 'Registrado correctamente';
                             return $this->mensaje; // introduzca un valor para el usuario
                         }
+                    }else{
+                            $this->mensaje['mensaje'] = 'ERROR: Ya existe un partido en esa fecha y pista';
+                            return $this->mensaje; // introduzca un valor para el usuario
+                    }
 
             }
         }else{ //Si no se introduce un login

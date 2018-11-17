@@ -39,11 +39,15 @@ class RESERVA_Model{
 	 if (  ($this->user_login <> '') || ($this->pista_ID <> '') 
         || ($this->horario_ID <> '') || ($this->fecha <> '')){ // si los atributos vienen vacios
 	            // construimos el sql para buscar esa clave en la tabla
-	            $sql = "SELECT * FROM RESERVA";
-	            if (!$result = $this->mysqli->query($sql)){ //si da error la ejecución de la query
+	            $sql = "SELECT * FROM RESERVA  
+                        WHERE       (FECHA = '$this->fecha') 
+                                AND (HORARIO_ID = '$this->horario_ID')
+                                AND (PISTA_ID = '$this->pista_ID')";
+	            if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
 	                return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
 	            }else { //si la ejecución de la query no da error
-	                   
+                    $num_rows = mysqli_num_rows($resultado);
+                    if($num_rows == 0){   
                         $sql = "INSERT INTO RESERVA(
 	                    ID,
 	                    USUARIO_LOGIN,
@@ -57,18 +61,22 @@ class RESERVA_Model{
                                             '$this->horario_ID'
 	                                    )";
 	                    
-	                    if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
+	                    if (!($resultado = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
 		                    $this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos';
 	                        return $this->mensaje; // introduzca un valor para el usuario
 	                    }
 	                    else{
-                            $result = $this->mysqli->query("SELECT @@identity AS ID"); //recoge el id de la ultima inserccion
-                            if ($row = mysqli_fetch_array($result)) {
+                            $resultado = $this->mysqli->query("SELECT @@identity AS ID"); //recoge el id de la ultima inserccion
+                            if ($row = mysqli_fetch_array($resultado)) {
                                 $this->mensaje['reserva_ID'] = $row[0];
                             }   
                     	    $this->mensaje['mensaje'] = 'Registrado correctamente';
                             return $this->mensaje; // introduzca un valor para el usuario
 	                    }
+                    }else{
+                            $this->mensaje['mensaje'] = 'ERROR: Ya existe una reserva en esa fecha y pista';
+                            return $this->mensaje; // introduzca un valor para el usuario
+                    }
 	            }
         }else{ //Si no se introduce un login
                 $this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos'; // Itroduzca un valor para el usuario

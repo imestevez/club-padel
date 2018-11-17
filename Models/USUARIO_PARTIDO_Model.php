@@ -36,28 +36,35 @@ class USUARIO_PARTIDO_Model{
             if($this->CHECK_INSCRIPCIONES() < $this->max_inscripciones){
 
                 // construimos el sql para buscar esa clave en la tabla
-                $sql = "SELECT * FROM USUARIO_PARTIDO ";
+                $sql = "SELECT * FROM USUARIO_PARTIDO 
+                        WHERE  (USUARIO_LOGIN = '$this->login') 
+                            AND (PARTIDO_ID = '$this->partido_ID')";
 
                 if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
                     return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
                 }else { //si la ejecución de la query no da error
-                        
-                    $sql = "INSERT INTO USUARIO_PARTIDO(
-                    ID,
-                    USUARIO_LOGIN,
-                    PARTIDO_ID) VALUES(
-                                        NULL,
-                                        '$this->login',
-                                        '$this->partido_ID')";
-                    if (!($result = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
-                        //Si no hay atributos Clave y unique duplicados es que hay campos sin completar
-                        $this->mensaje['mensaje'] = 'ERROR: No se podido inscribir al usuario';
-                        return $this->mensaje; // introduzca un valor para el usuario
-                    }else{
-                        if($this->UPDATE() == true){
-                            $this->mensaje['mensaje'] = "Inscrito en el partido correctamente";
+                     $num_rows = mysqli_num_rows($resultado);
+                    if($num_rows == 0){    
+                        $sql = "INSERT INTO USUARIO_PARTIDO(
+                        ID,
+                        USUARIO_LOGIN,
+                        PARTIDO_ID) VALUES(
+                                            NULL,
+                                            '$this->login',
+                                            '$this->partido_ID')";
+                        if (!($resultado = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
+                            //Si no hay atributos Clave y unique duplicados es que hay campos sin completar
+                            $this->mensaje['mensaje'] = 'ERROR: No se podido inscribir al usuario';
+                            return $this->mensaje; // introduzca un valor para el usuario
+                        }else{
+                            if($this->UPDATE() == true){
+                                $this->mensaje['mensaje'] = "Inscrito en el partido correctamente";
+                            }
+                            return $this->mensaje; 
                         }
-                        return $this->mensaje; 
+                    }else{
+                       $this->mensaje['mensaje'] = 'ERROR: El usuario ya esta inscrito en este partido';
+                        return $this->mensaje; // introduzca un valor para el usuario
                     }
                 }
             }else{ //si se llego al maximo de inscripciones
