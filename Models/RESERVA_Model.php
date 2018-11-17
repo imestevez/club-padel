@@ -178,6 +178,17 @@ class RESERVA_Model{
             }//fin else
         } //fin else
     }// fin del metodo SEARCH_PISTAS_LIBRES
+
+    function DELETE(){
+
+        $sql = "DELETE FROM RESERVA WHERE (ID = $this->id)";
+
+        if(!$resultado = $this->mysqli->query($sql) ){
+          return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+        }else{
+            return 'Borrado correctamente';
+        }
+    }// fin del método DELETE
 } //fin clase
 
 ?>
