@@ -91,9 +91,8 @@ function get_data_form(){
                     $mensaje = $PARTIDO->DELETE();
                     if(isset($mensaje["reserva_ID"]) && $mensaje["reserva_ID"] <> NULL){
                         $RESERVA = new RESERVA_Model($mensaje["reserva_ID"], '', '', '', '');
-                        $RESERVA->DELETE();
+                        $mensaje = $RESERVA->DELETE();
                     }
-
 
                     $partidos = new MESSAGE($mensaje, '../Controllers/PROMOCIONAR_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }

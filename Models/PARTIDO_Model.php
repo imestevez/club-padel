@@ -316,7 +316,6 @@ class PARTIDO_Model{
             return NULL;
     }// fin del métodoSHOW_Usuarios_Diponibles
     function DELETE(){
-                var_dump("\n\n\n");
 
         $sql1 = "SELECT RESERVA_ID FROM PARTIDO WHERE (ID = $this->id)";
            if(!$resultado1 = $this->mysqli->query($sql1) ){
@@ -328,7 +327,6 @@ class PARTIDO_Model{
               return 'ERROR: Fallo en la consulta sobre la base de datos'; 
             }else{
                 $row = mysqli_fetch_array($resultado1);
-                var_dump("\n\n".$row[0]);
                 if($row[0] <> NULL){
                     $this->mensaje['reserva_ID'] = $row[0] ; 
                 }
