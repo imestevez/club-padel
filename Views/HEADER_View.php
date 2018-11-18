@@ -33,7 +33,15 @@ include '../Locales/Strings_SPANISH.php';
                 <li><a href="../Controllers/GESTIONAR_PISTAS_Controller.php">Gestionar Pistas</a></li>
                 <?php
                   }
-                ?>							<li>
+                ?>		
+            <?php
+              if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+              ?>
+                <li><a href="../Controllers/HORARIO_Controller.php">Gestionar Horarios</a></li>
+                <?php
+                  }
+                ?>	
+                <li>
 								<a class="icon fa-angle-down">Campeonatos</a>
 								<ul>
 									<li><a >Rankings</a></li>
