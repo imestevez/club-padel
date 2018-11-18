@@ -105,7 +105,12 @@ function get_data_form(){
     	default:
             $PARTIDO = new PARTIDO_Model('','','', '', '', '');
             $partidos = $PARTIDO->SHOWALL();
-            new PROMOCIONAR_PARTIDOS($partidos, '../Controllers/PROMOCIONAR_PARTIDOS_Controller.php');
+            if(!is_array($partidos)){
+                new PROMOCIONAR_PARTIDOS($partidos, '../Controllers/PROMOCIONAR_PARTIDOS_Controller.php');
+            }else{
+                $partidos = new MESSAGE($partidos, '../Controllers/PROMOCIONAR_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
+
+            }
     		break;
         }
     

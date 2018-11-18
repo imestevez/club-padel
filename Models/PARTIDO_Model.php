@@ -107,10 +107,10 @@ class PARTIDO_Model{
 
     function SHOWALL(){
 
-        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, 
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, PI.NOMBRE, P.HORARIO_ID, 
                         P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM PARTIDO P, HORARIO H
-                WHERE      (H.ID = P.HORARIO_ID)
+                FROM PARTIDO P, HORARIO H, PISTA PI
+                WHERE      (H.ID = P.HORARIO_ID) AND (PI.ID = P.PISTA_ID)
                 ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
@@ -133,10 +133,10 @@ class PARTIDO_Model{
     }// fin del método EDIT
     function SHOWALL_Inscripciones(){
 
-        $sql = "SELECT P.ID, UP.USUARIO_LOGIN, P.FECHA, P.PISTA_ID, P.HORARIO_ID, 
+        $sql = "SELECT P.ID, UP.USUARIO_LOGIN, P.FECHA, P.PISTA_ID, PI.NOMBRE, P.HORARIO_ID, 
                         P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO UP
-                WHERE      (H.ID = P.HORARIO_ID) AND (P.ID = UP.PARTIDO_ID)
+                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO UP, PISTA PI
+                WHERE      (H.ID = P.HORARIO_ID) AND (P.ID = UP.PARTIDO_ID)  AND (PI.ID = P.PISTA_ID)
                 ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
@@ -150,9 +150,9 @@ class PARTIDO_Model{
     
     function SHOWALL_Login($login){
 
-        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U
-                WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID) AND (U.USUARIO_LOGIN = '$login')
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, PI.NOMBRE, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U, PISTA PI
+                WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID) AND (U.USUARIO_LOGIN = '$login')  AND (PI.ID = P.PISTA_ID)
                 GROUP BY P.ID
                 ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
@@ -180,10 +180,11 @@ class PARTIDO_Model{
             $num_rows1 = mysqli_num_rows($resultado1);
 
 
-            $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM PARTIDO P, HORARIO H
+            $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, PI.NOMBRE, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H, PISTA PI
                 WHERE      ( (H.ID = P.HORARIO_ID) 
-                        AND (P.INSCRIPCIONES < 4) )
+                        AND (P.INSCRIPCIONES < 4) 
+                        AND (PI.ID = P.PISTA_ID) )
                         AND 
                           ( ( (H.HORA_INICIO > '$hora') AND (P.FECHA = '$fecha') )
                         ||  (P.FECHA > '$fecha'))
@@ -207,12 +208,12 @@ class PARTIDO_Model{
                     if($resultado2 <> NULL) {
                         if($listInscripcion == NULL ){ //si no esta inscrito en ningun partido
                             while($row = mysqli_fetch_array($resultado2)){                                
-                                $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["PISTA_ID"],$row["INSCRIPCIONES"]);
+                                $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["NOMBRE"],$row["INSCRIPCIONES"]);
                             }   
                         }else{ //si esta inscrito en algun partido
                              while($row = mysqli_fetch_array($resultado2)){
                                 if( !array_key_exists($row["ID"],  $listInscripcion)){
-                                    $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["PISTA_ID"],$row["INSCRIPCIONES"]);
+                                    $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["NOMBRE"],$row["INSCRIPCIONES"]);
                                 }
                             }//fin del while
                         }//fin del else
@@ -228,10 +229,11 @@ class PARTIDO_Model{
         $hora = date('H:i:s');
         $fecha = date('Y-m-d');
         $listPartidos = NULL;
-        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM PARTIDO P, HORARIO H
+        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, PI.NOMBRE, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM PARTIDO P, HORARIO H, PISTA PI
                 WHERE      ( (H.ID = P.HORARIO_ID) 
-                        AND (P.INSCRIPCIONES < 4))
+                        AND (P.INSCRIPCIONES < 4)
+                        AND (PI.ID = P.PISTA_ID) )
                         AND 
                           ( ( (H.HORA_INICIO > '$hora') AND (P.FECHA = '$fecha') )
                         ||  (P.FECHA > '$fecha'))
@@ -245,31 +247,12 @@ class PARTIDO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             if($resultado <> NULL) {
                   while($row = mysqli_fetch_array($resultado)){                                
-                    $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["PISTA_ID"],$row["INSCRIPCIONES"]);
+                    $listPartidos[$row["ID"]] = array($row["FECHA"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["NOMBRE"],$row["INSCRIPCIONES"]);
                     }   
                 }
                 return $listPartidos;
         }  
     }// fin del método SHOW_Futuros
-    
-    function SHOW_Futuros_Login($login){
-
-
-        $sql = "SELECT P.ID, P.FECHA, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO U
-                WHERE      (H.ID = P.HORARIO_ID) AND (U.PARTIDO_ID = P.ID) AND (P.INSCRIPCIONES < 4)
-                GROUP BY P.ID        
-                ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
-
-            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
-        if (!($resultado = $this->mysqli->query($sql))){
-            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-            return $this->mensaje; 
-        }
-        else{ // si la busqueda es correcta devolvemos el recordset resultado
-            return $resultado;
-        }
-    }     //fin del metodo SHOW_Futuros_Login
 
     function SHOW_Usuarios_Diponibles(){
 

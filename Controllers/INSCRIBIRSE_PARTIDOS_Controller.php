@@ -136,15 +136,22 @@ function get_data_recordset($tupla){
             if($_SESSION["rol"] == 'ADMIN'){
                 $PARTIDO = new PARTIDO_Model('','','', '', '', '');
                 $partidos = $PARTIDO->SHOWALL_Inscripciones();
-                $VIEW = new SHOW_INSCRIPCIONES($partidos);
-                $VIEW->renderAdmin();
+                if(!is_array($partidos)){
+                    $VIEW = new SHOW_INSCRIPCIONES($partidos);
+                    $VIEW->renderAdmin();
+                }else{
+                    $result = new MESSAGE($partidos, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                }
             }else{
                 $PARTIDO = new PARTIDO_Model('','','', '', '', '');
                 $partidos = $PARTIDO->SHOWALL_Login($_SESSION["login"]);
-                $VIEW = new SHOW_INSCRIPCIONES($partidos);
-                $VIEW->render();
-
+                if(!is_array($partidos)){
+                    $VIEW = new SHOW_INSCRIPCIONES($partidos);
+                    $VIEW->render();
+                }  else{
+                    $result = new MESSAGE($partidos, '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }
+            }
         	break;
         }//fin switch case
     

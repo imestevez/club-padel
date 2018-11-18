@@ -57,7 +57,7 @@ function render(){
 									<?=$hora_fin[0].":".$hora_fin[1]?>
 								</td>
 								<td>
-									<?=$row['PISTA_ID']?>
+									<?=$row['NOMBRE']?>
 								</td>
 								<td>
 									<?=$row['INSCRIPCIONES']?>
@@ -145,7 +145,7 @@ function render(){
 									<?=$hora_fin[0].":".$hora_fin[1]?>
 								</td>
 								<td>
-									<?=$row['PISTA_ID']?>
+									<?=$row['NOMBRE']?>
 								</td>
 								<td>
 									<?=$row['INSCRIPCIONES']?>
