@@ -89,7 +89,7 @@
 
                     $INSCRIPCION = get_data_form_inscripcion();
                     $inscripcion=$INSCRIPCION->ADD();
-                    $VIEW = new MESSAGE($inscripcion, '../Controllers/CAMPEONATOUSUARIO_Controller.php');
+                    $VIEW = new MESSAGE($inscripcion, '../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOUSUARIO');
         break;
     }
     

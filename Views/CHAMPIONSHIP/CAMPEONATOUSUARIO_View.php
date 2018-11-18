@@ -22,8 +22,8 @@ function render(){
 					<table>
 						<thead >
 							<tr>
-								<th>ID campeonato</th>
 								<th>ID Pareja</th>
+								<th>ID Campeonato</th>
 							</tr>
 						</thead>
 						<tbody>
