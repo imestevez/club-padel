@@ -30,7 +30,6 @@ class INSCRIPCION_Model{
                     $this->mensaje = 'Registrado correctamente';
                     return $this->mensaje; // introduzca un valor para el usuario  
         }else { //si da error la ejecución de la query
-            var_dump("\n\n\n",$sql);
             $this->mensaje='ERROR: No se ha podido conectar con la base de datos';
            return $this->mensaje; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
         }

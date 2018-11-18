@@ -127,3 +127,20 @@ INSERT INTO USUARIO_PARTIDO (ID, USUARIO_LOGIN, PARTIDO_ID) VALUES  (0, 'pepe', 
                                                                     (0, 'paula', 5),
                                                                     (0, 'jose', 5),
                                                                     (0, 'gillermo', 5);
+
+-- INSERTS EN TABLA CAMPEONATO_CATEGORIA
+INSERT INTO CAMPEONATO_CATEGORIA (ID, CAMPEONATO_ID, CATEGORIA_ID) VALUES  (0, 1, 1),
+                                                                    (0, 1, 2),
+                                                                    (0, 1, 3),
+                                                                    (0, 1, 4),
+                                                                    (0, 1, 5),
+                                                                    (0, 1, 6),
+                                                                    (0, 1, 7),
+                                                                    (0, 2, 1),
+                                                                    (0, 2, 2),
+                                                                    (0, 2, 3),
+                                                                    (0, 2, 4),
+                                                                    (0, 3, 1),
+                                                                    (0, 3, 3),
+                                                                    (0, 3, 5),
+                                                                    (0, 3, 7);
