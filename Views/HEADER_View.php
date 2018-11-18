@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once '../Functions/Authentication.php';
 include '../Locales/Strings_SPANISH.php';
 
@@ -11,7 +11,7 @@ include '../Locales/Strings_SPANISH.php';
 		<link rel="stylesheet" href="../assets/css/main.css" />
 		<link rel="stylesheet" type="text/css" href="../assets/css/tcal.css" />
 
-		<script type="text/javascript" src="../assets/js/tcal.js"></script> 
+		<script type="text/javascript" src="../assets/js/tcal.js"></script>
 	</head>
 	<body class="is-preload">
 		<div id="page-wrapper">
@@ -21,20 +21,26 @@ include '../Locales/Strings_SPANISH.php';
 					<nav id="nav">
 						<ul>
 							<li><a href="../index.php">Inicio</a></li>
-							
+
 							<li>
-							<?php 
+							<?php
 								if(IsAuthenticated()){
 							?>
-							<li><a href="../index.php">Reservar Pistas</a></li>
-							<li>
+							<li><a href="../index.php">Reservar Pista (Not Working)</a></li>
+              <?php
+              if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+              ?>
+                <li><a href="../Controllers/GESTIONAR_PISTAS_Controller.php">Gestionar Pistas</a></li>
+                <?php
+                  }
+                ?>							<li>
 								<a class="icon fa-angle-down">Campeonatos</a>
 								<ul>
 									<li><a >Rankings</a></li>
 									<li>
 										<a>Gest. de Campeonatos</a>
 										<ul>
-											<li><a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOUSUARIO"">Tus Campeonatos</a></li>
+											<li><a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOUSUARIO">Tus Campeonatos</a></li>
 											<li><a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS">Campeonatos abiertos</a></li>
 											<?php
 												if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
@@ -70,34 +76,34 @@ include '../Locales/Strings_SPANISH.php';
 						<li>
 							<a href="#" class="icon fa-angle-down">Inscripciones Partidos</a>
 							<ul>
-								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Tus Inscripciones</a></li>		
-								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>		
+								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Tus Inscripciones</a></li>
+								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>
 
 							</ul>
 						</li>
-							<li><a href="#" class="class="icon fa-angle-down" >
+							<li><a href="#" class="class="icon fa-angle-down >
 									<input type="image" id="login" src="../Views/images/avatar.png">
 								</a>
 								<ul>
 									<li><a href="#" ><?=$_SESSION["rol"]?></a>
-									</li>		
+									</li>
 								</ul>
 
 							</li>
 							<li>
 									<a href="../Functions/Desconectar.php" class="button">Cerrar sesión</a>
-							<?php 
+							<?php
 								}
 								else{
 							?>
 									<a href="../Controllers/LOGIN_Controller.php" class="button">Acceder</a>
-								</li>	
+								</li>
 								<li>
 									<a href="../Controllers/REGISTER_Controller.php" class="button">Registrarse</a>
-								<?php 
+								<?php
 								}
 							?>
-							</li>	
+							</li>
 						</ul>
 					</nav>
 				</header>
