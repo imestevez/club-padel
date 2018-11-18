@@ -1,6 +1,8 @@
 <?php
 
-class Confrontation{
+class EnfrentamientoProximos{
+
+
 	function __construct(){	
 		$this->render();
 	}
@@ -13,8 +15,8 @@ function render(){
     
 	<section id="main" class="container">
 		<header>
-		   <h2>Enfrentamientos</h2>
-		    <p>Gestiona tus enfrentamientos con otras parejas en los campeonatos en los que estás inscrito del club</p>
+		   <h2>Próximos enfrentamientos</h2>
+		    <p>Tus enfrentamientos programados en los diferentes campeonatos del club</p>
 		 </header>
 
 		<div class="row">

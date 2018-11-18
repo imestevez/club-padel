@@ -62,11 +62,11 @@ include '../Locales/Strings_SPANISH.php';
 									<li>
 										<a>Gest. de enfrentamientos</a>
 										<ul>
-											<li><a href="#">Próximos</a></li>
+											<li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOWPROXIMOS" > Próximos</a></li>
 											<?php
 												if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
 											?>
-												<li><a href="#">Establecer horarios</a></li>
+												<li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=GESHORARIOS" >Establecer horarios</a></li>
 											<?php
 												}
 											?>
