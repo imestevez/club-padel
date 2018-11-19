@@ -37,8 +37,7 @@ function render(){
 									<?=$row['TIPO']?>
 								</td>
 								<td>
-									<a class="button small" href="../Controllers/GESTIONAR_PISTAS_Controller.php?action=DELETE&pista_ID=<?=$row['ID']?>">Borrar</a></th>
-							</tr>
+									<a class="button small" href="../Controllers/GESTIONAR_PISTAS_Controller.php?action=DELETE&pista_ID=<?=$row['ID']?>">Borrar</a>
 								</td>
 							</tr>
 				<?php
