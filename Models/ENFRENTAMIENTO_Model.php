@@ -83,7 +83,9 @@ class ENFRENTAMIENTO_Model{
                                     G.NOMBRE AS GR_NOMBRE,
                                     P.ID AS PAREJA_ID,
                                     P.CAPITAN,
-                                    E.ID AS ID_ENFRENTAMIENTO
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_1 AS PAREJA_ID
+
                                     FROM 
                                     ENFRENTAMIENTO E,
                                     HUECO H,
@@ -125,7 +127,9 @@ class ENFRENTAMIENTO_Model{
                                     CT.GENERO,
                                     G.NOMBRE AS GR_NOMBRE,
                                     P.CAPITAN,
-                                    E.ID AS ID_ENFRENTAMIENTO
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_2 AS PAREJA_ID
+
                                     FROM 
                                     ENFRENTAMIENTO E,
                                     HUECO H,
@@ -152,6 +156,168 @@ class ENFRENTAMIENTO_Model{
 
     }   
 
+    //Enfrentamientos que no han sido propuesto horario por ningun jugador
+    function SHOW_ENFRENTAMIENTOS1($login_us){
+         //Para ese login buscamos todas las pareajas de las que es capitán
+        $sql_par = "SELECT * FROM PAREJA WHERE (CAPITAN = '$login_us')";
+        if($result_par = $this->mysqli->query($sql_par)){
+           //Para cada pareja buscamos sus enfrentamientos
+            while($row_pareja = mysqli_fetch_array($result_par)){
+                $id_pareja = $row_pareja['ID'];
+                $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    P.CAPITAN,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_1 AS ID_PAREJA
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    PAREJA P,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA
+
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.PAREJA_2 = P.ID) and
+                                    (E.PAREJA_1 = '$id_pareja') and
+                                    (E.ID NOT IN (SELECT ENFRENTAMIENTO_ID FROM HUECO)) 
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+            }
+            
+        }
+    }
+
+    //Enfrentamientos que no han sido propuesto horario por ningun jugador
+    function SHOW_ENFRENTAMIENTOS2($login_us){
+         //Para ese login buscamos todas las pareajas de las que es capitán
+        $sql_par = "SELECT * FROM PAREJA WHERE (CAPITAN = '$login_us')";
+        if($result_par = $this->mysqli->query($sql_par)){
+           //Para cada pareja buscamos sus enfrentamientos
+            while($row_pareja = mysqli_fetch_array($result_par)){
+                $id_pareja = $row_pareja['ID'];
+                $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    P.CAPITAN,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_2 AS ID_PAREJA
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    PAREJA P,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.PAREJA_1 = P.ID) and
+                                    (E.PAREJA_2 = '$id_pareja')  
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+            }
+            
+        }
+    }
+
+    //Función para mostrar todas las propuestas de un usuario como capitan
+    function SHOW_PROPUESTAS1($login_us){
+        //Para ese login buscamos todas las pareajas de las que es capitán
+        $sql_par = "SELECT * FROM PAREJA WHERE (CAPITAN = '$login_us')";
+        if($result_par = $this->mysqli->query($sql_par)){
+           //Para cada pareja buscamos sus enfrentamientos
+            while($row_pareja = mysqli_fetch_array($result_par)){
+                $id_pareja = $row_pareja['ID'];
+                $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    P.CAPITAN,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_1 AS ID_PAREJA
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    PAREJA P,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.PAREJA_2 = P.ID) and
+                                    (E.PAREJA_1 = '$id_pareja') and
+                                    (E.ID IN (SELECT ENFRENTAMIENTO_ID FROM HUECO WHERE (PAREJA_ID = '$id_pareja'))) 
+                            ";
+
+
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+            }
+            
+        }
+    }
+
+    //Función para mostrar todas las propuestas de un usuario como capitan
+    function SHOW_PROPUESTAS2($login_us){
+        //Para ese login buscamos todas las pareajas de las que es capitán
+        $sql_par = "SELECT * FROM PAREJA WHERE (CAPITAN = '$login_us')";
+        if($result_par = $this->mysqli->query($sql_par)){
+           //Para cada pareja buscamos sus enfrentamientos
+            while($row_pareja = mysqli_fetch_array($result_par)){
+                $id_pareja = $row_pareja['ID'];
+                $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    P.CAPITAN,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_2 AS ID_PAREJA
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    PAREJA P,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.PAREJA_1 = P.ID) and
+                                    (E.PAREJA_2 = '$id_pareja') and
+                                    (E.ID IN (SELECT ENFRENTAMIENTO_ID FROM HUECO WHERE (PAREJA_ID = '$id_pareja')))  
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+            }
+            
+        }
+    }
+
     //Funcion para eliminar los huecos cuando se llega a un acuerdo
     function DELETE_HUECOS($enfrentamiento_id){
 
@@ -164,5 +330,6 @@ class ENFRENTAMIENTO_Model{
     }
     
 }
+
 
 ?>
