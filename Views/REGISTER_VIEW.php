@@ -17,34 +17,29 @@ function render(){
     <!-- Main -->
     <section id="main" class="container medium">
         <header>
-            <h2>Registrarse</h2>
+            <h2>Registro</h2>
+            <p>Registrate en el sistema para disfrutar de los servicios ofrecidos</p>
         </header>
         <div class="box">
             <form method="post" action="../Controllers/REGISTER_Controller.php">
                 <div class="row gtr-50 gtr-uniform">
-                    <!--<div class="col-6 col-12-mobilep">
-									<input type="text" name="name" id="name" value="" placeholder="Name" />
-								</div>
-								<div class="col-6 col-12-mobilep">
-									<input type="email" name="email" id="email" value="" placeholder="Email" />
-								</div>-->
                     <div class="col-12">
-                        <input type="text"  id="subject" value="" placeholder="Usuario" name="login" />
+                        <input type="text"  id="subject" value="" placeholder="Usuario" name="login"  required />
                     </div>
                     <div class="col-12">
-                        <input type="password" id="message" placeholder="Contraseña" name="password"/>
+                        <input type="password" id="message" placeholder="Contraseña" name="password" required />
                     </div>
                     <div class="col-12">
-                        <input type="text"  id="subject" value="" placeholder="Nombre" name="nombre" />
+                        <input type="text"  id="subject" value="" placeholder="Nombre" name="nombre" required  />
                     </div>
                     <div class="col-12">
-                        <input type="text"  id="subject" value="" placeholder="Apellidos" name="apellidos" />
+                        <input type="text"  id="subject" value="" placeholder="Apellidos" name="apellidos"  required />
                     </div>
 
                     <div class="col-12">
-                        <select name="genero">
-                          <option value="m">Femenino</option>
-                          <option value="h">Masculino</option>
+                        <select name="genero" >
+                          <option value="Mujer">Mujer</option>
+                          <option value="Hombre">Hombre</option>
                         </select> 
                     </div>
                     

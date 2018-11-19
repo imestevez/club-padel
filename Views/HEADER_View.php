@@ -34,13 +34,13 @@ include '../Locales/Strings_SPANISH.php';
                 <?php
                   }
                 ?>		
-            <?php
-              if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+            <?php  
+            if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
-                <li><a href="../Controllers/HORARIO_Controller.php">Gestionar Horarios</a></li>
+                <li><a href="../Controllers/USER_Controller.php">Gestionar Usuarios</a></li>
                 <?php
                   }
-                ?>	
+                 ?>
                 <li>
 								<a class="icon fa-angle-down">Campeonatos</a>
 								<ul>
@@ -84,7 +84,7 @@ include '../Locales/Strings_SPANISH.php';
 						<li>
 							<a href="#" class="icon fa-angle-down">Inscripciones Partidos</a>
 							<ul>
-								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Tus Inscripciones</a></li>
+								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Ver Inscripciones</a></li>
 								<li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>
 
 							</ul>

@@ -14,24 +14,44 @@ else{
 
 	}else{ //si envía el formulario
         */
+	if(isset($_REQUEST['login'])){	
+   		$login = $_REQUEST['login'];
+   	}else{
+   		$login = NULL;
+   	}
+	if(isset($_REQUEST['password'])){
+		$password = $_REQUEST['password'];
+	}else{
+		$password = NULL;
+	}
+	if(isset($_REQUEST['nombre'])){
+		$nombre = $_REQUEST['nombre'];
+	}else{
+		$nombre = NULL;
+	}
+	if(isset($_REQUEST['apellidos'])){
+		$apellidos = $_REQUEST['apellidos'];
+	}else{
+		$apellidos = NULL;
+	}
+	if(isset($_REQUEST['genero'])){
+		$genero = $_REQUEST['genero'];
+	}else{
+		$genero = NULL;
+	}
 
-    $login = $_REQUEST['login'];
-	$password = $_REQUEST['password'];
-	$nombre = $_REQUEST['nombre'];
-	$apellidos = $_REQUEST['apellidos'];
-	$genero = $_REQUEST['genero'];
+	$rol_ID = 2;
 
 	$USER = new USER_Model(
 		$login, 
 		$password,
 		$nombre, 
 		$apellidos,
-		$genero
+		$genero,
+		$rol_ID
 		);
 
-		//$respuesta = $USER->comprobarRegistro(); //comprueba que los datos están correctamente
 
-	//if ($respuesta == 'true'){ //si estan correctamente
 		$respuesta = $USER->ADD(); //añade al usuario en la BD
 		include_once '../Views/MESSAGE_View.php';
 		//new MESSAGE($respuesta['mensaje'], '../index.php');

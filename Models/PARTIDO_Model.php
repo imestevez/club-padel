@@ -300,11 +300,11 @@ class PARTIDO_Model{
     }// fin del métodoSHOW_Usuarios_Diponibles
     function DELETE(){
 
-        $sql1 = "SELECT RESERVA_ID FROM PARTIDO WHERE (ID = $this->id)";
+        $sql1 = "SELECT RESERVA_ID FROM PARTIDO WHERE (ID = '$this->id')";
            if(!$resultado1 = $this->mysqli->query($sql1) ){
             return 'ERROR: Fallo en la consulta sobre la base de datos'; 
         }else{
-            $sql2 = "DELETE FROM PARTIDO WHERE (ID = $this->id)";
+            $sql2 = "DELETE FROM PARTIDO WHERE (ID = '$this->id')";
 
             if(!$resultado2 = $this->mysqli->query($sql2) ){
               return 'ERROR: Fallo en la consulta sobre la base de datos'; 
