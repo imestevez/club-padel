@@ -36,18 +36,18 @@ class RESERVA_Model{
 
     function ADD()
     {
-	 if (  ($this->user_login <> '') || ($this->pista_ID <> '') 
+	 if (  ($this->user_login <> '') || ($this->pista_ID <> '')
         || ($this->horario_ID <> '') || ($this->fecha <> '')){ // si los atributos vienen vacios
 	            // construimos el sql para buscar esa clave en la tabla
-	            $sql = "SELECT * FROM RESERVA  
-                        WHERE       (FECHA = '$this->fecha') 
+	            $sql = "SELECT * FROM RESERVA
+                        WHERE       (FECHA = '$this->fecha')
                                 AND (HORARIO_ID = '$this->horario_ID')
                                 AND (PISTA_ID = '$this->pista_ID')";
 	            if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
 	                return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
 	            }else { //si la ejecución de la query no da error
                     $num_rows = mysqli_num_rows($resultado);
-                    if($num_rows == 0){   
+                    if($num_rows == 0){
                         $sql = "INSERT INTO RESERVA(
 	                    ID,
 	                    USUARIO_LOGIN,
@@ -60,7 +60,7 @@ class RESERVA_Model{
 	                                        '$this->fecha',
                                             '$this->horario_ID'
 	                                    )";
-	                    
+
 	                    if (!($resultado = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
 		                    $this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos';
 	                        return $this->mensaje; // introduzca un valor para el usuario
@@ -69,8 +69,8 @@ class RESERVA_Model{
                             $resultado = $this->mysqli->query("SELECT @@identity AS ID"); //recoge el id de la ultima inserccion
                             if ($row = mysqli_fetch_array($resultado)) {
                                 $this->mensaje['reserva_ID'] = $row[0];
-                            }   
-                    	    $this->mensaje['mensaje'] = 'Registrado correctamente';
+                            }
+                    	    $this->mensaje['mensaje'] = 'Reserva realizada correctamente';
                             return $this->mensaje; // introduzca un valor para el usuario
 	                    }
                     }else{
@@ -82,32 +82,47 @@ class RESERVA_Model{
                 $this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos'; // Itroduzca un valor para el usuario
                 return $this->mensaje;
         }
-	                    
+
     } // fin del metodo ADD
 
     function SEARCH(){
-		$sql = "SELECT * FROM RESERVA 
+		$sql = "SELECT * FROM RESERVA
 				WHERE  FECHA BETWEEN '$this->hoy' AND  '$this->hoy_mas6'
 				ORDER BY FECHA";
 
         if (!($resultado = $this->mysqli->query($sql))){
-            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-            return $this->mensaje; 
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+            return $this->mensaje;
         }
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             return $resultado;
-        } 
+        }
     }
      function SHOWALL(){
 		$sql = "SELECT * FROM RESERVA ORDER BY FECHA";
-
         if (!($resultado = $this->mysqli->query($sql))){
-            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-            return $this->mensaje; 
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+            return $this->mensaje;
         }
-        else{ // si la busqueda es correcta devolvemos el recordset resultado
+        else{
             return $resultado;
-        } 
+        }
+    }
+
+		function SHOWALL_Login($login){
+			if($_SESSION["rol"] == 'ADMIN'){
+				$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA, H.HORA_INICIO, P.ID";
+			}
+			else{
+			$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (USUARIO_LOGIN = '$login') AND (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA, H.HORA_INICIO, P.ID";
+		}
+		  if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+            return $this->mensaje;
+        }
+        else{
+            return $resultado;
+        }
     }
 
 	function SEARCH_PISTAS_LIBRES(){
@@ -118,9 +133,9 @@ class RESERVA_Model{
         $sql2 = "SELECT *
                 FROM  RESERVA R
                 WHERE  ( ( R.FECHA = '$this->fecha') AND ( R.HORARIO_ID = '$this->horario_ID'))";
-           
+
         if ( !($resultado1 = $this->mysqli->query($sql1)) || !($resultado2 = $this->mysqli->query($sql2))){
-          return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+          return 'ERROR: Fallo en la consulta sobre la base de datos';
         }
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             $pistasLibres = NULL;
@@ -130,15 +145,15 @@ class RESERVA_Model{
         	if(($num_rows1 == 0) && (($num_rows2 == 0) )){ //Si no hay reservas ni partidos ese dia a esa hora
 				$sql = "SELECT * FROM PISTA ORDER BY ID";
 		        if (!($resultado = $this->mysqli->query($sql)) ){
-		          return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+		          return 'ERROR: Fallo en la consulta sobre la base de datos';
 		        }else{
-                    while($row = mysqli_fetch_array($resultado)){                                
+                    while($row = mysqli_fetch_array($resultado)){
                         $pistasLibres[$row["ID"]] = array($row["NOMBRE"],$row["TIPO"]);
                     }
 		        	return $pistasLibres;
 		        }
         	}else{
-        
+
                     $sql1 = "SELECT PA.PISTA_ID
                                 FROM PARTIDO PA
                                 WHERE  PA.FECHA = '$this->fecha' AND PA.HORARIO_ID = '$this->horario_ID'
@@ -149,10 +164,10 @@ class RESERVA_Model{
                                 ORDER BY R.ID";
                     $sql3   = "SELECT * FROM PISTA ORDER BY ID";
 
-                    if (    !($resultado1 = $this->mysqli->query($sql1)) 
+                    if (    !($resultado1 = $this->mysqli->query($sql1))
                         || !($resultado2 = $this->mysqli->query($sql2))
                         || !($resultado3 = $this->mysqli->query($sql3))  ){
-                        return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+                        return 'ERROR: Fallo en la consulta sobre la base de datos';
                     }else{
 
                         if($resultado1 <> NULL){
@@ -166,7 +181,7 @@ class RESERVA_Model{
                             }
                         }
                         if($resultado3 <> NULL){
-                            while($row = mysqli_fetch_array($resultado3)){                                
+                            while($row = mysqli_fetch_array($resultado3)){
                                 if(!array_key_exists($row["ID"], $list)){
                                     $pistasLibres[$row["ID"]] = array($row["NOMBRE"],$row["TIPO"]);
                                 }
@@ -180,15 +195,13 @@ class RESERVA_Model{
     }// fin del metodo SEARCH_PISTAS_LIBRES
 
     function DELETE(){
-
         $sql = "DELETE FROM RESERVA WHERE (ID = $this->id)";
-
         if(!$resultado = $this->mysqli->query($sql) ){
-          return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+          return 'ERROR: Fallo en la consulta sobre la base de datos';
         }else{
             return 'Borrado correctamente';
         }
-    }// fin del método DELETE
-} //fin clase
+    }
+}
 
 ?>

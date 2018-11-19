@@ -1,6 +1,6 @@
 <?php
 
-class PROMOCIONAR_PARTIDOS_Horario{
+class RESERVAR_PISTA_Horario{
 	var $horariosList;
 	var $reservasList;
 	var $partidosList;
@@ -13,38 +13,38 @@ class PROMOCIONAR_PARTIDOS_Horario{
 	var $dias;
 	var $semana;
 
-	function __construct($horarios, $reservas,$partidos,$pistas){	
+	function __construct($horarios, $reservas,$partidos,$pistas){
 		$this->horarios = $horarios;
 		$this->reservas = $reservas;
 		$this->pistas = $pistas;
 		$this->partidos = $partidos;
 		$this->dias = 7; //dias a mostrar
 		$this->semana = array (
-			array ( 
+			array (
 					date("l"),
 					date("d/m/Y")
 				),
-			array ( 
+			array (
 					date("l",strtotime("+1 day")),
 					date("d/m/Y",strtotime("+1 day"))
 				),
-			array ( 
+			array (
 					date("l",strtotime("+2 day")),
 					date("d/m/Y",strtotime("+2 day"))
 				),
-			array ( 
+			array (
 					date("l",strtotime("+3 day")),
 					date("d/m/Y",strtotime("+3 day"))
 				),
-			array ( 
+			array (
 					date("l",strtotime("+4 day")),
 					date("d/m/Y",strtotime("+4 day"))
 				),
-			array ( 
+			array (
 					date("l",strtotime("+5 day")),
 					date("d/m/Y",strtotime("+5 day"))
 				),
-			array ( 
+			array (
 					date("l",strtotime("+6 day")),
 					date("d/m/Y",strtotime("+6 day"))
 				)
@@ -62,15 +62,15 @@ class PROMOCIONAR_PARTIDOS_Horario{
 
 function render(){
 
-    include '../Views/HEADER_View.php'; 
+    include '../Views/HEADER_View.php';
 
 ?>
 
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Promocionar Partidos</h2>
-	    <p>Promociona los partidos diarios ofrecidos por el club</p>
+	   <h2>Reservar Pista</h2>
+	    <p>Selecciona el horario de tu reserva</p>
 	 </header>
         <h3></h3>
 				<div class="table-wrapper">
@@ -96,7 +96,7 @@ function render(){
 							<?php
 								$i = 0;
 								for($i = 0; $i < $this->dias; $i++){
-									if($this->hay_Reserva($key, $i) == true){ //si esta reservado
+									if($this->hay_Reserva($key, $i) == true){ //si esta reservadoe
 								?>
 										<td><a class="button alt small"><?=$value?></a></td>
 									<?php
@@ -104,11 +104,11 @@ function render(){
 										elseif($this->hay_Partido($key, $i) == true){ //si hay partido
 									?>
 										<td><a class="button alt small"><?=$value?></a></td>
-									<?php		
+									<?php
 										}//fin elseif
 										else { //si esta disponible
 									?>
-										<td><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=SHOW_PISTAS&fecha=<?=$this->semana[$i][1]?>&horario_ID=<?=$key?>" class="button small"><?=$value?></a></td>
+										<td><a href="../Controllers/RESERVAR_PISTA_Controller.php?action=SHOW_PISTAS&fecha=<?=$this->semana[$i][1]?>&horario_ID=<?=$key?>" class="button small"><?=$value?></a></td>
 								<?php
 										} //fin else
 									}//fin for
@@ -128,7 +128,7 @@ function render(){
 						<?php
 							}
 						}//fin del else
-					?>				
+					?>
 						</tbody>
 					</table>
 				</div>
@@ -136,10 +136,10 @@ function render(){
     <?php
         include '../Views/FOOTER_View.php';
         } //fin metodo render
- 
+
  /*
 	Funcion que alacena en listas las tuplas resultantes del modelo de datos
- */   
+ */
     function rellenarListas(){
 		if($this->horarios <> NULL){ //si existen horarios
 			while($row = mysqli_fetch_array($this->horarios)){

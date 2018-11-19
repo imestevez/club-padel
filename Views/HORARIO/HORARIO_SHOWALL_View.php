@@ -3,7 +3,7 @@
 class HORARIO{
 	var $horarios;
 
-	function __construct($horarios,$origen){	
+	function __construct($horarios,$origen){
 		$this->horarios = $horarios;
 		$this->render();
 	}
@@ -11,15 +11,15 @@ class HORARIO{
 
 function render(){
 
-    include '../Views/HEADER_View.php'; 
+    include '../Views/HEADER_View.php';
 
 ?>
 
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Partidos Promocionados</h2>
-	    <p>Consulta los partidos ofrecidos por el club</p>
+	   <h2>Horarios Disponibles</h2>
+	    <p>Consulta los horarios disponibles de uso de las instalaciones</p>
 	 </header>
 				<div class="table-wrapper">
 					<table>
@@ -31,7 +31,7 @@ function render(){
 							</tr>
 						</thead>
 						<tbody>
-					<?php 
+					<?php
 						if($this->horarios <> NULL){
 							while($row = mysqli_fetch_array($this->horarios)){
 								$hora_inicio = explode(":", $row["HORA_INICIO"]);
@@ -60,7 +60,7 @@ function render(){
     <?php
         include '../Views/FOOTER_View.php';
         } //fin metodo render
-    
+
     } //fin class
-    
+
     ?>

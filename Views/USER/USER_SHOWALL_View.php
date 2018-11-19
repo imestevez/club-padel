@@ -3,7 +3,7 @@
 class USER_SHOWALL{
 	var $usuarios;
 
-	function __construct($usuarios){	
+	function __construct($usuarios){
 		$this->usuarios = $usuarios;
 		$this->render();
 	}
@@ -11,15 +11,15 @@ class USER_SHOWALL{
 
 function render(){
 
-    include '../Views/HEADER_View.php'; 
+    include '../Views/HEADER_View.php';
 
 ?>
 
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Partidos Promocionados</h2>
-	    <p>Consulta los partidos ofrecidos por el club</p>
+	   <h2>Usuarios Registrados</h2>
+	    <p>Consulta los usuarios registrados en el club</p>
 	 </header>
 				<div class="table-wrapper">
 					<table>
@@ -34,7 +34,7 @@ function render(){
 							</tr>
 						</thead>
 						<tbody>
-					<?php 
+					<?php
 						if($this->usuarios <> NULL){
 							while($row = mysqli_fetch_array($this->usuarios)){
 					?>
@@ -71,7 +71,7 @@ function render(){
     <?php
         include '../Views/FOOTER_View.php';
         } //fin metodo render
-    
+
     } //fin class
-    
+
     ?>

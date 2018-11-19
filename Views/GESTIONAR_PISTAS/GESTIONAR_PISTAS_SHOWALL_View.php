@@ -21,7 +21,7 @@ function render(){
 							<tr>
 								<th>Nombre</th>
 								<th>Tipo</th>
-								<th><a class="button small" href="../Controllers/GESTIONAR_PISTAS_Controller.php?action=ADD">Nueva Pista (ToDo)</a></th>
+								<th><a class="button small" href="../Controllers/GESTIONAR_PISTAS_Controller.php?action=ADD">Nueva Pista</a></th>
 							</tr>
 						</thead>
 						<tbody>
