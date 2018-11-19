@@ -22,8 +22,10 @@ function render(){
 					<table>
 						<thead >
 							<tr>
-								<th>ID Pareja</th>
-								<th>ID Campeonato</th>
+								<th>Pareja</th>
+								<th>Nivel</th>
+								<th>Genero</th>
+								<th>Nombre Campeonato</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -37,6 +39,12 @@ function render(){
 										</td>
 										<td>
 											<?=$value[1]?>
+										</td>
+										<td>
+											<?=$value[2]?>
+										</td>
+										<td>
+											<?=$value[3]?>
 										</td>
 									</tr>
 					<?php

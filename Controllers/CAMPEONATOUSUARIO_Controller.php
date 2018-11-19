@@ -7,10 +7,10 @@
     include '../Models/PAREJA_Model.php';
     include '../Models/INSCRIPCION_Model.php';
 
-    include '../Views/CHAMPIONSHIP/CAMPEONATOUSUARIO_View.php'; 
-    include '../Views/CHAMPIONSHIP/CAMPEONATOSABIERTOS_View.php';
-    include '../Views/CHAMPIONSHIP/INSCRIBIRCAMPEONATO_View.php';
-    include '../Views/CHAMPIONSHIP/CATEGORIA_View.php';
+    include '../Views/CAMPEONATO/CAMPEONATOUSUARIO_View.php'; 
+    include '../Views/CAMPEONATO/CAMPEONATOSABIERTOS_View.php';
+    include '../Views/CAMPEONATO/INSCRIBIRCAMPEONATO_View.php';
+    include '../Views/CAMPEONATO/CATEGORIA_View.php';
 
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];

@@ -1,8 +1,8 @@
 <?php
 
 	session_start();
-	include "../Views/CHAMPIONSHIP/ADDCHAMPIONSHIP_View.php";
-    include "../Views/CHAMPIONSHIP/CAMPEONATOSCERRADOS_View.php";
+	include "../Views/CAMPEONATO/ADDCHAMPIONSHIP_View.php";
+    include "../Views/CAMPEONATO/CAMPEONATOSCERRADOS_View.php";
     include "../Models/CAMPEONATO_Model.php";
     include "../Views/INDEX_View.php";
 

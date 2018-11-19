@@ -57,7 +57,15 @@ class ENFRENTAMIENTO_Model{
         else{
             $this->mensaje = "ERROR: En la sentencia sql";
         }
-    }  
+    } 
+
+    //Función para asociar una reserva a un enfrentamiento
+    function SET_RESULTADO($enfrentamiento_id){
+        $sql_up = "UPDATE ENFRENTAMIENTO SET RESULTADO = '$this->resultado'
+                                 WHERE (ID = '$enfrentamiento_id')";
+
+        $res = $this->mysqli->query($sql_up);
+    }
 
     //Función para asociar una reserva a un enfrentamiento
     function SET_RESERVA($enfrentamiento_id){
@@ -65,6 +73,18 @@ class ENFRENTAMIENTO_Model{
                                  WHERE (ID = '$enfrentamiento_id')";
 
         $res = $this->mysqli->query($sql_up);
+    }
+
+    function SHOW(){
+         $sql = "SELECT * FROM ENFRENTAMIENTO ORDER BY ID";
+            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            return $resultado;
+        }  
     }
 
     //Función para mostrar a un usuario las propuestas de horarios que tiene para los enfrentamientos en los que está involucrado como pareja 1

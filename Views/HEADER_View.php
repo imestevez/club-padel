@@ -25,7 +25,7 @@ include '../Locales/Strings_SPANISH.php';
             <?php
             if(IsAuthenticated()){
               ?>
-              <a href="#" class="icon fa-angle-down">Reserva de Pistas</a>
+              <a href="#" class="icon fa-angle-down">Pistas</a>
               <ul>
                 <?php
                 if($_SESSION["rol"] == 'ADMIN'){
@@ -65,7 +65,7 @@ include '../Locales/Strings_SPANISH.php';
             <li>
               <a class="icon fa-angle-down">Campeonatos</a>
               <ul>
-                <li><a >Rankings</a></li>
+                <li><a href="../Controllers/CLASIFICACION_Controller.php?action=SHOW">Rankings</a></li>
                 <li>
                   <a>Gest. de Campeonatos</a>
                   <ul>
@@ -83,6 +83,7 @@ include '../Locales/Strings_SPANISH.php';
                 <li>
                   <a>Gest. de enfrentamientos</a>
                   <ul>
+                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW" > Introducir resultados </a></li>
                     <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOWPROXIMOS" > Próximos</a></li>
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
