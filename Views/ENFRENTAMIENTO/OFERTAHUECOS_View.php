@@ -4,11 +4,15 @@ class OfertaHuecos{
 
 	var $huecos1;
 	var $id_contrincante;
+	var $enfrentamiento_id;
+	var $pareja_id;
 
-	function __construct($huecos1, $id_contrincante){
+	function __construct($huecos1, $pareja_id, $enfrentamiento_id){
 
 		$this->huecos1 =  $huecos1;
-		$this->id_contrincante =  $id_contrincante;
+		$this->pareja_id =  $pareja_id;
+		$this->enfrentamiento_id =  $enfrentamiento_id;
+
 
 
 		$this->render();
@@ -58,19 +62,11 @@ function render(){
 							</table>
 							<div id="bt_campeonatos">
 								<p>Si ninguna propuesta del contrincante te parece válida, haz una nueva propuesta</p>
-								<a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS" class="button " >Rechazar y proponer</a>
+								<a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=RECHAZAR&enfrentamiento_id=<?php echo $this->enfrentamiento_id?>&pareja_id=<?php echo $this->pareja_id?>" class="button " >Rechazar y proponer</a>
 							</div>
 						</div>
 			    	</section>	
 
-			    	<section class="box">
-			    		<h3>Enfrentamientos sin propuestas</h3>
-			    	</section>
-
-			    	<section class="box">
-			    		<h3>Tus propuestas</h3>
-			    	</section>
-    
 			</div>
 		</div>			
     </section>

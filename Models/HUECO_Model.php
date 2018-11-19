@@ -24,13 +24,59 @@ class HUECO_Model{
         $this->mysqli = ConnectDB();
 	}
 
+
+
 	function ADD()
     {
+        if($this->fecha <> NULL){   //si viene la fecha entera le cambiamos el formato para que se adecue al de la bd
+            $aux = explode("/", $this->fecha);
+            $this->fecha = date('Y-m-d',mktime(0,0,0,$aux[1],$aux[0],$aux[2]));
+        }
+
+        //Comprobamos que el registro no existe ya en la base de datos
+        $sql_cmp = "SELECT * FROM HUECO WHERE 
+                        (FECHA = '$this->fecha') and
+                        (ENFRENTAMIENTO_ID = '$this->enfrentamiento_id') and
+                        (PAREJA_ID = '$this->pareja_id') and
+                        (HORARIO_ID = '$this->horario_id')";
+
+        $res_cmp = $this->mysqli->query($sql_cmp);
+        if(mysqli_num_rows($res_cmp) > 0){
+            return "ERROR: El hueco ya existe para ese enfrentamiento";
+        }
+        else{
+            //Insertamos el nuevo hueco
+            $sql_ins = "INSERT INTO HUECO(ID,FECHA, ENFRENTAMIENTO_ID, PAREJA_ID, HORARIO_ID) 
+                        VALUES(null,'$this->fecha','$this->enfrentamiento_id','$this->pareja_id','$this->horario_id')";
+            if($res_ins = $this->mysqli->query($sql_ins)){
+                return "Hueco insertado correctamente";  
+            }
+            else{
+                return "ERROR: Al insertar el hueco en la bd";
+            }          
+        }                
+
+
     }
 
     function DELETE($id){
         $sql_del = "DELETE FROM HUECO WHERE (ID = '$id')";
         $res_del = $this->mysqli->query($sql_del);
+    }
+
+    function DELETE_HUECO(){
+        $sql_del = "DELETE FROM HUECO WHERE 
+                        (FECHA = '$this->fecha') and
+                        (ENFRENTAMIENTO_ID = '$this->enfrentamiento_id') and
+                        (PAREJA_ID = '$this->pareja_id') and
+                        (HORARIO_ID = '$this->horario_id')";
+                        var_dump($sql_del);
+        if( $res_del = $this->mysqli->query($sql_del)){
+            return "Hueco borrado correctamente";
+        }
+        else{
+            return "ERROR: Al insertar un hueco";
+        }
     }
 
     function GETOFERTA(){
@@ -44,8 +90,8 @@ class HUECO_Model{
                             FROM HUECO H, HORARIO O WHERE 
                             (H.HORARIO_ID = O.ID) and
                             (H.ENFRENTAMIENTO_ID = '$this->enfrentamiento_id') and 
-                            (H.PAREJA_ID = '$this->pareja_id')";
-        var_dump($sql_cnt);
+                            (H.PAREJA_ID <> '$this->pareja_id')";
+ 
                         
         $result_cnt = $this->mysqli->query($sql_cnt);
         return $result_cnt;
@@ -67,7 +113,6 @@ class HUECO_Model{
     						(U.HORARIO_ID = O.ID) and
                             ('$num_pistas' > (SELECT * FROM RESERVA WHERE (FECHA = '$this->fecha') and (HORARIO_ID = '$this->horario_id')))
     						";
-        var_dump($sql_hue);
     	if($result = $this->mysqli->query($sql_hue)){
     		return $result;
     	}
@@ -127,7 +172,6 @@ class HUECO_Model{
         }
 
         //Si hay pistas disponibles en ese horario realizamos la reserva, si no mandamos un mensaje de error
-        var_dump("CONTENIDO: ".$pistas_disponibles[0]);
         if($pistas_disponibles[0] <> null){
             $id_pista = $pistas_disponibles[0];
             //Reservamos a nombre del capitan
@@ -142,13 +186,11 @@ class HUECO_Model{
             $sql_idres = "SELECT * FROM RESERVA WHERE 
                             (HORARIO_ID = '$this->horario_id') and
                             (PISTA_ID = '$id_pista') and
-                            (FECHA = '$this->fecha') ";
-            var_dump("INSERTA: ".$sql_idres);                
+                            (FECHA = '$this->fecha') ";            
 
             $res_idres = $this->mysqli->query($sql_idres);
             $row_idres = mysqli_fetch_array($res_idres);
             $reserva_id = $row_idres['ID'];
-            var_dump("EL ID DE LA RESERVA ES: ".$reserva_id);
 
             //Añadimos el id al enfrentamiento
             $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','',$reserva_id);
@@ -163,6 +205,20 @@ class HUECO_Model{
             return "No hay pistas disponibles para ese horario";
         }               
     }
+
+    function SHOW_HUECOSACT(){
+
+        $sql = "SELECT  *
+                        FROM HUECO U, HORARIO O WHERE 
+                        (U.ENFRENTAMIENTO_ID = '$this->enfrentamiento_id') and 
+                        (U.PAREJA_ID = '$this->pareja_id') and 
+                        (U.HORARIO_ID = O.ID)";
+
+        $result = $this->mysqli->query($sql);
+        return $result;
+    }
+
+
 
 }
 
