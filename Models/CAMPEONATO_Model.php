@@ -19,7 +19,6 @@ class CAMPEONATO_Model{
         include_once '../Models/GRUPO_Model.php';
         include_once '../Models/INSCRIPCION_Model.php';
         include_once '../Models/CLASIFICACION_Model.php';
-        include_once '../Models/GRUPOCLASIFICACION_Model.php';
         include_once '../Models/ENFRENTAMIENTO_Model.php';
 
         $this->mysqli = ConnectDB();
@@ -91,23 +90,22 @@ class CAMPEONATO_Model{
         //Obtenemos las categorias del campeonato
         $sql_cat = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE (CAMPEONATO_ID = '$id_campeonato')";       
         //Comprobación del las categorías de los campeonatos
-        if($result_cat = $this->mysqli->query($sql_cat);){
+        if($result_cat = $this->mysqli->query($sql_cat)){
 
             while($row = mysqli_fetch_array($result_cat)){
                 //Para cada categoría obtenemos los inscritos
                 $cat_id = $row['CATEGORIA_ID'];
                 $sql_insc = "SELECT * FROM INSCRIPCION I, CAMPEONATO_CATEGORIA C 
-                    WHERE   (I.CAM_CAT_ID = C.ID) and
-                            (C.CATEGORIA_ID = '$cat_id') and
-                            (C.CAMPEONATO_ID = '$id_campeonato')
+                            WHERE   (I.CAM_CAT_ID = C.ID) and
+                                    (C.CATEGORIA_ID = '$cat_id') and
+                                    (C.CAMPEONATO_ID = '$id_campeonato')
+                            ORDER BY I.FECHA        
                             ";           
                 $result_insc = $this->mysqli->query($sql_insc);
                 $num_inscritos = mysqli_num_rows($result_insc);
 
                 //Comprobación del número de inscritos para cada categoría
                 if($num_inscritos >= 8){
-                    //Comprobamos que el número de inscritos no está entre 12 y 16
-                    if($num_inscritos <= 12 && $num_inscritos >= 16){
                         /*
                             CREACIÓN DE GRUPOS
                         */
@@ -127,7 +125,7 @@ class CAMPEONATO_Model{
 
                                 //Registramos a una pareja como miembro de un grupo
                                 if($inscripcion = mysqli_fetch_array($result_insc)){
-                                    $INSCRIPCION = new INSCRIPCION_Model($inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
+                                    $INSCRIPCION = new INSCRIPCION_Model('',$inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
 
                                     //Asignamos el id del grupo correspondiente
                                     $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo')";
@@ -137,11 +135,11 @@ class CAMPEONATO_Model{
                                     $INSCRIPCION->SET_GRUPO($id_grupo);
 
                                     //Para cada inscrito inicializamos su clasificación
-                                    $CLASIFICACION = new CLASIFICACION_Model();
+                                    $CLASIFICACION = new CLASIFICACION_Model(0,$inscripcion['PAREJA_ID'],$id_grupo);
                                     $CLASIFICACION->ADD();
 
+                                    $num_inscritos--; 
 
-                                    $num_inscritos--;    
                                 }                             
                             }                                                            
                         }
@@ -150,47 +148,92 @@ class CAMPEONATO_Model{
                             FIN CREACIÓN DE GRUPOS
                         */
 
-                        /*
-                            ASIGNACIÓN DE INSCRITOS RESTANTES EN GRUPOS EXISTENTES
-                        */
+                        
                         //Si las parejas que quedan por asignar grupo son menos de 8, las repartimos entre los restantes grupos, cumpliendo que no haya más de 12 en cada uno
                         $grupo_actual = $num_grupos;
-                        while($num_inscritos > 0 and $inscripcion = mysqli_fetch_array($result_insc)){
+                        //Si se ha creado más de un grupo
+                        if($grupo_actual > 1){
+                            /*
+                            ASIGNACIÓN DE INSCRITOS RESTANTES EN GRUPOS EXISTENTES
+                            */
+                            while($num_inscritos > 0 and $inscripcion = mysqli_fetch_array($result_insc)){
 
-                            $INSCRIPCION = new INSCRIPCION_Model($inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
+                                $INSCRIPCION = new INSCRIPCION_Model('',$inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
 
-                            //Asignamos el id del grupo correspondiente
-                            $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo_actual')";
-                            $result_id_gru = $this->mysqli->query($sql_id_gru);
-                            $row_grupo_id = mysqli_fetch_array($result_id_gru);
-                            $id_grupo = $row_grupo_id['ID'];                               
-                            $INSCRIPCION->SET_GRUPO($id_grupo);
-                                            
-                            $num_inscritos--;   
-                            $grupo_actual--; 
+                                //Asignamos el id del grupo correspondiente
+                                $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo_actual')";
+                                $result_id_gru = $this->mysqli->query($sql_id_gru);
+                                $row_grupo_id = mysqli_fetch_array($result_id_gru);
+                                $id_grupo = $row_grupo_id['ID'];                               
+                                $INSCRIPCION->SET_GRUPO($id_grupo);
 
-                            if($grupo_actual == 0){
-                                $grupo_actual = $num_grupos;
+                                //Para cada inscrito inicializamos su clasificación
+                                $CLASIFICACION = new CLASIFICACION_Model(0,$inscripcion['PAREJA_ID'],$id_grupo);
+                                $CLASIFICACION->ADD();
+                                                
+                                $num_inscritos--;   
+                                $grupo_actual--; 
 
-                            }   
-                        }
-                        /*
+                                if($grupo_actual == 0){
+                                    $grupo_actual = $num_grupos;
+
+                                } 
+                            /*
                             FIN ASIGNACIÓN DE INSCRITOS RESTANTES EN GRUPOS EXISTENTES
-                        */
-                    }
-                    else{
+                            */  
+                            }
+                        
+                        }
+                        //Si sólo hay un grupo 
+                        else{
+                            //Metemos parejas hasta llegar al máximo (12)
+                            $i = 0;
+                            //Metemos en el grupo 1 siempre, sólo a 4 más
+                            for ($i=0; $i < 4; $i++) { 
 
-                    }
+                                if($inscripcion = mysqli_fetch_array($result_insc)){
+
+                                    $INSCRIPCION = new INSCRIPCION_Model('',$inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
+
+                                    //Asignamos el id del grupo correspondiente
+                                    $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo_actual')";
+                                    $result_id_gru = $this->mysqli->query($sql_id_gru);
+                                    $row_grupo_id = mysqli_fetch_array($result_id_gru);
+                                    $id_grupo = $row_grupo_id['ID'];                               
+                                    $INSCRIPCION->SET_GRUPO($id_grupo);
+
+                                    //Para cada inscrito inicializamos su clasificación
+                                    $CLASIFICACION = new CLASIFICACION_Model(0,$inscripcion['PAREJA_ID'],$id_grupo);
+                                    $CLASIFICACION->ADD();
+                                                    
+                                    $num_inscritos--;   
+
+                                }
+                                
+                            }
+
+                            for ($i=$num_inscritos; $i > 0 ; $i--){ 
+                                if($inscripcion = mysqli_fetch_array($result_insc)){
+                                    $INSCRIPCION = new INSCRIPCION_Model('',$inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
+                                    $INSCRIPCION->DELETE(); 
+                                    $num_inscritos--;    
+                                }
+                                
+                            }
+                        }
+                           
                 }
                 else{
-                    return "ERROR: El número de parejas inscritas debe ser mayor que 8"
+                    return "ERROR: El número de parejas inscritas debe ser mayor que 8";
                 }
-            }    
+            }//fIN WHILE
+            return $this->GENERAR_ENFRENTAMIENTOS();    
         }
         else{
             return "ERROR: Debe existir al menos un campeonato con una categoría";
         }
-            while($row = mysqli_fetch_array($result_cat)){
+
+            /*while($row = mysqli_fetch_array($result_cat)){
                 //Para cada categoría obtenemos los inscritos
                 $cat_id = $row['CATEGORIA_ID'];
                 $sql_insc = "SELECT * FROM INSCRIPCION I, CAMPEONATO_CATEGORIA C 
@@ -254,11 +297,11 @@ class CAMPEONATO_Model{
                     }   
                 }
                 
-            }
+            }*/
         
         
 
-        }
+    }
     
 
     //Función para generar los enfrentamientos
@@ -333,7 +376,6 @@ class CAMPEONATO_Model{
     }
 
     
-    
-
 
 ?>
+
