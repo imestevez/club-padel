@@ -2,8 +2,10 @@
 
 	session_start();
 	include "../Views/CLASIFICACION/GESTIONAR_CLASIFICACIONES_View.php";
+    include "../Views/CLASIFICACION/RANKING_View.php";
 
     include "../Models/CAMPEONATO_Model.php";
+    include "../Models/CLASIFICACION_Model.php";
 
 
 
@@ -22,10 +24,14 @@
             break;
 
         case 'RANKING':
-            $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],'','');
-            $categorias = $CAMPEONATO->GET_CATEGORIAS($_REQUEST["campeonato_ID"]);
+            if(isset($_REQUEST["campeonato_ID"])){
+                    $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],$_REQUEST["nombre"],'');
+                    $CLASIFICACION = new CLASIFICACION_Model('','','');
+                    $clasificaciones=$CLASIFICACION->SHOWALL();
 
-            new RANKING($categorias);
+                    new RANKING($CAMPEONATO, $clasificaciones);
+            }
+            
             break; 
   
     }
