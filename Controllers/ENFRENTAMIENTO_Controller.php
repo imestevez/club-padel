@@ -59,8 +59,18 @@
             $enfrentamientos = $ENFRENTAMIENTO->SHOW();
             new GESRESULTADOS($enfrentamientos);
             break;
+
     	case 'SHOWPROXIMOS':
-    		new EnfrentamientoProximos();
+            $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
+
+            $proximos1 =  $ENFRENTAMIENTO->SHOW_PROXIMOS1($_SESSION['login']);
+            $proximos2 =  $ENFRENTAMIENTO->SHOW_PROXIMOS2($_SESSION['login']);
+
+            $showall =  $ENFRENTAMIENTO->SHOWALL($_SESSION['login']);
+
+
+    		new EnfrentamientoProximos($proximos1, $proximos2, $showall);
+
     		break;
 
         case 'GESHORARIOS':

@@ -2,8 +2,17 @@
 
 class EnfrentamientoProximos{
 
+	var $proximos1;
+	var $proximos2;
+	var $showall;
 
-	function __construct(){	
+
+	function __construct($proximos1, $proximos2,$showall){	
+		$this->proximos1 = $proximos1;
+		$this->proximos2 = $proximos2;
+		$this->showall = $showall;
+
+
 		$this->render();
 	}
 
@@ -16,122 +25,92 @@ function render(){
 	<section id="main" class="container">
 		<header>
 		   <h2>Próximos enfrentamientos</h2>
-		    <p>Tus enfrentamientos programados en los diferentes campeonatos del club</p>
+		    <p>Calendario de enfrentamientos del club</p>
 		 </header>
 
 		<div class="row">
 			<div class="col-12">
-			    <section class="box">	
-				    <h3>Enfrentamientos pendientes</h3>
-
-				    	<div class="table-wrapper">
+			   <section class="box">
+			    		<div class="table-wrapper">
 							<table>
 								<thead >
 									<tr>
-										<th>Campeonato</th>
-										<th>Adversario</th>
-										<th>Categoría</th>
-										<th>Grupo</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Torneito</td>
-										<td>Peter Hill</td>
-										<td>Masculino 1º</td>
-										<td>3</td>
-										<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS" class="button small" >Proponer horario</a></td>
-									</tr>
-									<tr>
-										<td>Torneo ocho</td>
-										<td>Tuco</td>
-										<td>Mixto 2º</td>
-										<td>2</td>
-										<td><a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS" class="button small" >Proponer horario</a></td>
-									</tr>					
-								</tbody>
-							</table>
-						</div>
 
-				    <hr />
-				    <h3>Consultar propuestas</h3>
-				    <h1>Tus propuestas</h1>
-				    <h1>Propuestas de otros jugadores</h1>
-				    <hr />
-				    <h3>Enfrentamientos establecidos</h3>
-				    	<div class="table-wrapper">
-							<table>
-								<thead >
-									<tr>
-										<th>Campeonato</th>
-										<th>Adversario</th>
+						<?php if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){ ?>
+									<th>Campeonato</th>
 										<th>Categoría</th>
 										<th>Grupo</th>
+										<th>Pareja 1</th>
+										<th>Pareja 2</th>
 										<th>Fecha</th>
 										<th>Hora</th>
 										<th>Pista</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>Torneito</td>
-										<td>Peter Hill</td>
-										<td>Masculino 1º</td>
-										<td>3</td>
-										<td>19/23/1997</td>
-										<td>17:00</td>
-										<td>3</td>
+							<?php 
+							while ($row_proximos = mysqli_fetch_array($this->showall)) {
+							
+						?>			
+									<tr>	
+										<td><?php echo $row_proximos['CAM_NOMBRE']?></td>
+										<td><?php echo $row_proximos['NIVEL']." ".$row_proximos['GENERO'] ?></td>
+										<td><?php echo $row_proximos['GR_NOMBRE']?></td>
+										<td><?php echo $row_proximos['PAREJA1_ID']?></td>
+										<td><?php echo $row_proximos['PAREJA2_ID']?></td>
+										<td><?php echo $row_proximos['FECHA']?></td>
+										<td><?php echo $row_proximos['HORA_INICIO']." - ".$row_proximos['HORA_FIN'] ?></td>
+										<td><?php echo $row_proximos['PISTA_NOMBRE']?></td>
 									</tr>
-									<tr>
-										<td>Torneo ocho</td>
-										<td>Tuco</td>
-										<td>Mixto 2º</td>
-										<td>2</td>
-										<td>22/02/2007</td>
-										<td>20:00</td>
-										<td>1</td>
-									</tr>					
+						<?php }} else{ ?>		
+
+								<th>Campeonato</th>
+										<th>Categoría</th>
+										<th>Grupo</th>
+										<th>Contrincante</th>
+										<th>Fecha</th>
+										<th>Hora</th>
+										<th>Pista</th>
+									</tr>
+								</thead>
+								<tbody>	
+						<?php 
+
+							while ($row_proximos = mysqli_fetch_array($this->proximos1)) {
+							
+						?>			
+									<tr>	
+										<td><?php echo $row_proximos['CAM_NOMBRE']?></td>
+										<td><?php echo $row_proximos['NIVEL']." ".$row_proximos['GENERO'] ?></td>
+										<td><?php echo $row_proximos['GR_NOMBRE']?></td>
+										<td><?php echo $row_proximos['CAPITAN']?></td>
+										<td><?php echo $row_proximos['FECHA']?></td>
+										<td><?php echo $row_proximos['HORA_INICIO']." - ".$row_proximos['HORA_FIN'] ?></td>
+										<td><?php echo $row_proximos['PISTA_NOMBRE']?></td>
+									</tr>
+						<?php } ?>
+
+						<?php 
+							while ($row_proximos = mysqli_fetch_array($this->proximos2)) {
+							
+						?>			
+									<tr>	
+										<td><?php echo $row_proximos['CAM_NOMBRE']?></td>
+										<td><?php echo $row_proximos['NIVEL']." ".$row_proximos['GENERO'] ?></td>
+										<td><?php echo $row_proximos['GR_NOMBRE']?></td>
+										<td><?php echo $row_proximos['CAPITAN']?></td>
+										<td><?php echo $row_proximos['FECHA']?></td>
+										<td><?php echo $row_proximos['HORA_INICIO']." - ".$row_proximos['HORA_FIN'] ?></td>
+										<td><?php echo $row_proximos['PISTA_NOMBRE']?></td>
+									</tr>
+						<?php }
+							} ?>
+									
 								</tbody>
 							</table>
 						</div>
-				</section>    
-<!--
-        <h3>Tus Campeonatos</h3>
-
-				<div class="table-wrapper">
-					<table>
-						<thead >
-							<tr>
-								<th>Nombre</th>
-								<th>Pareja</th>
-								<th>Categoría</th>
-								<th>Grupo</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Torneito</td>
-								<td>Peter Hill</td>
-								<td>Masculino 1º</td>
-								<td>3</td>
-							</tr>
-							<tr>
-								<td>Torneo ocho</td>
-								<td>Tuco</td>
-								<td>Mixto 2º</td>
-								<td>2</td>
-							</tr>					
-						</tbody>
-					</table>
-
-					<div id="bt_campeonatos">
-						<p>Si quieres apuntarte a otro campeonato, hazlo aquí</p>
-						<a href="../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS" class="button " >Campeonatos abiertos</a>
-					</div>
-
-				</div>
--->			</div>
+			    	</section>	
+			</div>
 		</div>			
     </section>
 

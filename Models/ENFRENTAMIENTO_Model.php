@@ -348,6 +348,166 @@ class ENFRENTAMIENTO_Model{
                 $HUECO->DELETE($row_del['ID']);
             }
     }
+
+    //Función para mostrar los enfrentamientos que ya tienen una reserva y no han sido jugados para un jugador como pareja 1
+    function SHOW_PROXIMOS1($login_us){
+
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_par = "SELECT * FROM PAREJA WHERE (JUGADOR_1 = '$login_us') or (JUGADOR_2 = '$login_us')";
+        if($result_par = $this->mysqli->query($sql_par)){
+           //Para cada pareja buscamos sus enfrentamientos
+            while($row_pareja = mysqli_fetch_array($result_par)){
+
+                $id_pareja = $row_pareja['ID'];
+
+                $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    P.CAPITAN,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_1 AS ID_PAREJA,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE
+
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    PAREJA P,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.PAREJA_2 = P.ID) and
+                                    (E.PAREJA_1 = '$id_pareja') and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA > '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID)
+                            ";
+
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+            }
+            
+        }
+
+    }    
+
+        //Función para mostrar los enfrentamientos que ya tienen una reserva y no han sido jugados para un jugador como pareja 2
+    function SHOW_PROXIMOS2($login_us){
+
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_par = "SELECT * FROM PAREJA WHERE (JUGADOR_1 = '$login_us') or (JUGADOR_2 = '$login_us')";
+        if($result_par = $this->mysqli->query($sql_par)){
+           //Para cada pareja buscamos sus enfrentamientos
+            while($row_pareja = mysqli_fetch_array($result_par)){
+
+                $id_pareja = $row_pareja['ID'];
+
+                $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    P.CAPITAN,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_2 AS ID_PAREJA,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    PAREJA P,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.PAREJA_1 = P.ID) and
+                                    (E.PAREJA_2 = '$id_pareja') and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA > '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID) 
+                            ";
+
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+            }
+            
+        }
+
+                
+    }
+
+    //Función para mostrar los enfrentamientos a un admin
+    function SHOWALL($login_us){
+
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ID_ENFRENTAMIENTO,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA > '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID)  
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf;   
+
+                
+    }
     
 }
 
