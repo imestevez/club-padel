@@ -70,11 +70,64 @@ class CLASIFICACION_Model{
         $p1_set3 = $set_3[0];
         $p2_set3 = $set_3[1];
 
-        if(  ($p1_set1 == 0) && ($p2_set1 == 0 ) && ($p1_set2 == 0) && ($p2_set2 == 0) ($p1_set3 == 0) ($p2_set3 == 0) ) {
-            
-        }
+        $ganador_set_1 = $this->GANADOR_SET($p1_set1, $p2_set1);
+        $ganador_set_2 = $this->GANADOR_SET($p1_set2, $p2_set2);
+        $ganador_set_3 = $this->GANADOR_SET($p1_set3, $p2_set3);
+
+        $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
+        //0 - empate
+        //1 - pareja 1
+        //2 - pareja 2
 
     }
+
+    function GANADOR_SET($set_p1, $set_p2){
+        if( ($set_p1 >= 6) || ($set_p2 >= 6)) {
+            if($set_p1 > $set_p2){
+                return 1;
+            }
+             if($set_p1 < $set_p2){
+                return 2;
+            }
+            return 0;
+        }else{
+            return 0;
+        }
+    }
+
+    function GANADOR_PARTIDO($set1,$set2,$set3){
+        $cont_p1 = 0;
+        $cont_p2 = 0;
+
+        if($set1 == 1){
+            $cont_p1 = $cont_p1 + 1;
+        }
+        if($set1 == 2){
+            $cont_p2 = $cont_p2 + 1;
+        }
+        if($set2 == 1){
+            $cont_p1 = $cont_p1 + 1;
+        }
+       if($set2 == 2){
+            $cont_p2 = $cont_p2 + 1;
+        }
+        if($set3 == 1){
+            $cont_p1 = $cont_p1 + 1;
+        }
+       if($set3 == 2){
+            $cont_p2 = $cont_p2 + 1;
+        }
+
+        if($cont_p1 > $cont_p2 ){
+            return 1;
+        }
+       if($cont_p1 < $cont_p2 ){
+            return 1;
+        }
+
+        return 0;
+    }
+
 
     function ADD(){
         $sql = "INSERT INTO CLASIFICACION(ID, PAREJA_ID,GRUPO_ID,PUNTOS) VALUES(null,$this->pareja_ID,$this->grupo_id,0)";
