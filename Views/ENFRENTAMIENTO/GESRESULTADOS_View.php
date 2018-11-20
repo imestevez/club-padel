@@ -55,7 +55,7 @@ function render(){
 										<?php if( $row['RESULTADO'] <> null){ ?>
 											<td><?php echo $row['RESULTADO']?></td>
 										<?php }else{ ?>
-											<td><?php echo "---------------"?></td>
+											<td><?php echo "-"?></td>
 										<?php } ?>
 										<td>
 											<a class="button small" href="../Controllers/ENFRENTAMIENTO_Controller.php?action=INTRODUCIRRESULTADO&enfrentamiento_ID=<?=$row['ENFRENTAMIENTO_ID']?>">Resultado</a>

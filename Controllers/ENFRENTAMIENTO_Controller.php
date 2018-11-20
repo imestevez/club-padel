@@ -51,6 +51,57 @@
         return new ENFRENTAMIENTO_Model($grupo_id,$resultado, $pareja_1, $pareja_2, $reserva_id);
     }
 
+     function get_data_form_Resultado(){
+        
+        if(isset($_REQUEST['enfrentamiento_ID'])){
+            $enfrentamiento_ID = $_REQUEST['enfrentamiento_ID'];
+        }else{
+            $enfrentamiento_ID = NULL;
+        }
+
+        if(isset($_REQUEST['set1_1'])){
+            $set1_1 = $_REQUEST['set1_1'];
+        }else{
+            $set1_1 = NULL;
+        }
+
+        if(isset($_REQUEST['set1_2'])){
+            $set1_2 = $_REQUEST['set1_2'];
+        }else{
+            $set1_2 = NULL;
+        }
+
+        if(isset($_REQUEST['set2_1'])){
+            $set2_1 = $_REQUEST['set2_1'];
+        }else{
+            $set2_1 = NULL;
+        }
+
+        if(isset($_REQUEST['set2_2'])){
+            $set2_2 = $_REQUEST['set2_2'];
+        }else{
+            $set2_2 = NULL;
+        }
+
+        if(isset($_REQUEST['set3_1'])){
+            $set3_1 = $_REQUEST['set3_1'];
+        }else{
+            $set3_1 = NULL;
+        }
+
+        if(isset($_REQUEST['set3_2'])){
+            $set3_2 = $_REQUEST['set3_2'];
+        }else{
+            $set3_2 = NULL;
+        }
+
+        $resultado = $set1_1."-".$set1_2."/".$set2_1."-".$set2_2."/".$set3_1."-".$set3_2;
+
+        return $resultado;
+
+     }
+
+
   
 
     switch ($action) {
@@ -99,13 +150,13 @@
         case 'INTRODUCIRRESULTADO':
 
             if(isset($_REQUEST["enfrentamiento_ID"])){
-                    $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model($_REQUEST["enfrentamiento_ID"],'','','','');
-                    $VIEW = new IntroducirResultado($ENFRENTAMIENTO);
+                    $VIEW = new IntroducirResultado($_REQUEST["enfrentamiento_ID"]);
             }
         break;
         case 'RESULTADO':
-            $ENFRENTAMIENTO = get_data_form();
-            $enfrentamiento=$ENFRENTAMIENTO->SET_RESULTADO($_REQUEST["enfrentamiento_ID"]);
+            $resultado = get_data_form_Resultado();
+            $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
+            $enfrentamiento = $ENFRENTAMIENTO->SET_RESULTADO($_REQUEST["enfrentamiento_ID"],  $resultado);
             $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW');
 
             break;

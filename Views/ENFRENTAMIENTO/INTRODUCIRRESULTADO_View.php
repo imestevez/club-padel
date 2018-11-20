@@ -20,17 +20,62 @@ function render(){
         <header>
            <h2>Resultado del enfrentamiento</h2>
         </header>
-        
-        <div class="box">
-            <form method="post" action="../Controllers/ENFRENTAMIENTO_Controller.php">
+        <div class="box col-6">
+            <form method="post" action="../Controllers/ENFRENTAMIENTO_Controller.php?action=RESULTADO">
                 <div class="row gtr-50 gtr-uniform">
-                    <div class="col-12">
-                        <input type="text" value="" placeholder="X-X/X-X/X-X" id="resultado" name="resultado" />
+                    <div class="table-wrapper col-4" style="margin-left: 34%">
+                        <table>
+                            <thead >
+                                <tr>
+                                    <th>Pareja 1</th>
+                                    <th>-</th>
+                                    <th>Pareja 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                         <input type="number" maxlength="1" min="0" max="7" value="0" placeholder="" id="resultado" name="set1_1" />
+                                    </td>
+                                    <td>
+                                    -
+                                    </td>
+                                    <td>
+                                       <input type="number" maxlength="1" min="0" max="7" value="0" placeholder="" id="resultado" name="set1_2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                         <input type="number" maxlength="1" min="0" max="7" value="0" placeholder="" id="resultado" name="set2_1" />
+                                    </td>
+                                    <td>
+                                    -
+                                    </td>
+                                    <td>
+                                       <input type="number" maxlength="1" min="0" max="7" value="0" placeholder="" id="resultado" name="set2_2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                         <input type="number" maxlength="1" min="0" max="7" value="0" placeholder="" id="resultado" name="set3_1" />
+                                    </td>
+                                    <td>
+                                    -
+                                    </td>
+                                    <td>
+                                       <input type="number" maxlength="1" min="0" max="7" value="0" placeholder="" id="resultado" name="set3_2" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+
                     <div class="col-12">
-                        <input class="oculto" name="enfrentamiento_ID" readonly value="<?= $_REQUEST['enfrentamiento_ID']?>">
-                            <input type="submit" name="action" value="RESULTADO"  >
-                    </div>
+                        <input class="oculto" name="enfrentamiento_ID" readonly value="<?= $this->enfrentamiento?>">
+                        <ul class="actions special">
+                            <li><input type="submit" class="small" value="Continuar"  > </a></li>
+                        </ul>
+                    </div> 
                 </div>
             </form>
         </div>

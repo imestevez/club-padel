@@ -1,7 +1,6 @@
 <?php
 
 class ENFRENTAMIENTO_Model{
-
 	var $grupo_id;
     var $resultado;
     var $pareja_1;
@@ -11,6 +10,8 @@ class ENFRENTAMIENTO_Model{
     var $mensaje;
 
 	var $mysql;
+
+
 
 	function __construct($grupo_id,$resultado,$pareja_1,$pareja_2,$reserva_id){
 
@@ -60,11 +61,15 @@ class ENFRENTAMIENTO_Model{
     } 
 
     //Función para asociar una reserva a un enfrentamiento
-    function SET_RESULTADO($enfrentamiento_id){
-        $sql_up = "UPDATE ENFRENTAMIENTO SET RESULTADO = '$this->resultado'
+    function SET_RESULTADO($enfrentamiento_id,$resultado){
+        $sql_up = "UPDATE ENFRENTAMIENTO SET RESULTADO = '$resultado'
                                  WHERE (ID = '$enfrentamiento_id')";
 
-        $res = $this->mysqli->query($sql_up);
+        if(!$res = $this->mysqli->query($sql_up)){
+                return 'ERROR: No se ha podido conectar con la base de datos';
+        }else{
+            return 'Actualizado el resultado';
+        }
     }
 
     //Función para asociar una reserva a un enfrentamiento
