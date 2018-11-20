@@ -223,9 +223,6 @@ class CAMPEONATO_Model{
                         }
                            
                 }
-                else{
-                    return "ERROR: El número de parejas inscritas debe ser mayor que 8";
-                }
             }//fIN WHILE
             return $this->GENERAR_ENFRENTAMIENTOS();    
         }

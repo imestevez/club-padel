@@ -50,9 +50,7 @@ class INSCRIPCION_Model{
 
     //Función para eliminar inscripciones de la bd
     function DELETE(){
-        echo "VOY A HACER UN DELETE";
         $sql_del = "DELETE FROM INSCRIPCION WHERE (PAREJA_ID = '$this->pareja_id') and (CAM_CAT_ID = '$this->cam_cat_id')";
-        echo $sql_del; 
         $res = $this->mysqli->query($sql_del);
 
     }
