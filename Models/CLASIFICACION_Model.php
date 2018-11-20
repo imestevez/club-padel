@@ -52,6 +52,30 @@ class CLASIFICACION_Model{
 		return $listClasificacion;
 	}
 
+    function ACTUALIZAR_CLASIFICACION($resultado){
+        $sets=explode("/", $resultado);
+        $set_1=$sets[0];
+        $set_2=$sets[1];
+        $set_3=$sets[2];
+
+        $set_1=explode('-', $set_1);
+        $p1_set1 = $set_1[0];
+        $p2_set1 = $set_1[1];
+
+        $set_2=explode('-', $set_2);
+        $p1_set2 = $set_2[0];
+        $p2_set2 = $set_2[1];
+
+        $set_3=explode('-', $set_3);
+        $p1_set3 = $set_3[0];
+        $p2_set3 = $set_3[1];
+
+        if(  ($p1_set1 == 0) && ($p2_set1 == 0 ) && ($p1_set2 == 0) && ($p2_set2 == 0) ($p1_set3 == 0) ($p2_set3 == 0) ) {
+            
+        }
+
+    }
+
     function ADD(){
         $sql = "INSERT INTO CLASIFICACION(ID, PAREJA_ID,GRUPO_ID,PUNTOS) VALUES(null,$this->pareja_ID,$this->grupo_id,0)";
         $res = $this->mysqli->query($sql);

@@ -36,7 +36,7 @@
     }
 
     function get_data_form_inscripcion(){
-
+        $fecha_actual=date("d/m/Y"); 
         $pareja_ID = '';
         $cam_cat_ID = '';
 
@@ -48,7 +48,7 @@
             $cam_cat_ID = $_REQUEST['cam_cat_ID'];
         }
 
-        return new INSCRIPCION_Model($pareja_ID,$cam_cat_ID);
+        return new INSCRIPCION_Model($fecha_actual,$pareja_ID,$cam_cat_ID);
     }
 
     Switch($action){
