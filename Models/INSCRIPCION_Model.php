@@ -2,13 +2,15 @@
 
 class INSCRIPCION_Model{
 
+    var $fecha;
 	var $pareja_id;
 	var $cam_cat_id;
 
     var $mensaje;
 	var $mysqli;
 
-	function __construct($pareja_id,$cam_cat_id){
+	function __construct($fecha,$pareja_id,$cam_cat_id){
+        $this->fecha = $fecha;
 		$this->pareja_id = $pareja_id;
 		$this->cam_cat_id = $cam_cat_id;
 
@@ -19,9 +21,11 @@ class INSCRIPCION_Model{
 	function ADD()
     {
         $sql = "INSERT INTO INSCRIPCION(
+                FECHA,
                 PAREJA_ID,
                 CAM_CAT_ID,
                 GRUPO_ID) VALUES(
+                                    '$this->fecha'
                                     '$this->pareja_id',
                                     '$this->cam_cat_id',
                                     null
@@ -39,11 +43,21 @@ class INSCRIPCION_Model{
     //Función para asignar grupo a las parejas en una categoría de un campeonato
     function SET_GRUPO($grupo_id){
         $sql_up = "UPDATE INSCRIPCION SET GRUPO_ID = '$grupo_id'
-                                 WHERE ((PAREJA_ID = '$this->pareja_id') and (CAM_CAT_ID = '$this->categoria_id'))";
+                                 WHERE ((PAREJA_ID = '$this->pareja_id') and (CAM_CAT_ID = '$this->cam_cat_id'))";
 
         $res = $this->mysqli->query($sql_up);
+    }
+
+    //Función para eliminar inscripciones de la bd
+    function DELETE(){
+        echo "VOY A HACER UN DELETE";
+        $sql_del = "DELETE FROM INSCRIPCION WHERE (PAREJA_ID = '$this->pareja_id') and (CAM_CAT_ID = '$this->cam_cat_id')";
+        echo $sql_del; 
+        $res = $this->mysqli->query($sql_del);
+
     }
 
    } 
 
 ?>
+

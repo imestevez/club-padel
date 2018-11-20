@@ -1,17 +1,18 @@
 <?php
 
 class CLASIFICACION_Model{
-	var $puesto;
 	var $puntos;
 	var $pareja_ID;
+    var $grupo_id;
 
 
 	var $mysqli;
 
-	function __construct($puesto,$puntos,$pareja_ID){
-		$this->puesto=$puesto;
+	function __construct($puntos,$pareja_ID,$grupo_id){
 		$this->puntos=$puntos;
 		$this->pareja_ID=$pareja_ID;
+        $this->grupo_id=$grupo_id;
+
 
 		include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
@@ -50,6 +51,11 @@ class CLASIFICACION_Model{
         }  
 		return $listClasificacion;
 	}
+
+    function ADD(){
+        $sql = "INSERT INTO CLASIFICACION(ID, PAREJA_ID,GRUPO_ID,PUNTOS) VALUES(null,$this->pareja_ID,$this->grupo_id,0)";
+        $res = $this->mysqli->query($sql);
+    }
 
 }
 
