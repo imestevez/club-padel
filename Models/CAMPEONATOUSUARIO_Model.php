@@ -28,7 +28,7 @@ class CAMPEONATOUSUARIO_Model{
 
 		while($row = mysqli_fetch_array($result_par)){
 			$id_par = $row['ID'];
-			$sql = "SELECT U.NOMBRE AS NOMBRE_USUARIO, CAT.NIVEL, CAT.GENERO, CAM.NOMBRE
+			$sql = "SELECT U.NOMBRE AS NOMBRE_USUARIO, CAT.NIVEL, CAT.GENERO, CAM.NOMBRE AS NOMBRE_CAMPEONATO
 	                FROM USUARIO U, PAREJA P, INSCRIPCION I, CATEGORIA CAT, CAMPEONATO_CATEGORIA CAM_CAT, CAMPEONATO CAM
 	                WHERE      ( (P.ID = '$id_par')
 	                		AND (U.LOGIN = P.JUGADOR_2) 
@@ -36,7 +36,7 @@ class CAMPEONATOUSUARIO_Model{
 	                        AND (CAT.ID = I.CAM_CAT_ID) 
 	                        AND (CAT.ID = CAM_CAT.CATEGORIA_ID)
 	                        AND (CAM.ID = CAM_CAT.CAMPEONATO_ID))     
-	                ORDER BY CAM.NOMBRE";
+	                ORDER BY 4,2,3";
 	            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
 	        if (!($resultado = $this->mysqli->query($sql))){
 	            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
@@ -46,7 +46,7 @@ class CAMPEONATOUSUARIO_Model{
 	            if($resultado <> NULL) {
 	            	$i =0;
 	                  while($row = mysqli_fetch_array($resultado)){                                
-	                    $listCampeonatos[$i] = array($row["NOMBRE_USUARIO"],$row["NIVEL"],$row["GENERO"],$row["NOMBRE"]);
+	                    $listCampeonatos[$i] = array($row["NOMBRE_USUARIO"],$row["NIVEL"],$row["GENERO"],$row["NOMBRE_CAMPEONATO"]);
 	                    $i++;
 	                    }   
 	                }

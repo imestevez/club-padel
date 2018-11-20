@@ -20,16 +20,18 @@ class INSCRIPCION_Model{
 
 	function ADD()
     {
+
         $sql = "INSERT INTO INSCRIPCION(
                 FECHA,
                 PAREJA_ID,
                 CAM_CAT_ID,
                 GRUPO_ID) VALUES(
-                                    '$this->fecha'
+                                    '$this->fecha',
                                     '$this->pareja_id',
                                     '$this->cam_cat_id',
                                     null
                                     )";
+        var_dump("\n\n\n", $sql);
         if ($result = $this->mysqli->query($sql)){ //si la ejecución de la query no da error
                     $this->mensaje = 'Registrado correctamente';
                     return $this->mensaje; // introduzca un valor para el usuario  

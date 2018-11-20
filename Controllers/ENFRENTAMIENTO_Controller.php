@@ -150,7 +150,7 @@
         case 'INTRODUCIRRESULTADO':
 
             if(isset($_REQUEST["enfrentamiento_ID"])){
-                    $VIEW = new IntroducirResultado($_REQUEST["enfrentamiento_ID"]);
+                $VIEW = new IntroducirResultado($_REQUEST["enfrentamiento_ID"]);
             }
         break;
         case 'RESULTADO':
@@ -158,7 +158,7 @@
             $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
             $enfrentamiento = $ENFRENTAMIENTO->SET_RESULTADO($_REQUEST["enfrentamiento_ID"],  $resultado);
             $CLASIFICACION = new CLASIFICACION_Model('','','');
-            $clasificacion = $CLASIFICACION->ACTUALIZAR_CLASIFICACION($resultado);
+            $clasificacion = $CLASIFICACION->ACTUALIZAR_CLASIFICACION($resultado,$_REQUEST["enfrentamiento_ID"]);
 
             $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW');
 

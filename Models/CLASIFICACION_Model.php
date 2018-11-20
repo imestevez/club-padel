@@ -52,7 +52,7 @@ class CLASIFICACION_Model{
 		return $listClasificacion;
 	}
 
-    function ACTUALIZAR_CLASIFICACION($resultado){
+    function ACTUALIZAR_CLASIFICACION($resultado, $enfrentamiento){
         $sets=explode("/", $resultado);
         $set_1=$sets[0];
         $set_2=$sets[1];
@@ -78,6 +78,31 @@ class CLASIFICACION_Model{
         //0 - empate
         //1 - pareja 1
         //2 - pareja 2
+
+        if($ganador_partido==1){
+            $sql_par1="SELECT PAREJA_1 FROM ENFRENTAMIENTO WHERE(ID=$enfrentamiento)";
+            $id_par1=$this->mysqli->query($sql_par1);
+
+            $sql_par2="SELECT PAREJA_2 FROM ENFRENTAMIENTO WHERE(ID=$enfrentamiento)";
+            $id_par2=$this->mysqli->query($sql_par2);
+
+            $sql1 = "UPDATE CLASIFICACION SET (PUNTOS = 3+(SELECT PUNTOS FROM CLASIFICACION WHERE '(PAREJA_ID=$id_par1)')) WHERE '(PAREJA_ID=$id_par1)'";
+            $sql2 = "UPDATE CLASIFICACION SET (PUNTOS = (PUNTOS+1)) WHERE '(PAREJA_ID=$id_par2)'";
+            $this->mysqli->query($sql1);
+            $this->mysqli->query($sql2);
+
+        }else if ($ganador_partido==2){
+            $sql_par1="SELECT PAREJA_1 FROM ENFRENTAMIENTO WHERE(ID=$enfrentamiento)";
+            $id_par1=$this->mysqli->query($sql_par1);
+
+            $sql_par2="SELECT PAREJA_2 FROM ENFRENTAMIENTO WHERE(ID=$enfrentamiento)";
+            $id_par2=$this->mysqli->query($sql_par2);
+
+            $sql1 = "UPDATE CLASIFICACION SET (PUNTOS = (PUNTOS+1)) WHERE '(PAREJA_ID=$id_par1)'";
+            $sql2 = "UPDATE CLASIFICACION SET (PUNTOS = (PUNTOS+3)) WHERE '(PAREJA_ID=$id_par2)'";
+            $this->mysqli->query($sql1);
+            $this->mysqli->query($sql2);
+        }
 
     }
 
@@ -122,7 +147,7 @@ class CLASIFICACION_Model{
             return 1;
         }
        if($cont_p1 < $cont_p2 ){
-            return 1;
+            return 2;
         }
 
         return 0;
