@@ -75,6 +75,7 @@ class ENFRENTAMIENTO_Model{
         $res = $this->mysqli->query($sql_up);
     }
 
+/*
     function SHOW(){
          $sql = "SELECT * FROM ENFRENTAMIENTO ORDER BY ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
@@ -85,6 +86,47 @@ class ENFRENTAMIENTO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             return $resultado;
         }  
+    }
+*/
+    function SHOW(){
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA < '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID) 
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
     }
 
     //Función para mostrar a un usuario las propuestas de horarios que tiene para los enfrentamientos en los que está involucrado como pareja 1

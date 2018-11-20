@@ -46,7 +46,7 @@ class CAMPEONATOUSUARIO_Model{
 	            if($resultado <> NULL) {
 	            	$i =0;
 	                  while($row = mysqli_fetch_array($resultado)){                                
-	                    $listCampeonatos[$row[$i]] = array($row["NOMBRE_USUARIO"],$row["NIVEL"],$row["GENERO"],$row["NOMBRE"]);
+	                    $listCampeonatos[$i] = array($row["NOMBRE_USUARIO"],$row["NIVEL"],$row["GENERO"],$row["NOMBRE"]);
 	                    $i++;
 	                    }   
 	                }
