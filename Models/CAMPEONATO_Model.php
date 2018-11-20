@@ -86,11 +86,9 @@ class CAMPEONATO_Model{
     //A partir de un campeonato generamos grupos para cada categoría según el número de parejas inscritas
     function GENERAR_GRUPOS($id_campeonato){
         
-        echo "VOY A GENERAR GRUPOS";
         //Obtenemos las categorias del campeonato
         $sql_cat = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE (CAMPEONATO_ID = '$id_campeonato')";
         $result_cat = $this->mysqli->query($sql_cat);
-        echo "VOY A EMPEZAR";
         while($row = mysqli_fetch_array($result_cat)){
             //Para cada categoría obtenemos los inscritos
             $cat_id = $row['CATEGORIA_ID'];
@@ -141,7 +139,6 @@ class CAMPEONATO_Model{
 
                 //Asignamos el id del grupo correspondiente
                 $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo_actual')";
-                echo "VOY A CAMBIAR: ".$sql_id_gru;
                 $result_id_gru = $this->mysqli->query($sql_id_gru);
                 $row_grupo_id = mysqli_fetch_array($result_id_gru);
                 $id_grupo = $row_grupo_id['ID'];                               
@@ -213,7 +210,6 @@ class CAMPEONATO_Model{
 
     //Funcion que devuelve las categorias correspondientes a un campeonato
     function GET_CATEGORIAS($id_campeonato){
-        echo "GET DE CATEGORIAS";
         $sql = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE (CAMPEONATO_ID = '$id_campeonato')";
 
         $result = $this->mysqli->query($sql); 
