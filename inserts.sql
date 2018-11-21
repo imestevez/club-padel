@@ -33,22 +33,43 @@ INSERT INTO USUARIO (LOGIN, PASSWORD, NOMBRE, APELLIDOS, GENERO, ROL_ID) VALUES 
                                                                                 ("antonia","antonia", "Antonia", "Lorenzo Monserrat", "Mujer", 2),
                                                                                 ("sebastian","jose", "Jose", "Garcia Perez", "Hombre", 2),
                                                                                 ("nuria","nuria", "Nuria", "Quinteiro Contreras", "Mujer", 2),
-                                                                                ("francisco","francisco", "Francisco", "Torres Rios", "Hombre", 2);
+                                                                                ("francisco","francisco", "Francisco", "Torres Rios", "Hombre", 2),
+                                                                                ("joel","joel", "Joel", "Rodriguez Nieto", "Hombre", 2),
+                                                                                ("yeray","yeray", "Yeray", "Sala Flores", "Hombre", 2),
+                                                                                ("adrian","adrian", "Adrian", "Ramos Nunez", "Hombre", 2),
+                                                                                ("santiago","santiago", "Santiago", "Gomez Vidal", "Hombre", 2),
+                                                                                ("lucas2","lucas2", "Lucas", "Mendez Martin", "Hombre", 2),
+                                                                                ("ian","ian", "Ian", "Campos Garrido", "Hombre", 2),
+                                                                                ("arturo","arturo", "Arturo", "Rovira Peña", "Hombre", 2),
+                                                                                ("rafael","rafael", "Rafael", "Hidalgo Benitez", "Hombre", 2),
+                                                                                ("mario","mario", "Mario", "Santos Castillo", "Hombre", 2),
+                                                                                ("nico","nico", "Nicolas", "Puig Rodríguez", "Hombre", 2),
+                                                                                ("jesus","jesus", "Jesús", "Sanchez Benitez", "Hombre", 2),
+                                                                                ("miguelan","miguelan", "Miguel Angel", "Castro Santana", "Hombre", 2);
+
+
 
 -- INSERTS DE TABLA PAREJA
-INSERT INTO PAREJA (ID, JUGADOR_1, JUGADOR_2, CAPITAN) VALUES (0,"pepe", "carlos", "pepe"),
-                                                              (0,"maria", "lucia", "maria"),
-                                                              (0,"jose", "lucas", "jose"),
-                                                              (0,"sara", "carmen", "sara"),
-                                                              (0,"agustin", "felix", "agustin"),
-                                                              (0,"alfonso", "jaime", "alfonso"),
-                                                              (0,"alicia", "rocio", "alicia"),
-                                                              (0,"miguel", "lorenzo", "miguel"),
-                                                              (0,"gillermo", "marcos", "gillermo"),
-                                                              (0,"paula", "alejandra", "paula"),
-                                                              (0,"juan", "hector", "juan"),
-                                                              (0,"trinidad", "roberto", "trinidad"),
-                                                              (0,"francisco", "nuria", "francisco") ;
+INSERT INTO PAREJA (ID, JUGADOR_1, JUGADOR_2, CAPITAN) VALUES (1,"pepe", "carlos", "pepe"),
+                                                              (2,"maria", "lucia", "maria"),
+                                                              (3,"jose", "lucas", "jose"),
+                                                              (4,"sara", "carmen", "sara"),
+                                                              (5,"agustin", "felix", "agustin"),
+                                                              (6,"alfonso", "jaime", "alfonso"),
+                                                              (7,"alicia", "rocio", "alicia"),
+                                                              (8,"miguel", "lorenzo", "miguel"),
+                                                              (9,"gillermo", "marcos", "gillermo"),
+                                                              (10,"paula", "alejandra", "paula"),
+                                                              (11,"juan", "hector", "juan"),
+                                                              (12,"trinidad", "roberto", "trinidad"),
+                                                              (13,"francisco", "nuria", "francisco"),
+
+                                                              (14,"joel", "yeray", "joel"), 
+                                                              (15,"adrian", "santiago", "adrian"), 
+                                                              (16,"lucas", "ian", "lucas"), 
+                                                              (17,"arturo", "rafael", "arturo"), 
+                                                              (18,"mario", "nico", "mario"), 
+                                                              (19,"jesus", "miguelan", "jesus");
 -- INSERTS EN TABLA PISTA
 INSERT INTO PISTA (ID, NOMBRE, TIPO) VALUES (1,"Pista 1", "Cubierta"),
                                             (2,"Pista 2", "Cubierta"),
@@ -73,12 +94,52 @@ INSERT INTO CATEGORIA (ID, NIVEL, GENERO) VALUES  (1, 1, "Masculina"),
                                                   (4, 2, "Femenina"),
                                                   (5, 3, "Masculina"),
                                                   (6, 3, "Femenina"),
-                                                  (7, 4, "Mixta");
+                                                  (7, 1, "Mixta"),
+                                                  (8, 2, "Mixta"),
+                                                  (9, 3, "Mixta");
+
+
+-- INSERTS EN TABLA CAMPEONATO_CATEGORIA
+INSERT INTO CAMPEONATO_CATEGORIA (ID, CAMPEONATO_ID, CATEGORIA_ID) VALUES  (1, 1, 1),
+                                                                    (2, 1, 2),
+                                                                    (3, 1, 3),
+                                                                    (4, 1, 4),
+                                                                    (5, 1, 5),
+                                                                    (6, 1, 6),
+                                                                    (7, 1, 7),
+                                                                    (8, 2, 1),
+                                                                    (9, 2, 2),
+                                                                    (10, 2, 3),
+                                                                    (11, 2, 4),
+                                                                    (12, 3, 1),
+                                                                    (13, 3, 3),
+                                                                    (14, 3, 5),
+                                                                    (15, 3, 7);
+
 -- INSERTS EN TABLA CAMPEONATO_CATEGORIA
 
 -- INSERTS EN TABLA GRUPO
 
 -- INSERTS EN TABLA INSCRIPCION
+  INSERT INTO INSCRIPCION (FECHA, PAREJA_ID, CAM_CAT_ID, GRUPO_ID)  VALUES  ('2018-11-01','1', '1', NULL),
+                                                                            ('2018-11-01','2', '1', NULL),
+                                                                           ('2018-11-01','3', '1', NULL),
+                                                                           ('2018-11-01','4', '1', NULL),
+                                                                           ('2018-11-01','5', '1', NULL),
+                                                                           ('2018-11-01','6', '1', NULL),
+                                                                           ('2018-11-01','7', '1', NULL),
+                                                                           ('2018-11-01','8', '1', NULL),
+                                                                           ('2018-11-01','9', '1', NULL),
+                                                                           ('2018-11-01','10', '1', NULL),
+                                                                           ('2018-11-01','11', '1', NULL),
+                                                                           ('2018-11-01','12', '1', NULL),
+                                                                           ('2018-11-01','13', '1', NULL),
+                                                                           ('2018-11-01','14', '1', NULL),
+                                                                           ('2018-11-01','15', '1', NULL),
+                                                                           ('2018-11-01','16', '1', NULL),
+                                                                           ('2018-11-01','17', '1', NULL),
+                                                                           ('2018-11-01','18', '1', NULL),
+                                                                           ('2018-11-01','19', '1', NULL);
 
 -- INSERTS EN TABLA RESERVA
 INSERT INTO RESERVA (ID, USUARIO_LOGIN, PISTA_ID, FECHA, HORARIO_ID) VALUES   (1, "pepe", 1, '2018-11-26', 1),
@@ -128,19 +189,3 @@ INSERT INTO USUARIO_PARTIDO (ID, USUARIO_LOGIN, PARTIDO_ID) VALUES  (0, 'pepe', 
                                                                     (0, 'jose', 5),
                                                                     (0, 'gillermo', 5);
 
--- INSERTS EN TABLA CAMPEONATO_CATEGORIA
-INSERT INTO CAMPEONATO_CATEGORIA (ID, CAMPEONATO_ID, CATEGORIA_ID) VALUES  (0, 1, 1),
-                                                                    (0, 1, 2),
-                                                                    (0, 1, 3),
-                                                                    (0, 1, 4),
-                                                                    (0, 1, 5),
-                                                                    (0, 1, 6),
-                                                                    (0, 1, 7),
-                                                                    (0, 2, 1),
-                                                                    (0, 2, 2),
-                                                                    (0, 2, 3),
-                                                                    (0, 2, 4),
-                                                                    (0, 3, 1),
-                                                                    (0, 3, 3),
-                                                                    (0, 3, 5),
-                                                                    (0, 3, 7);
