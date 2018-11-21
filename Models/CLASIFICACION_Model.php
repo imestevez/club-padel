@@ -138,9 +138,11 @@ class CLASIFICACION_Model{
     }
 
     function SHOWALL($campeonato_id){
+        var_dump("\n\n\n");
         $grupos = $this->GET_GRUPOS($campeonato_id);
         $i = 0;
-        $grupo =  array();
+        $list_grupo =  NULL;
+
         while ( $grupo = mysqli_fetch_array($grupos) ) {
             $id_grupo = $grupo['ID'];
 
@@ -153,17 +155,18 @@ class CLASIFICACION_Model{
                         PAREJA P
                     WHERE
                         (C.PAREJA_ID = P.ID) AND
-                        (C.GRUPO_ID = '$id_grupo')";
+                        (C.GRUPO_ID = '$id_grupo')
+                    GROUP BY P.ID
+                    ORDER BY C.PUNTOS DESC";
 
                         echo "SQL: ".$sql;
 
-            $clasificacion_grupo = $this->mysqli->query($sql);  
-            $grupo[$i] = $clasificacion_grupo;
-
-            $i++;          
+            if($clasificacion_grupo = $this->mysqli->query($sql)){  
+                $list_grupo[$i] = $clasificacion_grupo;
+                $i++;       
+            }   
         }
-        echo "GRUPO: ".$grupo[0];
-        return $grupo;
+        return $list_grupo;
 
     }
 

@@ -39,9 +39,11 @@ function render(){
 								<tbody>
 									<?php for ($gru=0; $gru < $this->num_grupos; $gru++) { ?>
 											<?php $i=1; 
-											$res_grupo = array_slice($this->clasificaciones, $gru, $gru-1);
-											echo "RECORSET; ".$res_grupo;
-											while ($clas = mysqli_fetch_array($res_grupo)) {	
+											//$res_grupo = array_slice($this->clasificaciones, $gru, $gru-1);
+											//echo "RECORSET; ".$res_grupo;
+											$j = 0;
+											$tupla = $this->clasificaciones[$j];
+											while ($clas = mysqli_fetch_array($tupla)) {	
 											?>			
 												<tr>	
 													<td><?php echo $i?></td>
@@ -50,7 +52,9 @@ function render(){
 													<td><?php echo $clas['PUNTOS']?></td>
 												</tr>
 											<?php $i++; } ?>
-									<?php } ?>
+									<?php
+											$j++;
+										 } ?>
 										
 								</tbody>
 							</table>
