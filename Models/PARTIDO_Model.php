@@ -319,6 +319,7 @@ class PARTIDO_Model{
          }
     }// fin del método DELETE
 
+
     function ADD_RESERVA(){
         $sql = "SELECT * FROM PARTIDO WHERE ID = '$this->id' ";
           if(!$resultado = $this->mysqli->query($sql) ){

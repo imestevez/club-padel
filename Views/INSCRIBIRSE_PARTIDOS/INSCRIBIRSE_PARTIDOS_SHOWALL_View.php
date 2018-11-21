@@ -30,7 +30,7 @@ function render(){
 								<th>Hora Fin</th>
 								<th>Pista</th>
 								<th>Numero Inscritos</th>
-								<th><a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">INSCRIBIRSE</a></th>
+								<th><a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirse</a></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,17 +66,19 @@ function render(){
 						<?php
 							if( ($baja == true) && ($row['INSCRIPCIONES'] < 4) ){
 						?>
-									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">DAR DE BAJA</a>
+									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">Dar de baja</a>
 						<?php
 							}
 							if($row['INSCRIPCIONES'] >= 4){
 						?>
-									<a class="button alt small">RESERVA</a>
+									<a class="button alt small">Reserva</a>
 
 						<?php
 							
 							}
 						?>
+									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">Ver Inscritos</a>
+
 								</td>
 
 							</tr>
@@ -158,6 +160,8 @@ function render(){
 						<?php
 							}
 						?>
+									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">VER INSCRITOS</a>
+						
 								</td>
 
 							</tr>
