@@ -86,7 +86,7 @@ INSERT INTO HORARIO (ID, HORA_INICIO, HORA_FIN) VALUES  (1, '9:00', '10:30'),
 -- INSERTS EN TABLA CAMPEONATO
 INSERT INTO CAMPEONATO (ID, NOMBRE, FECHA) VALUES   (1, "Campeonato Provincial", '2018-11-18'),
                                                     (2, "Campeonato Autonomico", '2018-12-10'),
-                                                    (3, "Campeonato Inernacional", '2019-01-15');
+                                                    (3, "Campeonato Internacional", '2019-01-15');
 -- INSERTS EN TABLA CATEGORIA
 INSERT INTO CATEGORIA (ID, NIVEL, GENERO) VALUES  (1, 1, "Masculina"),
                                                   (2, 1, "Femenina"),

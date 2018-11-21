@@ -83,7 +83,13 @@ include '../Locales/Strings_SPANISH.php';
                 <li>
                   <a>Gest. de enfrentamientos</a>
                   <ul>
+                    <?php
+                    if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+                    ?>
                     <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW" > Introducir resultados </a></li>
+                    <?php
+                    }
+                    ?>
                     <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOWPROXIMOS" > Próximos</a></li>
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){

@@ -68,8 +68,8 @@
             }
             
         break;
-        case 'INSCRIBIRCAMPEONATO':
 
+        case 'INSCRIBIRCAMPEONATO':
             if(isset($_REQUEST["campeonato_ID"])){
                     $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],$_REQUEST["nombre"],'');
                     $VIEW = new InscribirCampeonato($CAMPEONATO);
