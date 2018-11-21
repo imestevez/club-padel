@@ -14,6 +14,9 @@
     }else{//Si no trae accion
         $action = '';
     }
+    if(isset($_REQUEST['campeonato_ID']))  {//Si trae acción, se almacena el valor en la variable action
+        $campeonato_ID = $_REQUEST['campeonato_ID'];
+    }
 
 
     switch ($action) {
@@ -25,16 +28,17 @@
 
         case 'RANKING':
             if(isset($_REQUEST["campeonato_ID"])){
-                    $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],$_REQUEST["nombre"],'');
+                    $CAMPEONATO = new CAMPEONATO_Model($campeonato_ID,$_REQUEST["nombre"],'');
                     $CLASIFICACION = new CLASIFICACION_Model('','','');
-                    $clasificaciones = $CLASIFICACION->SHOWALL($_REQUEST["campeonato_ID"]);
+                    $nombre_tablas = $CLASIFICACION->CAM_CAT_GRU($campeonato_ID);
+                    $clasificaciones = $CLASIFICACION->SHOWALL($campeonato_ID);
+                    $num_grupos = $CLASIFICACION->NUM_GRUPOS($campeonato_ID);
 
-                    new RANKING($CAMPEONATO, $clasificaciones);
+
+                    new RANKING($CAMPEONATO,$nombre_tablas, $clasificaciones,$num_grupos);
             }
             
             break; 
   
     }
-
-
 ?>

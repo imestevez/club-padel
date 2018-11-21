@@ -9,15 +9,48 @@ class CLASIFICACION_Model{
 	var $mysqli;
 
 	function __construct($puntos,$pareja_ID,$grupo_id){
-		$this->puntos=$puntos;
-		$this->pareja_ID=$pareja_ID;
-        $this->grupo_id=$grupo_id;
+        $this->puntos=$puntos;
+        $this->pareja_ID=$pareja_ID;
+               $this->grupo_id=$grupo_id;
 
+               include_once '../Models/ENFRENTAMIENTO_Model.php';
+        include_once '../Functions/Access_DB.php';
+               $this->mysqli = ConnectDB();
 
-		include_once '../Functions/Access_DB.php';
-        $this->mysqli = ConnectDB();
-	}
+               $this->UPDATE_PUNTOS();
+    }
 
+    function UPDATE_PUNTOS(){
+       $sql_reset = "UPDATE CLASIFICACION SET PUNTOS = 0";
+       //echo $sql_reset;
+
+       $clasificaciones = $this->mysqli->query($sql_reset);
+       $sql_enfr = "SELECT * FROM ENFRENTAMIENTO";
+       //echo $sql_enfr;
+       $enfrentamientos = $this->mysqli->query($sql_enfr);
+       while ($row = mysqli_fetch_array($enfrentamientos)) {
+           $enfrentamiento_id = $row['ID'];
+           $grupo_id = $row['GRUPO_ID'];
+           $pareja_1 = $row['PAREJA_1'];
+           $pareja_2 = $row['PAREJA_2'];
+           $resultado = $row['RESULTADO'];
+           if($resultado <> NULL){
+               $sql_clasif = "SELECT * FROM CLASIFICACION 
+                               WHERE (GRUPO_ID = '$grupo_id') AND
+                               (  PAREJA_ID = '$pareja_1'
+                               ||  PAREJA_ID = '$pareja_2')";
+
+              if($recordset = $this->mysqli->query($sql_clasif)){
+                   $num_rows = mysqli_num_rows($recordset);
+                   if ($num_rows > 0){
+                       $this->ACTUALIZAR_CLASIFICACION($resultado, $enfrentamiento_id);
+                   }
+               }
+           }
+       }
+   }
+    
+    /*
     function SHOWALL($campeonato_id){
 
         $sql_cam = "SELECT * 
@@ -89,6 +122,73 @@ class CLASIFICACION_Model{
             $cat_grupos[$cat_gru] = $grupo;   
         }
         return $cat_grupos;
+    }
+    */
+    function NUM_GRUPOS($campeonato_id){
+        $sql_cam = "SELECT * FROM GRUPO WHERE (CAMPEONATO_ID = '$campeonato_id')";
+        $res_cam = $this->mysqli->query($sql_cam);
+        return mysqli_num_rows($res_cam);
+    }
+
+    function GET_GRUPOS($campeonato_id){
+        echo "VOY A ENTRAR AQUI";
+        $sql_cam = "SELECT * FROM GRUPO WHERE (CAMPEONATO_ID = '$campeonato_id')";
+        return $res_cam = $this->mysqli->query($sql_cam);
+
+    }
+
+    function SHOWALL($campeonato_id){
+        $grupos = $this->GET_GRUPOS($campeonato_id);
+        $i = 0;
+        $grupo =  array();
+        while ( $grupo = mysqli_fetch_array($grupos) ) {
+            $id_grupo = $grupo['ID'];
+
+            $sql = "SELECT 
+                        C.PUNTOS,
+                        P.JUGADOR_1,
+                        P.JUGADOR_2
+                    FROM
+                        CLASIFICACION C,
+                        PAREJA P
+                    WHERE
+                        (C.PAREJA_ID = P.ID) AND
+                        (C.GRUPO_ID = '$id_grupo')";
+
+                        echo "SQL: ".$sql;
+
+            $clasificacion_grupo = $this->mysqli->query($sql);  
+            $grupo[$i] = $clasificacion_grupo;
+
+            $i++;          
+        }
+        echo "GRUPO: ".$grupo[0];
+        return $grupo;
+
+    }
+
+    function getArray(){
+
+    }
+
+    function CAM_CAT_GRU($campeonato_id){
+        $sql_cam = "SELECT  G.NOMBRE AS GRUPO_NOMBRE,
+                            CM.NOMBRE AS CAMPEONATO_NOMBRE,
+                            CT.NIVEL AS NIVEL, 
+                            CT.GENERO AS GENERO
+
+                        FROM    GRUPO G,
+                                CAMPEONATO_CATEGORIA CC,
+                                CAMPEONATO CM,
+                                CATEGORIA CT
+
+                        WHERE   (G.CAMPEONATO_ID = CC.CAMPEONATO_ID) AND
+                                (G.CATEGORIA_ID = CC.CATEGORIA_ID) AND
+                                (CM.ID = CC.CAMPEONATO_ID) AND
+                                (CT.ID = CC.CATEGORIA_ID) AND
+                                (G.CAMPEONATO_ID = CM.ID) AND
+                                (G.CATEGORIA_ID = CT.ID)";
+        return $res_cam = $this->mysqli->query($sql_cam);
     }
 
     /*

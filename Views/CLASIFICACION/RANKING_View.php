@@ -1,10 +1,15 @@
 <?php
 class RANKING{
 	var $campeonato;
+	var $nombre_tablas;
+	var $num_grupos;
 	var $clasificaciones;
 
-	function __construct($campeonato,$clasificaciones){
+	function __construct($campeonato,$nombre_tablas,$clasificaciones,$num_grupos){
 		$this->campeonato = $campeonato;
+		$this->nombre_tablas = $nombre_tablas;
+		$this->num_grupos = $num_grupos;
+
 		$this->clasificaciones = $clasificaciones;
 		$this->render();
 	}
@@ -17,9 +22,10 @@ function render(){
 		   <h2><?php  $_REQUEST['nombre']?></h2>
 		    <p>Consulta las clasificaciones de los distintos campeonatos</p>
 		 </header>
-		 	<?php foreach ($this->clasificaciones as $key => $grupos) { ?>
+
+		 	<?php while($cam_cat_gru = mysqli_fetch_array($this->nombre_tablas)){ ?>
 		 		<section class="box">
-		 			<h3><?php echo $key ?></h3>
+		 			<h3><?php echo $cam_cat_gru['NIVEL']." ".$cam_cat_gru['GENERO']." - Grupo: ".$cam_cat_gru['GRUPO_NOMBRE'] ?></h3>
 			    		<div class="table-wrapper">
 							<table>
 								<thead >
@@ -31,27 +37,29 @@ function render(){
 									</tr>
 								</thead>
 								<tbody>
-		 						<?php if($grupos <> NULL){
-		 						foreach ($grupos as $clasificacion => $value) { ?>
-
-		 						<?php foreach ($grupos as $clasificacion => $value) { ?>
-		 						
-
-									<tr>
-										<td><?php echo $value[0][1] ?></td>
-										<td><?php echo $value[0][2] ?></td>
-										<td><?php echo $value[0][3] ?></td>								
-									</tr>	
-								<?php }}} ?>							
-		 						</tbody>
-						</table>
+									<?php for ($gru=0; $gru < $this->num_grupos; $gru++) { ?>
+											<?php $i=1; 
+											$res_grupo = array_slice($this->clasificaciones, $gru, $gru-1);
+											echo "RECORSET; ".$res_grupo;
+											while ($clas = mysqli_fetch_array($res_grupo)) {	
+											?>			
+												<tr>	
+													<td><?php echo $i?></td>
+													<td><?php echo $clas['JUGADOR_1']?></td>
+													<td><?php echo $clas['JUGADOR_2']?></td>
+													<td><?php echo $clas['PUNTOS']?></td>
+												</tr>
+											<?php $i++; } ?>
+									<?php } ?>
+										
+								</tbody>
+							</table>
 						</div>
-					</section>	
-
-		 		<?php }?>
+					</section>
    		</section>
     <?php
         include '../Views/FOOTER_View.php';
         }
     }
+}
     ?>
