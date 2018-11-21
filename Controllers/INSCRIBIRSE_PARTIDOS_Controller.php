@@ -9,6 +9,7 @@
     include '../Views/INSCRIBIRSE_PARTIDOS/INSCRIBIRSE_PARTIDOS_ADD_View.php'; 
     include '../Views/INSCRIBIRSE_PARTIDOS/INSCRIBIRSE_PARTIDOS_SHOWALL_View.php'; 
     include '../Views/INSCRIBIRSE_PARTIDOS/INSCRIBIRSE_PARTIDOS_SHOW_Partidos_View.php'; 
+    include '../Views/INSCRIBIRSE_PARTIDOS/INSCRIBIRSE_PARTIDOS_SHOW_Inscritos_View.php';
 
     include '../Views/MESSAGE_View.php'; 
 
@@ -114,6 +115,13 @@ function get_data_recordset($tupla){
                     $VIEW->render();
                 }
     		break;
+            case 'SHOW_INSCRITOS':
+                if(isset($_REQUEST["partido_ID"])){
+                    $USUARIO_PARTIDO = new USUARIO_PARTIDO_Model('','',$_REQUEST["partido_ID"]);
+                    $inscritos = $USUARIO_PARTIDO->SHOW_INSCRITOS();
+                    $VIEW = new INSCRITOS_PARTIDO($inscritos);
+                 }
+            break;
         case 'DELETE':
             if (!$_POST){ //si viene del showall (no es un post)
                 if($_SESSION["rol"] == 'ADMIN'){
