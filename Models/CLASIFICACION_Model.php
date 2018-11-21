@@ -34,6 +34,7 @@ class CLASIFICACION_Model{
             $categoria_id = $row_cam['CATEGORIA_ID'];
             $sql_gru = "SELECT * FROM GRUPO WHERE (CAMPEONATO_ID = '$campeonato_id') AND (CATEGORIA_ID = '$categoria_id')";
             $res_gru = $this->mysqli->query($sql_gru);
+            $grupo = NULL;
             while($row_gru = mysqli_fetch_array($res_gru)){
                 $grupo_id = $row_gru['ID'];
                 $nombre_id = $row_gru['NOMBRE'];
@@ -79,12 +80,13 @@ class CLASIFICACION_Model{
                                                                  $row_cla['PUNTOS']     
                                                                 );
 
-                    $grupos[$i] = $clas_grupo;
-                    $i++;
+                    $grupo[$clasificacion_id] = $clas_grupo;
                 }
-                $cat_gru = $row_cam['NIVEL']." ".$row_cam['GENERO']." - Grupo ". $nombre_id;
-                $cat_grupos[$cat_gru] = $grupos;   
+
+                
             }
+            $cat_gru = $row_cam['NIVEL']." ".$row_cam['GENERO']." Grupo - ".$grupo_id;
+            $cat_grupos[$cat_gru] = $grupo;   
         }
         return $cat_grupos;
     }
