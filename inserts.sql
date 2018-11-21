@@ -40,11 +40,11 @@ INSERT INTO USUARIO (LOGIN, PASSWORD, NOMBRE, APELLIDOS, GENERO, ROL_ID) VALUES 
                                                                                 ("santiago","santiago", "Santiago", "Gomez Vidal", "Hombre", 2),
                                                                                 ("lucas2","lucas2", "Lucas", "Mendez Martin", "Hombre", 2),
                                                                                 ("ian","ian", "Ian", "Campos Garrido", "Hombre", 2),
-                                                                                ("arturo","arturo", "Arturo", "Rovira Peña", "Hombre", 2),
+                                                                                ("arturo","arturo", "Arturo", "Rovira Pena", "Hombre", 2),
                                                                                 ("rafael","rafael", "Rafael", "Hidalgo Benitez", "Hombre", 2),
                                                                                 ("mario","mario", "Mario", "Santos Castillo", "Hombre", 2),
-                                                                                ("nico","nico", "Nicolas", "Puig Rodríguez", "Hombre", 2),
-                                                                                ("jesus","jesus", "Jesús", "Sanchez Benitez", "Hombre", 2),
+                                                                                ("nico","nico", "Nicolas", "Puig Rodriguez", "Hombre", 2),
+                                                                                ("jesus","jesus", "Jesus", "Sanchez Benitez", "Hombre", 2),
                                                                                 ("miguelan","miguelan", "Miguel Angel", "Castro Santana", "Hombre", 2);
 
 
