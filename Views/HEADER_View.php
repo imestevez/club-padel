@@ -25,7 +25,7 @@ include '../Locales/Strings_SPANISH.php';
             <?php
             if(IsAuthenticated()){
               ?>
-              <a href="#" class="icon fa-angle-down">Pistas</a>
+              <a href="#" class="icon fa-angle-down">Gestionar Reservas</a>
               <ul>
                 <?php
                 if($_SESSION["rol"] == 'ADMIN'){
@@ -63,7 +63,7 @@ include '../Locales/Strings_SPANISH.php';
             }
             ?>
             <li>
-              <a class="icon fa-angle-down">Campeonatos</a>
+              <a class="icon fa-angle-down">Gestionar Campeonatos</a>
               <ul>
                 <li><a href="../Controllers/CLASIFICACION_Controller.php?action=SHOW">Rankings</a></li>
                 <li>
