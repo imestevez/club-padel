@@ -8,7 +8,7 @@
                 <li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
             </ul>
             <ul class="copyright">
-                <li>&copy; Untitled. All rights reserved.</li>
+                <li>&copy; SóloPadelPro. All rights reserved.</li>
                 <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
             </ul>
         </footer>
@@ -26,4 +26,4 @@
 
 </body>
 
-</html>        
+</html>
