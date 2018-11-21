@@ -350,7 +350,7 @@ class CAMPEONATO_Model{
 
     //Funcion que devuelve las categorias correspondientes a un campeonato
     function GET_CATEGORIAS($id_campeonato){
-        $sql = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE (CAMPEONATO_ID = '$id_campeonato')";
+        $sql = "SELECT * FROM CAMPEONATO CAM, CAMPEONATO_CATEGORIA CAM_CAT, CATEGORIA CAT WHERE (CAMPEONATO_ID = '$id_campeonato')";
 
         $result = $this->mysqli->query($sql); 
 
@@ -361,7 +361,7 @@ class CAMPEONATO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             if($result <> NULL) {
                   while($row = mysqli_fetch_array($result)){                                
-                    $listCategorias[$row["ID"]] = array($row["CAMPEONATO_ID"],$row["CATEGORIA_ID"]);
+                    $listCategorias[$row["ID"]] = array($row["NIVEL"],$row["GENERO"]);
                     }   
                 }
         return $listCategorias;
