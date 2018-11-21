@@ -96,18 +96,25 @@ include '../Locales/Strings_SPANISH.php';
                 </li>
               </ul>
             </li>
-            <?php
-            if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
-              ?>
-              <li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
-              <?php
-            }
-            ?>
+            
             <li>
-              <a href="#" class="icon fa-angle-down">Inscripciones Partidos</a>
+              <a href="#" class="icon fa-angle-down">Gestionar Partidos</a>
               <ul>
-                <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Ver Inscripciones</a></li>
-                <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>
+                <li>
+                  <a>Inscripciones</a>
+                  <ul>
+                    <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Ver Inscripciones</a></li>
+                    <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>
+                  </ul>
+                </li>
+                
+                <?php
+                if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+                  ?>
+                  <li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
+                  <?php
+                }
+                ?>
 
               </ul>
             </li>
