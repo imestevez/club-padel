@@ -18,9 +18,8 @@ function render(){
 		    <p>Consulta las clasificaciones de los distintos campeonatos</p>
 		 </header>
 		 	<?php foreach ($this->clasificaciones as $key1 => $categorias) { ?>
+		 		
 		 		<?php foreach ($categorias as $key2 => $grupos) { ?>
-		 			<?php 	$i = 1;
-		 					foreach ($grupos as $key3 => $value2) { ?>
 		 			<section class="box">
 		 			<h3><?php echo $key1 ?></h3>
 			    		<div class="table-wrapper">
@@ -34,19 +33,24 @@ function render(){
 									</tr>
 								</thead>
 								<tbody>
+		 			<?php 	$i = 1;
+		 					foreach ($grupos as $key3 => $value2) { ?>
+		 			
 		 						<tr>	
 										<td><?php echo $i ?></td>
 										<td><?php echo $value2[1] ?></td>
 										<td><?php echo $value2[2]?></td>
 										<td><?php echo $value2[3]?></td>
 								</tr>
-								</tbody>
-								</table>
-						</div>
-					</section>
+								
 		 			<?php $i++;
 		 					} ?>
-		 		<?php } ?>			 					
+		 					
+		 				</tbody>
+						</table>
+						</div>
+					</section>	
+		 		<?php } ?>		 					
 		 	<?php } ?>
    		</section>
     <?php
