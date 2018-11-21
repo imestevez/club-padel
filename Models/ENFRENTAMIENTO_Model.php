@@ -60,7 +60,6 @@ class ENFRENTAMIENTO_Model{
         }
     } 
 
-    //Función para asociar una reserva a un enfrentamiento
     function SET_RESULTADO($enfrentamiento_id,$resultado){
         $sql_up = "UPDATE ENFRENTAMIENTO SET RESULTADO = '$resultado'
                                  WHERE (ID = '$enfrentamiento_id')";
@@ -130,6 +129,7 @@ class ENFRENTAMIENTO_Model{
                                     (R.HORARIO_ID = H.ID) and
                                     (R.PISTA_ID = PI.ID) 
                             ";
+                            echo "VOY A PONER: ".$sql_enf;
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf; 
     }

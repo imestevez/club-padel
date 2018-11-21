@@ -75,6 +75,86 @@ class CLASIFICACION_Model{
         $ganador_set_3 = $this->GANADOR_SET($p1_set3, $p2_set3);
 
         $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
+
+        $sql_enf = "SELECT * FROM ENFRENTAMIENTO WHERE (ID = '$enfrentamiento')";
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+        echo "ESTO: ".$sql_enf;
+
+        $res_enf = $this->mysqli->query($sql_enf);
+
+        if ($row_enf = mysqli_fetch_array($res_enf) ){
+            $pareja_1 = $row_enf['PAREJA_1'];
+            $pareja_2 = $row_enf['PAREJA_2'];
+            $grupo_id = $row_enf['GRUPO_ID'];
+        }
+
+        //Cogemos la puntucacion actual del las parejas
+        $sql_pt1 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_1')";
+        $res_enf1 = $this->mysqli->query($sql_pt1);
+        $sql_pt2 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_2')";
+        $res_enf2 = $this->mysqli->query($sql_pt2);
+
+        $p1_pt = 0;
+        $p2_pt = 0;
+        if($row_enf1 = mysqli_fetch_array($res_enf1) && $row_enf2 = mysqli_fetch_array($res_enf2)){
+            $p1_pt = $row_enf1['PUNTOS'];
+            $p2_pt = $row_enf2['PUNTOS'];
+        } 
+
+        if($ganador_partido == 1){
+            $p1_pt = $p1_pt + 3;
+            $p2_pt = $p2_pt + 1;   
+        }
+
+        if($ganador_partido == 2){         
+            $p1_pt = $p1_pt + 1;
+            $p2_pt = $p2_pt + 3;   
+        }
+
+        if($ganador_partido == 0){
+            echo "MAL";
+        }
+
+        //Actualizamos las clasificaciones
+        $sql_UP1 = "UPDATE CLASIFICACION SET PUNTOS = '$p1_pt' WHERE (PAREJA_ID = '$pareja_1')";
+        $sql_UP2 = "UPDATE CLASIFICACION SET PUNTOS = '$p2_pt' WHERE (PAREJA_ID = '$pareja_2')";
+        $this->mysqli->query($sql_UP1);
+        $this->mysqli->query($sql_UP2);    
+    }
+    /*
+    function ACTUALIZAR_CLASIFICACION($resultado, $enfrentamiento){
+        $sets=explode("/", $resultado);
+        $set_1=$sets[0];
+        $set_2=$sets[1];
+        $set_3=$sets[2];
+
+        $set_1=explode('-', $set_1);
+        $p1_set1 = $set_1[0];
+        $p2_set1 = $set_1[1];
+
+        $set_2=explode('-', $set_2);
+        $p1_set2 = $set_2[0];
+        $p2_set2 = $set_2[1];
+
+        $set_3=explode('-', $set_3);
+        $p1_set3 = $set_3[0];
+        $p2_set3 = $set_3[1];
+
+        $ganador_set_1 = $this->GANADOR_SET($p1_set1, $p2_set1);
+        $ganador_set_2 = $this->GANADOR_SET($p1_set2, $p2_set2);
+        $ganador_set_3 = $this->GANADOR_SET($p1_set3, $p2_set3);
+
+        $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
         //0 - empate
         //1 - pareja 1
         //2 - pareja 2
@@ -105,6 +185,7 @@ class CLASIFICACION_Model{
         }
 
     }
+    */
 
     function GANADOR_SET($set_p1, $set_p2){
         if( ($set_p1 >= 6) || ($set_p2 >= 6)) {

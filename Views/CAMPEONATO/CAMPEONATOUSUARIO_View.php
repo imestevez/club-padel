@@ -22,10 +22,10 @@ function render(){
 					<table>
 						<thead >
 							<tr>
+								<th>Campeonato</th>
+								<th>Categoría</th>
+								<th>Grupo</th>
 								<th>Pareja</th>
-								<th>Nivel</th>
-								<th>Genero</th>
-								<th>Nombre Campeonato</th>
 							</tr>
 						</thead>
 						<tbody>

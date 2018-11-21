@@ -6,6 +6,8 @@
     include "../Views/ENFRENTAMIENTO/PROPONERHUECO_View.php";
     include "../Views/ENFRENTAMIENTO/GESRESULTADOS_View.php";
     include "../Views/ENFRENTAMIENTO/INTRODUCIRRESULTADO_View.php";
+    include "../Models/CLASIFICACION_Model.php";
+
 
     include "../Models/ENFRENTAMIENTO_Model.php";
 
