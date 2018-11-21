@@ -116,9 +116,22 @@ INSERT INTO CAMPEONATO_CATEGORIA (ID, CAMPEONATO_ID, CATEGORIA_ID) VALUES  (1, 1
                                                                     (14, 3, 5),
                                                                     (15, 3, 7);
 
--- INSERTS EN TABLA CAMPEONATO_CATEGORIA
-
 -- INSERTS EN TABLA GRUPO
+INSERT INTO GRUPO (ID, NOMBRE, CAMPEONATO_ID, CATEGORIA_ID) VALUES  (1, 1, 1, 1),
+                                                                    (2, 2, 1, 1),
+                                                                    (3, 1, 1, 3),
+                                                                    (4, 1, 1, 4),
+                                                                    (5, 1, 1, 5),
+                                                                    (6, 1, 1, 6),
+                                                                    (7, 1, 1, 7),
+                                                                    (8, 1, 2, 1),
+                                                                    (9, 1, 2, 2),
+                                                                    (10, 1, 2, 3),
+                                                                    (11, 1, 2, 4),
+                                                                    (12, 1, 3, 1),
+                                                                    (13, 1, 3, 3),
+                                                                    (14, 1, 3, 5),
+                                                                    (15, 1, 3, 7);
 
 -- INSERTS EN TABLA INSCRIPCION
   INSERT INTO INSCRIPCION (FECHA, PAREJA_ID, CAM_CAT_ID, GRUPO_ID)  VALUES  ('2018-11-01','1', '1', NULL),
@@ -128,18 +141,18 @@ INSERT INTO CAMPEONATO_CATEGORIA (ID, CAMPEONATO_ID, CATEGORIA_ID) VALUES  (1, 1
                                                                            ('2018-11-01','5', '1', NULL),
                                                                            ('2018-11-01','6', '1', NULL),
                                                                            ('2018-11-01','7', '1', NULL),
-                                                                           ('2018-11-01','8', '1', NULL),
-                                                                           ('2018-11-01','9', '1', NULL),
-                                                                           ('2018-11-01','10', '1', NULL),
-                                                                           ('2018-11-01','11', '1', NULL),
-                                                                           ('2018-11-01','12', '1', NULL),
-                                                                           ('2018-11-01','13', '1', NULL),
-                                                                           ('2018-11-01','14', '1', NULL),
-                                                                           ('2018-11-01','15', '1', NULL),
-                                                                           ('2018-11-01','16', '1', NULL),
-                                                                           ('2018-11-01','17', '1', NULL),
-                                                                           ('2018-11-01','18', '1', NULL),
-                                                                           ('2018-11-01','19', '1', NULL);
+                                                                           ('2018-11-01','8', '2', NULL),
+                                                                           ('2018-11-01','9', '2', NULL),
+                                                                           ('2018-11-01','10', '2', NULL),
+                                                                           ('2018-11-01','11', '2', NULL),
+                                                                           ('2018-11-01','12', '2', NULL),
+                                                                           ('2018-11-01','13', '2', NULL),
+                                                                           ('2018-11-01','14', '3', NULL),
+                                                                           ('2018-11-01','15', '3', NULL),
+                                                                           ('2018-11-01','16', '3', NULL),
+                                                                           ('2018-11-01','17', '3', NULL),
+                                                                           ('2018-11-01','18', '3', NULL),
+                                                                           ('2018-11-01','19', '3', NULL);
 
 -- INSERTS EN TABLA RESERVA
 INSERT INTO RESERVA (ID, USUARIO_LOGIN, PISTA_ID, FECHA, HORARIO_ID) VALUES   (1, "pepe", 1, '2018-11-26', 1),
@@ -162,10 +175,19 @@ INSERT INTO RESERVA (ID, USUARIO_LOGIN, PISTA_ID, FECHA, HORARIO_ID) VALUES   (1
 -- INSERTS EN TABLA HUECO
 
 -- INSERTS EN TABLA CLASIFICACION
+INSERT INTO CLASIFICACION (ID, PAREJA_ID, GRUPO_ID, PUNTOS) VALUES            (1,  1, 1, 0),
+                                                                              (2,  2, 1, 0),
+                                                                              (3,  3, 1, 0),
+                                                                              (4,  4, 1, 0),
+                                                                              (5,  5, 1, 0),
+                                                                              (6,  6, 1, 0),
+                                                                              (7,  7, 1, 0),
+                                                                              (8,  8, 1, 0),
+                                                                              (9,  9, 1, 0),
+                                                                              (10,  10, 1, 0),
+                                                                              (11,  11, 1, 0),
+                                                                              (12,  12, 1, 0);
 
--- INSERTS EN TABLA CATEGORIA_CLASIFICACION
-
--- INSERTS EN TABLA GRUPO_CLASIFICACION
 
 -- INSERTS EN TABLA PARTIDO
 INSERT INTO PARTIDO (ID, FECHA, RESERVA_ID, PISTA_ID, HORARIO_ID, INSCRIPCIONES) VALUES   (1, '2018-11-22', NULL, 5, 1, 1),
