@@ -27,7 +27,7 @@
             if(isset($_REQUEST["campeonato_ID"])){
                     $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],$_REQUEST["nombre"],'');
                     $CLASIFICACION = new CLASIFICACION_Model('','','');
-                    $clasificaciones=$CLASIFICACION->SHOWALL();
+                    $clasificaciones = $CLASIFICACION->SHOWALL($_REQUEST["campeonato_ID"]);
 
                     new RANKING($CAMPEONATO, $clasificaciones);
             }

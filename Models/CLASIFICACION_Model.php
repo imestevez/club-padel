@@ -18,8 +18,78 @@ class CLASIFICACION_Model{
         $this->mysqli = ConnectDB();
 	}
 
+    function SHOWALL($campeonato_id){
+
+        $sql_cam = "SELECT * 
+                            FROM CAMPEONATO_CATEGORIA CC,
+                                 CATEGORIA C
+                                 WHERE  (CC.CAMPEONATO_ID = '$campeonato_id') AND
+                                        (C.ID = CC.CATEGORIA_ID)";
+
+        $res_cam = $this->mysqli->query($sql_cam);
+        $g = 0;
+        $clasificaciones = NULL;
+        while($row_cam = mysqli_fetch_array($res_cam)){
+            $campeonato_id = $row_cam['CAMPEONATO_ID'];
+            $categoria_id = $row_cam['CATEGORIA_ID'];
+            $sql_gru = "SELECT * FROM GRUPO WHERE (CAMPEONATO_ID = '$campeonato_id') AND (CATEGORIA_ID = '$categoria_id')";
+            $res_gru = $this->mysqli->query($sql_gru);
+            while($row_gru = mysqli_fetch_array($res_gru)){
+                $grupo_id = $row_gru['ID'];
+                $nombre_id = $row_gru['NOMBRE'];
+                var_dump($grupo_id."Y".$nombre_id);
+
+                $sql_cla = "SELECT  CL.PUNTOS,
+                                    P.JUGADOR_1,
+                                    P.JUGADOR_2,
+                                    G.NOMBRE AS GRUPO_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    CM.NOMBRE AS CAMPEONATO_NOMBRE,
+                                    CL.ID AS CLASIFICACION_ID,
+                                    CL.GRUPO_ID
+
+                                    FROM
+                                    CLASIFICACION CL,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CM,
+                                    PAREJA P
+
+                                    WHERE
+                                    (CL.GRUPO_ID = '$grupo_id') AND
+                                    (CL.GRUPO_ID = G.ID) AND
+                                    (CT.ID = G.CATEGORIA_ID) AND
+                                    (CM.ID = G.CAMPEONATO_ID) AND
+                                    (CL.PAREJA_ID = P.ID)
+
+                                    ORDER BY CL.PUNTOS DESC";
 
 
+                $re_cla = $this->mysqli->query($sql_cla); 
+                $clas_grupo = NULL;
+                $i = 0;
+                while($row_cla = mysqli_fetch_array($re_cla)){    
+                    $clasificacion_id = $row_cla['CLASIFICACION_ID'];    
+
+                    $clas_grupo[$row_cla['CLASIFICACION_ID']] = array(
+                                                                 $row_cla['CAMPEONATO_NOMBRE'],  
+                                                                 $row_cla['JUGADOR_1'],    
+                                                                 $row_cla['JUGADOR_2'],    
+                                                                 $row_cla['PUNTOS']     
+                                                                );
+
+                    $grupos[$i] = $clas_grupo;
+                    $i++;
+                }
+                $cat_gru = $row_cam['NIVEL']." ".$row_cam['GENERO']." - Grupo ". $nombre_id;
+                $cat_grupos[$cat_gru] = $grupos;   
+            }
+        }
+        return $cat_grupos;
+    }
+
+    /*
 	//Función para obtener los campeonatos en los que participa un usuario
 	function SHOWALL(){
 
@@ -48,6 +118,7 @@ class CLASIFICACION_Model{
         }  
 		return $listClasificacion;
 	}
+    */
 
     function ACTUALIZAR_CLASIFICACION($resultado, $enfrentamiento){
         $sets=explode("/", $resultado);
@@ -74,18 +145,6 @@ class CLASIFICACION_Model{
         $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
 
         $sql_enf = "SELECT * FROM ENFRENTAMIENTO WHERE (ID = '$enfrentamiento')";
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
-        echo "ESTO: ".$sql_enf;
 
         $res_enf = $this->mysqli->query($sql_enf);
 
@@ -119,7 +178,6 @@ class CLASIFICACION_Model{
         }
 
         if($ganador_partido == 0){
-            echo "MAL";
         }
 
         //Actualizamos las clasificaciones

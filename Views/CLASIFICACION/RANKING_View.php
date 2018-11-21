@@ -13,60 +13,41 @@ function render(){
     include '../Views/HEADER_View.php';
 ?>
 	<section id="main" class="container">
-	<header>
-	   <h2><?= $_REQUEST['nombre']?></h2>
-	    <p>Consulta las clasificaciones de los distintos campeonatos</p>
-	 </header>
-				<div class="table-wrapper">
-					<?php
-					if($this->clasificaciones <> NULL){
-						foreach ($this->clasificaciones as $key => $value) {
-					?>
-					<p><?=$value[0]?><?=$value[1]?></p>
-
-						<?php
-						if($this->clasificaciones <> NULL){
-							foreach ($this->clasificaciones as $key => $value) {
-						?>
-						<p>GRUPO<?=$value[2]?></p>
-					<table>
-						<thead >
-							<tr>
-								<th>Puesto</th>
-								<th>Pareja</th>
-								<th>Puntos</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-								if($this->clasificaciones <> NULL){
-									$i=1;
-									foreach ($this->clasificaciones as $key => $value) {
-							?>
-							<tr>
-								<td>
-									<?=$i++?>
-								</td>
-								<td>
-									<?=$value[3]?><?=$value[4]?>
-								</td>
-								<td>
-									<?=$value[5]?>
-								</td>
-							</tr>
-							<?php
-									}
-								}
-							?>
-						</tbody>
-					</table>
-					<?php
-									}
-								}
-							}
-						}
-					?>
-				</div>
+		<header>
+		   <h2><?= $_REQUEST['nombre']?></h2>
+		    <p>Consulta las clasificaciones de los distintos campeonatos</p>
+		 </header>
+		 	<?php foreach ($this->clasificaciones as $key1 => $categorias) { ?>
+		 		<?php foreach ($categorias as $key2 => $grupos) { ?>
+		 			<?php 	$i = 1;
+		 					foreach ($grupos as $key3 => $value2) { ?>
+		 			<section class="box">
+		 			<h3><?php echo $key1 ?></h3>
+			    		<div class="table-wrapper">
+							<table>
+								<thead >
+									<tr>
+										<th>Posición</th>
+										<th>Jugador 1</th>
+										<th>Jugador 2</th>
+										<th>Puntos</th>
+									</tr>
+								</thead>
+								<tbody>
+		 						<tr>	
+										<td><?php echo $i ?></td>
+										<td><?php echo $value2[1] ?></td>
+										<td><?php echo $value2[2]?></td>
+										<td><?php echo $value2[3]?></td>
+								</tr>
+								</tbody>
+								</table>
+						</div>
+					</section>
+		 			<?php $i++;
+		 					} ?>
+		 		<?php } ?>			 					
+		 	<?php } ?>
    		</section>
     <?php
         include '../Views/FOOTER_View.php';
