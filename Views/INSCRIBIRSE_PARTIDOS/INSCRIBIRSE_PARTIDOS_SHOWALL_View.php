@@ -104,14 +104,13 @@ function render(){
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Inscripciones</h2>
+	   <h2>Partidos</h2>
 	    <p>Consulta las inscripciones de los deportistas</p>
 	 </header>
 				<div class="table-wrapper">
 					<table>
 						<thead >
 							<tr>
-								<th>Login</th>
 								<th>Fecha</th>
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
@@ -134,9 +133,6 @@ function render(){
 								$hora_fin = explode(":", $row["HORA_FIN"]);
 						?>
 							<tr>
-								<td>
-									<?=$row["USUARIO_LOGIN"]?>
-								</td>
 								<td>
 									<?=$fecha[2]."/".$fecha[1]."/".$fecha[0]?>
 								</td>

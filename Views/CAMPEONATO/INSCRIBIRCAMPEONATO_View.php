@@ -30,15 +30,15 @@ function render(){
         <div class="box">
             <form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php">
                 <div class="row gtr-50 gtr-uniform">
-                    <div class="col-12">
-                        <input type="hidden" value="<?= $_SESSION['login']?>" id="login" name="login" />
+                    <div class="col-2">
+                        <input type="hidden"   value="<?= $_SESSION['login']?>" id="login" name="login" />
                     </div>
-                    <div class="col-12">
-                        <input type="text" value="" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
+                    <div class="col-5">
+                        <input type="text" value="" maxlength="25" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
                     </div>
-                    <div class="col-12">
+                    <div class="col-2">
                         <input class="oculto" name="campeonato_ID" readonly value="<?= $_REQUEST['campeonato_ID']?>">
-                            <input type="submit" name="action" value="Añadir"  >
+                        <input type="submit" class="small" name="action" value="Añadir"  >
                     </div>
                 </div>
             </form>
@@ -58,24 +58,22 @@ function render_admin(){
     <section id="main" class="container">
         <header>
            <h2>Inscripción</h2>
-           <p>Escoge a su pareja</p>
+           <p>Inscribe la pareja</p>
         </header>
         
         <div class="box">
             <form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php">
                 <div class="row gtr-50 gtr-uniform">
-                    <div class="col-12">
-                        <input type="text" value="" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
+                    <div class="col-5">
+                        <input type="text" value="" maxlength="25" placeholder="Login capitan" id="login" name="login" />
                     </div>
-                    <div class="col-12">
-                        <input type="hidden" value="<?= $_SESSION['login']?>" id="login" name="login" />
+                    <div class="col-5">
+                        <input type="text" value="" maxlength="25" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
                     </div>
-                    <div class="col-12">
-                        <input type="text" value="" placeholder="Login de la pareja" id="loginPareja" name="loginPareja" />
-                    </div>
-                    <div class="col-12">
+                    <div class="col-2">
                         <input class="oculto" name="campeonato_ID" readonly value="<?= $_REQUEST['campeonato_ID']?>">
-                            <input type="submit" name="action" value="Añadir"  >
+                        <input type="submit" class="small" name="action" value="Añadir"  >
+
                     </div>
                 </div>
             </form>

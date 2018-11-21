@@ -25,14 +25,14 @@ function render(){
         </header>
 
         <div class="box">
-            <form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php">
+            <form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CATEGORIA">
                 <div class="row gtr-50 gtr-uniform">
 
                     
-                    <div class="col-12">
+                    <div class="col-3">
                         <input class="oculto" name="pareja_ID" readonly value="<?= $this->pareja_ID?>">
                     </div>
-                    <select name="cam_cat_ID">
+                    <select name="cam_cat_ID" class="col-5">
                         <?php 
                         if( ($this->categorias <> NULL) &&  ( !is_string($this->categorias))) {
                                 foreach ($this->categorias as $key => $value) {
@@ -45,8 +45,8 @@ function render(){
                     </select>
 
 
-                    <div class="col-12">
-                            <input type="submit" name="action" value="CATEGORIA"  >
+                    <div class="col-2">
+                            <input type="submit" class="small" value="Continuar"  >
                     </div>
                 </div>
             </form>

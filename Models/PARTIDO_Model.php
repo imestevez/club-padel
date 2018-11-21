@@ -137,6 +137,7 @@ class PARTIDO_Model{
                         P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
                 FROM PARTIDO P, HORARIO H, USUARIO_PARTIDO UP, PISTA PI
                 WHERE      (H.ID = P.HORARIO_ID) AND (P.ID = UP.PARTIDO_ID)  AND (PI.ID = P.PISTA_ID)
+                GROUP BY P.ID
                 ORDER BY P.FECHA DESC, H.HORA_INICIO, P.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
