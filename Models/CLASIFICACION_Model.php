@@ -40,9 +40,7 @@ class CLASIFICACION_Model{
 
               if($recordset = $this->mysqli->query($sql_clasif)){
                    $num_rows = mysqli_num_rows($recordset);
-                   if ($num_rows > 0){*/
-                    echo "REsultado: ".$resultado;
-                    var_dump("\n");
+                   if ($num_rows > 0){
 
                        $this->ACTUALIZAR_CLASIFICACION($resultado, $enfrentamiento_id);
                    }
@@ -144,6 +142,9 @@ class CLASIFICACION_Model{
         $ganador_set_2 = $this->GANADOR_SET($p1_set2, $p2_set2);
         $ganador_set_3 = $this->GANADOR_SET($p1_set3, $p2_set3);
 
+        $p1_pt = 0;
+        $p2_pt = 0;
+
         $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
         echo "ganador: ".$ganador_partido . "-- enfrentamiento: " . $enfrentamiento;
         $sql_enf = "SELECT * FROM ENFRENTAMIENTO WHERE (ID = '$enfrentamiento')";
@@ -160,14 +161,13 @@ class CLASIFICACION_Model{
         $sql_pt1 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_1') AND (GRUPO_ID = '$grupo_id')";
         $res_enf1 = $this->mysqli->query($sql_pt1);
         $sql_pt2 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_2') AND (GRUPO_ID = '$grupo_id') ";
-        $res_enf2 = $this->mysqli->query($sql_pt2);
 
-        $p1_pt = 0;
-        $p2_pt = 0;
-        if($row_enf1 = mysqli_fetch_array($res_enf1) && $row_enf2 = mysqli_fetch_array($res_enf2)){
+        $res_enf2 = $this->mysqli->query($sql_pt2);
+        $row_enf1 = mysqli_fetch_array($res_enf1);
+        $row_enf2 = mysqli_fetch_array($res_enf2);
+        
             $p1_pt = $row_enf1['PUNTOS'];
             $p2_pt = $row_enf2['PUNTOS'];
-        } 
 
         if($ganador_partido == 1){
             $p1_pt = $p1_pt + 3;
