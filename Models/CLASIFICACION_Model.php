@@ -17,13 +17,13 @@ class CLASIFICACION_Model{
         include_once '../Functions/Access_DB.php';
                $this->mysqli = ConnectDB();
 
-               $this->UPDATE_PUNTOS();
+            $this->UPDATE_PUNTOS();
     }
 
     function UPDATE_PUNTOS(){
        $sql_reset = "UPDATE CLASIFICACION SET PUNTOS = 0";
        $clasificaciones = $this->mysqli->query($sql_reset);
-       $sql_enfr = "SELECT * FROM ENFRENTAMIENTO";
+       $sql_enfr = "SELECT * FROM ENFRENTAMIENTO ORDER BY ID";
        $enfrentamientos = $this->mysqli->query($sql_enfr);
        while ($row = mysqli_fetch_array($enfrentamientos)) {
            $enfrentamiento_id = $row['ID'];
@@ -31,7 +31,7 @@ class CLASIFICACION_Model{
            $pareja_1 = $row['PAREJA_1'];
            $pareja_2 = $row['PAREJA_2'];
            $resultado = $row['RESULTADO'];
-           //var_dump("\n\n".$resultado);
+
            if($resultado <> NULL){
                $sql_clasif = "SELECT * FROM CLASIFICACION 
                                WHERE (GRUPO_ID = '$grupo_id') AND
@@ -40,7 +40,10 @@ class CLASIFICACION_Model{
 
               if($recordset = $this->mysqli->query($sql_clasif)){
                    $num_rows = mysqli_num_rows($recordset);
-                   if ($num_rows > 0){
+                   if ($num_rows > 0){*/
+                    echo "REsultado: ".$resultado;
+                    var_dump("\n");
+
                        $this->ACTUALIZAR_CLASIFICACION($resultado, $enfrentamiento_id);
                    }
                }
@@ -64,7 +67,6 @@ class CLASIFICACION_Model{
         $grupos = $this->GET_GRUPOS($campeonato_id);
         $i = 0;
         $list_grupo =  NULL;
-                    var_dump("\n\n");
 
         while ( $grupo = mysqli_fetch_array($grupos) ) {
             $id_grupo = $grupo['ID'];
@@ -81,8 +83,7 @@ class CLASIFICACION_Model{
                         (C.GRUPO_ID = '$id_grupo')
                     GROUP BY P.ID
                     ORDER BY C.PUNTOS DESC";
-                    echo $sql;
-                    echo ";";
+
             if($clasificacion_grupo = $this->mysqli->query($sql)){  
                 $list_grupo[$id_grupo] = $clasificacion_grupo;
                 $i++;       
@@ -144,7 +145,7 @@ class CLASIFICACION_Model{
         $ganador_set_3 = $this->GANADOR_SET($p1_set3, $p2_set3);
 
         $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
-
+        echo "ganador: ".$ganador_partido . "-- enfrentamiento: " . $enfrentamiento;
         $sql_enf = "SELECT * FROM ENFRENTAMIENTO WHERE (ID = '$enfrentamiento')";
 
         $res_enf = $this->mysqli->query($sql_enf);
@@ -156,9 +157,9 @@ class CLASIFICACION_Model{
         }
 
         //Cogemos la puntucacion actual del las parejas
-        $sql_pt1 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_1')";
+        $sql_pt1 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_1') AND (GRUPO_ID = '$grupo_id')";
         $res_enf1 = $this->mysqli->query($sql_pt1);
-        $sql_pt2 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_2')";
+        $sql_pt2 = "SELECT * FROM CLASIFICACION WHERE (PAREJA_ID = '$pareja_2') AND (GRUPO_ID = '$grupo_id') ";
         $res_enf2 = $this->mysqli->query($sql_pt2);
 
         $p1_pt = 0;
@@ -182,8 +183,8 @@ class CLASIFICACION_Model{
         }
 
         //Actualizamos las clasificaciones
-        $sql_UP1 = "UPDATE CLASIFICACION SET PUNTOS = '$p1_pt' WHERE (PAREJA_ID = '$pareja_1')";
-        $sql_UP2 = "UPDATE CLASIFICACION SET PUNTOS = '$p2_pt' WHERE (PAREJA_ID = '$pareja_2')";
+        $sql_UP1 = "UPDATE CLASIFICACION SET PUNTOS = '$p1_pt' WHERE (PAREJA_ID = '$pareja_1') AND (GRUPO_ID = '$grupo_id') ";
+        $sql_UP2 = "UPDATE CLASIFICACION SET PUNTOS = '$p2_pt' WHERE (PAREJA_ID = '$pareja_2') AND (GRUPO_ID = '$grupo_id') ";
         $this->mysqli->query($sql_UP1);
         $this->mysqli->query($sql_UP2);    
     }
