@@ -20,6 +20,7 @@ function render(){
 	<header>
 	   <h2>Tus Inscripciones</h2>
 	    <p>Consulta los partidos en los que estas inscrito</p>
+	    
 	 </header>
 				<div class="table-wrapper">
 					<table>
@@ -149,14 +150,7 @@ function render(){
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-						<?php
-							if($baja == true){
-						?>
-									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>&usuario_login=<?=$row['USUARIO_LOGIN']?>">DAR DE BAJA</a>
-						<?php
-							}
-						?>
-									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">VER INSCRITOS</a>
+									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">Ver Inscritos</a>
 						
 								</td>
 

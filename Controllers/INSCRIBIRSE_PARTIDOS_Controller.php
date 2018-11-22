@@ -116,11 +116,21 @@ function get_data_recordset($tupla){
                 }
     		break;
             case 'SHOW_INSCRITOS':
-                if(isset($_REQUEST["partido_ID"])){
-                    $USUARIO_PARTIDO = new USUARIO_PARTIDO_Model('','',$_REQUEST["partido_ID"]);
-                    $inscritos = $USUARIO_PARTIDO->SHOW_INSCRITOS();
-                    $VIEW = new INSCRITOS_PARTIDO($inscritos);
-                 }
+                if($_SESSION['rol'] == 'ADMIN'){
+                  if(isset($_REQUEST["partido_ID"])){
+                        $USUARIO_PARTIDO = new USUARIO_PARTIDO_Model('','',$_REQUEST["partido_ID"]);
+                        $inscritos = $USUARIO_PARTIDO->SHOW_INSCRITOS();
+                        $VIEW = new INSCRITOS_PARTIDO($inscritos);
+                        $VIEW->renderAdmin();
+                     }
+                }else{
+                    if(isset($_REQUEST["partido_ID"])){
+                        $USUARIO_PARTIDO = new USUARIO_PARTIDO_Model('','',$_REQUEST["partido_ID"]);
+                        $inscritos = $USUARIO_PARTIDO->SHOW_INSCRITOS();
+                        $VIEW = new INSCRITOS_PARTIDO($inscritos);
+                        $VIEW->render();
+                     }
+                }
             break;
         case 'DELETE':
             if (!$_POST){ //si viene del showall (no es un post)

@@ -106,9 +106,8 @@ class USUARIO_PARTIDO_Model{
     }  // fin del metodo UPDATE 
 
     function SHOW_INSCRITOS(){
-        $sql = "SELECT * FROM USUARIO_PARTIDO UP , USUARIO U
-                WHERE (UP.PARTIDO_ID = '$this->partido_ID') AND (UP.USUARIO_LOGIN = U.LOGIN)";
-
+        $sql = "SELECT * FROM USUARIO_PARTIDO UP , USUARIO U, PARTIDO P, HORARIO H
+                WHERE (UP.PARTIDO_ID = '$this->partido_ID') AND (UP.USUARIO_LOGIN = U.LOGIN)  AND (P.ID = '$this->partido_ID') AND (H.ID = P.HORARIO_ID)";
         if(!$resultado = $this->mysqli->query($sql) ){
             return 'ERROR: Fallo en la consulta sobre la base de datos'; 
         }else{
