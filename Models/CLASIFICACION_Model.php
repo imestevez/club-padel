@@ -96,6 +96,7 @@ class CLASIFICACION_Model{
     }
 
     function CAM_CAT_GRU($campeonato_id){
+
         $sql_cam = "SELECT  G.NOMBRE AS GRUPO_NOMBRE,
                             CM.NOMBRE AS CAMPEONATO_NOMBRE,
                             CT.NIVEL AS NIVEL, 
@@ -112,7 +113,8 @@ class CLASIFICACION_Model{
                                 (CM.ID = CC.CAMPEONATO_ID) AND
                                 (CT.ID = CC.CATEGORIA_ID) AND
                                 (G.CAMPEONATO_ID = CM.ID) AND
-                                (G.CATEGORIA_ID = CT.ID)";
+                                (G.CATEGORIA_ID = CT.ID) AND 
+                                (CM.ID = '$campeonato_id')";
         return $res_cam = $this->mysqli->query($sql_cam);
     }
 
