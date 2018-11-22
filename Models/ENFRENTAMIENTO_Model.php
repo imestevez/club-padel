@@ -127,9 +127,10 @@ class ENFRENTAMIENTO_Model{
                                     (E.RESERVA_ID = R.ID) and
                                     (R.FECHA < '$fecha_act') and
                                     (R.HORARIO_ID = H.ID) and
-                                    (R.PISTA_ID = PI.ID) 
+                                    (R.PISTA_ID = PI.ID)
+
+                                    ORDER BY 1, 2, 3, 4 
                             ";
-                            echo "VOY A PONER: ".$sql_enf;
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf; 
     }

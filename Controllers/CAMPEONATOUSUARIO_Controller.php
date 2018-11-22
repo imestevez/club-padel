@@ -60,7 +60,7 @@
         case 'CAMPEONATOSABIERTOS':
 
             $CAMPEONATO = new CAMPEONATO_Model('','','');
-            $campeonatos = $CAMPEONATO->SHOWALL();
+            $campeonatos = $CAMPEONATO->SHOW_ABIERTOS();
             if(is_string($campeonatos)){
                 $mensajes = new MESSAGE($campeonatos, '../Controllers/CAMPEONATOUSUARIO_Controller.php');
             }else{
@@ -81,7 +81,7 @@
                 $pareja_ID= $PAREJA->GET_ID();
                 if(isset($_REQUEST["campeonato_ID"])){
                     $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],'','');
-                    $categorias = $CAMPEONATO->GET_CATEGORIAS($_REQUEST["campeonato_ID"]);
+                    $categorias = $CAMPEONATO->GET_CATEGORIAS($_REQUEST["campeonato_ID"],$_REQUEST['login'],$_REQUEST['loginPareja']);
                     $VIEW = new CATEGORIA($categorias,$pareja_ID);
                 }
         break;
