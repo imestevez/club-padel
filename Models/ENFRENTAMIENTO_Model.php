@@ -79,19 +79,7 @@ class ENFRENTAMIENTO_Model{
         $res = $this->mysqli->query($sql_up);
     }
 
-/*
-    function SHOW(){
-         $sql = "SELECT * FROM ENFRENTAMIENTO ORDER BY ID";
-            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
-        if (!($resultado = $this->mysqli->query($sql))){
-            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-            return $this->mensaje; 
-        }
-        else{ // si la busqueda es correcta devolvemos el recordset resultado
-            return $resultado;
-        }  
-    }
-*/
+
     function SHOW(){
         //Calculamos la fecha actual
         $fecha_act = date("Y-m-d");
@@ -125,7 +113,7 @@ class ENFRENTAMIENTO_Model{
                                     (G.CAMPEONATO_ID = CA.ID) and
                                     (G.CATEGORIA_ID = CT.ID) and
                                     (E.RESERVA_ID = R.ID) and
-                                    (R.FECHA < '$fecha_act') and
+                                    (R.FECHA <= '$fecha_act') and
                                     (R.HORARIO_ID = H.ID) and
                                     (R.PISTA_ID = PI.ID)
 
@@ -134,50 +122,6 @@ class ENFRENTAMIENTO_Model{
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf; 
     }
-    /*
-    function SHOWALLENF(){
-        //Calculamos la fecha actual
-        $fecha_act = date("Y-m-d");
-
-        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
-                                    CT.NIVEL,
-                                    CT.GENERO,
-                                    G.NOMBRE AS GR_NOMBRE,
-                                    E.ID AS ENFRENTAMIENTO_ID,
-                                    E.PAREJA_1 AS PAREJA1_ID,
-                                    E.PAREJA_2 AS PAREJA2_ID,
-                                    R.FECHA,
-                                    H.HORA_INICIO,
-                                    H.HORA_FIN,
-                                    PI.NOMBRE AS PISTA_NOMBRE,
-                                    E.RESULTADO
-
-                                    FROM
-
-                                    ENFRENTAMIENTO E,
-                                    GRUPO G,
-                                    CATEGORIA CT,
-                                    CAMPEONATO CA,
-                                    RESERVA R,
-                                    HORARIO H,
-                                    PISTA PI
-
-                                    WHERE
-
-                                    (E.GRUPO_ID = G.ID) and
-                                    (G.CAMPEONATO_ID = CA.ID) and
-                                    (G.CATEGORIA_ID = CT.ID) and
-                                    (E.RESERVA_ID = R.ID) and
-                                    (R.FECHA < '$fecha_act') and
-                                    (R.HORARIO_ID = H.ID) and
-                                    (R.PISTA_ID = PI.ID)
-
-                                    ORDER BY 1, 2, 3, 4 
-                            ";
-                $result_enf = $this->mysqli->query($sql_enf);
-                return $result_enf; 
-    }
-    */
         function SHOWALL_ENFRENTAMIENTOS($id){
         //Calculamos la fecha actual
         $fecha_act = date("Y-m-d");
@@ -332,8 +276,9 @@ class ENFRENTAMIENTO_Model{
                                     (G.CATEGORIA_ID = CT.ID) and
                                     (E.PAREJA_2 = P.ID) and
                                     (E.PAREJA_1 = '$id_pareja') and
-                                    (E.ID NOT IN (SELECT ENFRENTAMIENTO_ID FROM HUECO)) 
-                            ";
+                                    (E.ID NOT IN (SELECT ENFRENTAMIENTO_ID FROM HUECO)) and
+                                    (E.RESERVA_ID IS NULL)  
+                                     ";
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf;   
             }
@@ -371,7 +316,9 @@ class ENFRENTAMIENTO_Model{
                                     (G.CAMPEONATO_ID = CA.ID) and
                                     (G.CATEGORIA_ID = CT.ID) and
                                     (E.PAREJA_1 = P.ID) and
-                                    (E.PAREJA_2 = '$id_pareja')  
+                                    (E.PAREJA_2 = '$id_pareja') and
+                                    (E.ID NOT IN (SELECT ENFRENTAMIENTO_ID FROM HUECO)) and
+                                    (E.RESERVA_ID IS NULL)   
                             ";
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf;   
@@ -413,7 +360,6 @@ class ENFRENTAMIENTO_Model{
                                     (E.PAREJA_1 = '$id_pareja') and
                                     (E.ID IN (SELECT ENFRENTAMIENTO_ID FROM HUECO WHERE (PAREJA_ID = '$id_pareja'))) 
                             ";
-
 
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf;   
@@ -518,7 +464,7 @@ class ENFRENTAMIENTO_Model{
                                     (E.PAREJA_2 = P.ID) and
                                     (E.PAREJA_1 = '$id_pareja') and
                                     (E.RESERVA_ID = R.ID) and
-                                    (R.FECHA > '$fecha_act') and
+                                    (R.FECHA >= '$fecha_act') and
                                     (R.HORARIO_ID = H.ID) and
                                     (R.PISTA_ID = PI.ID)
                             ";
@@ -575,7 +521,7 @@ class ENFRENTAMIENTO_Model{
                                     (E.PAREJA_1 = P.ID) and
                                     (E.PAREJA_2 = '$id_pareja') and
                                     (E.RESERVA_ID = R.ID) and
-                                    (R.FECHA > '$fecha_act') and
+                                    (R.FECHA >= '$fecha_act') and
                                     (R.HORARIO_ID = H.ID) and
                                     (R.PISTA_ID = PI.ID) 
                             ";
@@ -623,7 +569,7 @@ class ENFRENTAMIENTO_Model{
                                     (G.CAMPEONATO_ID = CA.ID) and
                                     (G.CATEGORIA_ID = CT.ID) and
                                     (E.RESERVA_ID = R.ID) and
-                                    (R.FECHA > '$fecha_act') and
+                                    (R.FECHA >= '$fecha_act') and
                                     (R.HORARIO_ID = H.ID) and
                                     (R.PISTA_ID = PI.ID)  
                             ";
