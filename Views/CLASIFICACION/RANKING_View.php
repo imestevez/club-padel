@@ -26,26 +26,28 @@ function render(){
 		 <div class="row">
 			<div class="col-12">
 
-		 	<?php while($cam_cat_gru = mysqli_fetch_array($this->nombre_tablas)){ ?>
-		 		<section class="box">
-		 			<h3><?php echo $cam_cat_gru['NIVEL']." ".$cam_cat_gru['GENERO']." - Grupo: ".$cam_cat_gru['GRUPO_NOMBRE'] ?></h3>
-			    		<div class="table-wrapper">
-							<table>
-								<thead >
-									<tr>
-										<th>Posición</th>
-										<th>Jugador 1</th>
-										<th>Jugador 2</th>
-										<th>Puntos</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php for ($gru=0; $gru < $this->num_grupos; $gru++) { ?>
+		 	
+
+									<?php $j = 0; for ($gru=0; $gru < $this->num_grupos; $gru++) { 
+											
+									 if($cam_cat_gru = mysqli_fetch_array($this->nombre_tablas)){ 
+									 	$tupla = $this->clasificaciones[$cam_cat_gru['GRUPO_ID']]; ?>
+					 		<section class="box">
+					 			<h3><?php echo $cam_cat_gru['NIVEL']." ".$cam_cat_gru['GENERO']." - Grupo: ".$cam_cat_gru['GRUPO_NOMBRE'] ?></h3>
+						    		<div class="table-wrapper">
+										<table>
+											<thead >
+												<tr>
+													<th>Posición</th>
+													<th>Jugador 1</th>
+													<th>Jugador 2</th>
+													<th>Puntos</th>
+												</tr>
+											</thead>
+											<tbody>
 											<?php $i=1; 
 											//$res_grupo = array_slice($this->clasificaciones, $gru, $gru-1);
 											//echo "RECORSET; ".$res_grupo;
-											$j = 0;
-											$tupla = $this->clasificaciones[$j];
 											while ($clas = mysqli_fetch_array($tupla)) {	
 											?>			
 												<tr>	
@@ -56,13 +58,14 @@ function render(){
 												</tr>
 											<?php $i++; } ?>
 									<?php
-											$j++;
-										 } ?>
-										
-								</tbody>
+											$j++;?>
+											</tbody>
 							</table>
 						</div>
 					</section>
+										 <?php } ?>
+										
+								
 				
     <?php } ?>
 

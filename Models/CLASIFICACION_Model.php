@@ -157,12 +157,13 @@ class CLASIFICACION_Model{
                         (C.GRUPO_ID = '$id_grupo')
                     GROUP BY P.ID
                     ORDER BY C.PUNTOS DESC";
-
+                    echo "ID DEL GRUPO: ".$id_grupo;
 
             if($clasificacion_grupo = $this->mysqli->query($sql)){  
-                $list_grupo[$i] = $clasificacion_grupo;
+                $list_grupo[$id_grupo] = $clasificacion_grupo;
                 $i++;       
-            }   
+            }  
+
         }
         return $list_grupo;
 
@@ -176,7 +177,8 @@ class CLASIFICACION_Model{
         $sql_cam = "SELECT  G.NOMBRE AS GRUPO_NOMBRE,
                             CM.NOMBRE AS CAMPEONATO_NOMBRE,
                             CT.NIVEL AS NIVEL, 
-                            CT.GENERO AS GENERO
+                            CT.GENERO AS GENERO,
+                            G.ID AS GRUPO_ID
 
                         FROM    GRUPO G,
                                 CAMPEONATO_CATEGORIA CC,
