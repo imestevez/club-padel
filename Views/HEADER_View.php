@@ -69,7 +69,13 @@ include '../Locales/Strings_SPANISH.php';
                 <li>
                   <a>Gest. de Campeonatos</a>
                   <ul>
+                    <?php
+                    if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
+                      ?>
                     <li><a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOUSUARIO">Tus Campeonatos</a></li>
+                     <?php
+                    }
+                    ?>
                     <li><a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS">Campeonatos abiertos</a></li>
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
