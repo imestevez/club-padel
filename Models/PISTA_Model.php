@@ -25,13 +25,30 @@ class PISTA_Model{
 		}
 	}
 
-	function ADD(){ // --- TODO --- Implementar Verificación de parametros introducidos
-		$sql = "INSERT INTO PISTA (ID,NOMBRE,TIPO) VALUES (NULL,'$this->nombre','$this->tipo')";
-		if(!$resultado = $this->mysqli->query($sql) ){
-			return 'ERROR: Fallo en la consulta sobre la base de datos';
+	function ADD(){ 
+        if (($this->nombre <> '') || ($this->tipo <> '') ){ // si los atributos estan vacios
+			
+			$sql = "SELECT * FROM PISTA WHERE (NOMBRE = '$this->nombre')";
+			 if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
+                return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
+            }else { //si la ejecución de la query no da error
+                    $num_rows = mysqli_num_rows($resultado);
+                    if($num_rows == 0){
+						$sql = "INSERT INTO PISTA (ID,NOMBRE,TIPO) VALUES (NULL,'$this->nombre','$this->tipo')";
+						if(!$resultado = $this->mysqli->query($sql) ){
+							return 'ERROR: Fallo en la consulta sobre la base de datos';
+						}else{
+							return 'Pista creada correctamente';
+						}
+					}else{
+						return 'ERROR: Ya existe una pista con ese nombre';
+					}
+				}
 		}else{
-			return 'Pista creada correctamente';
+			$this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos'; // Itroduzca un valor para el usuario
+            return $this->mensaje;
 		}
+
 	}
 
 		function DELETE(){
