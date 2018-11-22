@@ -190,7 +190,7 @@ INSERT INTO USUARIO (LOGIN, PASSWORD, NOMBRE, APELLIDOS, GENERO, ROL_ID) VALUES 
                                                                                 ("rocio","rocio", "Rocio", "Barroso Santos", "Mujer", 2),
                                                                                 ("miguel","miguel", "Miguel", "Contreras Villanueva", "Hombre", 2),
                                                                                 ("lorenzo","lorenzo", "Lorenzo", "Puebla Novoa", "Hombre", 2),
-                                                                                ("gillermo","gillermo", "Gillermo", "Valderrama Corral", "Hombre", 2),
+                                                                                ("guillermo","guillermo", "Guillermo", "Valderrama Corral", "Hombre", 2),
                                                                                 ("paula","paula", "Paula", "Pimentel Lopez", "Mujer", 2),
                                                                                 ("alejandra","alejandra", "Alejandra", "Arias Linares", "Mujer", 2),
                                                                                 ("marcos","marcos", "Marcos", "Garrido Pozuelo", "Hombre", 2),
@@ -236,7 +236,7 @@ INSERT INTO PAREJA (ID, JUGADOR_1, JUGADOR_2, CAPITAN) VALUES (1,"pepe", "carlos
                                                               (6,"alfonso", "jaime", "alfonso"),
                                                               (7,"alicia", "rocio", "alicia"),
                                                               (8,"miguel", "lorenzo", "miguel"),
-                                                              (9,"gillermo", "marcos", "gillermo"),
+                                                              (9,"guillermo", "marcos", "guillermo"),
                                                               (10,"paula", "alejandra", "paula"),
                                                               (11,"juan", "hector", "juan"),
                                                               (12,"trinidad", "roberto", "trinidad"),
@@ -603,5 +603,5 @@ INSERT INTO USUARIO_PARTIDO (ID, USUARIO_LOGIN, PARTIDO_ID) VALUES  (0, 'pepe', 
                                                                     (0, 'pepe', 4),
                                                                     (0, 'paula', 5),
                                                                     (0, 'jose', 5),
-                                                                    (0, 'gillermo', 5);
+                                                                    (0, 'guillermo', 5);
 
