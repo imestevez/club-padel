@@ -64,6 +64,7 @@ class CLASIFICACION_Model{
         $grupos = $this->GET_GRUPOS($campeonato_id);
         $i = 0;
         $list_grupo =  NULL;
+                    var_dump("\n\n");
 
         while ( $grupo = mysqli_fetch_array($grupos) ) {
             $id_grupo = $grupo['ID'];
@@ -80,7 +81,8 @@ class CLASIFICACION_Model{
                         (C.GRUPO_ID = '$id_grupo')
                     GROUP BY P.ID
                     ORDER BY C.PUNTOS DESC";
-
+                    echo $sql;
+                    echo ";";
             if($clasificacion_grupo = $this->mysqli->query($sql)){  
                 $list_grupo[$id_grupo] = $clasificacion_grupo;
                 $i++;       

@@ -31,7 +31,8 @@ function render(){
 									<?php $j = 0; for ($gru=0; $gru < $this->num_grupos; $gru++) { 
 											
 									 if($cam_cat_gru = mysqli_fetch_array($this->nombre_tablas)){ 
-									 	$tupla = $this->clasificaciones[$cam_cat_gru['GRUPO_ID']]; ?>
+									 	if(array_key_exists($cam_cat_gru['GRUPO_ID'], $this->clasificaciones))	{								 	
+									 		$tupla = $this->clasificaciones[$cam_cat_gru['GRUPO_ID']]; ?>
 					 		<section class="box">
 					 			<h3><?php echo $cam_cat_gru['NIVEL']." ".$cam_cat_gru['GENERO']." - Grupo: ".$cam_cat_gru['GRUPO_NOMBRE'] ?></h3>
 						    		<div class="table-wrapper">
@@ -63,12 +64,11 @@ function render(){
 							</table>
 						</div>
 					</section>
-										 <?php } ?>
-										
-								
-				
-    <?php } ?>
-
+										 <?php
+										  } 
+									}
+								 }
+						 ?>
         </div>
 			</div>
    		</section>
