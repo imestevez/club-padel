@@ -58,13 +58,7 @@ function render(){
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-									<?php
-									if($row['INSCRIPCIONES'] < 4){
-									?>
-										<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">Borrar</a>
-									<?php
-									}
-									?>
+									<a class="button small" href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">Borrar</a>
 								</td>
 							</tr>
 				<?php
