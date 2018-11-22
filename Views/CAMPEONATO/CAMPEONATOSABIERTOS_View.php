@@ -22,12 +22,15 @@ function render(){
 		   <h2>Campeonatos abiertos</h2>
 		   <p>Consulta los campeonatos abiertos</p>
 		 </header>
+		 <div class="row">
+		<div class="col-12">
+		    <!-- Main -->
+		    <section class="box">
 
 				<div class="table-wrapper">
 					<table>
 						<thead >
 							<tr>
-								<th>ID</th>
 								<th>Nombre</th>
 								<th>Fecha límite inscripciones</th>
 								<th></th>
@@ -42,9 +45,6 @@ function render(){
 						<form method="post" action="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=INSCRIBIRCAMPEONATO">
 							
 									<tr>
-										<td>
-											<?=$key?>
-										</td>
 										<td>
 											<?=$value[0]?>
 										</td>
@@ -68,6 +68,9 @@ function render(){
 					</table>
 
 				</div>
+			</section>
+		</div>
+	</div>	
     </section>
 
     <?php

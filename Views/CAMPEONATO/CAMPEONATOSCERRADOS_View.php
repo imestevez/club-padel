@@ -26,7 +26,6 @@
 							<table>
 								<thead >
 									<tr>
-										<th>Código</th>
 										<th>Nombre</th>
 										<th></th>
 									</tr>
@@ -34,7 +33,6 @@
 								<tbody>
 			<?php  while( $row = mysqli_fetch_array($this->datos)){ ?>	
 									<tr>
-										<td><?php echo $row['ID']?></td>
 										<td><?php echo $row['NOMBRE']?></td>
 										<td><a href="../Controllers/CAMPEONATO_Controller.php?action=GENERAR&id=<?php echo $row['ID']?>" class="button small" >Generar Enfrentamientos</a></td>
 									</tr>
