@@ -60,7 +60,7 @@
         case 'CAMPEONATOSABIERTOS':
 
             $CAMPEONATO = new CAMPEONATO_Model('','','');
-            $campeonatos = $CAMPEONATO->SHOWALL();
+            $campeonatos = $CAMPEONATO->SHOW_ABIERTOS();
             if(is_string($campeonatos)){
                 $mensajes = new MESSAGE($campeonatos, '../Controllers/CAMPEONATOUSUARIO_Controller.php');
             }else{
