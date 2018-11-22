@@ -81,7 +81,7 @@
                 $pareja_ID= $PAREJA->GET_ID();
                 if(isset($_REQUEST["campeonato_ID"])){
                     $CAMPEONATO = new CAMPEONATO_Model($_REQUEST["campeonato_ID"],'','');
-                    $categorias = $CAMPEONATO->GET_CATEGORIAS($_REQUEST["campeonato_ID"]);
+                    $categorias = $CAMPEONATO->GET_CATEGORIAS($_REQUEST["campeonato_ID"],$_REQUEST['login'],$_REQUEST['loginPareja']);
                     $VIEW = new CATEGORIA($categorias,$pareja_ID);
                 }
         break;

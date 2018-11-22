@@ -29,7 +29,11 @@ function render(){
 							?>
 							<tr>
 								<td>
-									<a href="../Controllers/CLASIFICACION_Controller.php?action=RANKING&campeonato_ID=<?=$key?>&nombre=<?=$value[0]?>"><?=$value[0]?></a>
+									<?=$value[0]?>
+									</td>
+								<td>
+									<a class="button small" href="../Controllers/CLASIFICACION_Controller.php?action=RANKING&campeonato_ID=<?=$key?>&nombre=<?=$value[0]?>">Rankings</a>
+									
 								</td>
 							</tr>
 				<?php

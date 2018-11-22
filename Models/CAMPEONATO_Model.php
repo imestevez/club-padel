@@ -349,8 +349,15 @@ class CAMPEONATO_Model{
     }
 
     //Funcion que devuelve las categorias correspondientes a un campeonato
-    function GET_CATEGORIAS($id_campeonato){
-        $sql = "SELECT * FROM CAMPEONATO CAM, CAMPEONATO_CATEGORIA CAM_CAT, CATEGORIA CAT WHERE (CAMPEONATO_ID = '$id_campeonato')";
+    function GET_CATEGORIAS($id_campeonato, $login, $loginPareja){
+        
+        $sql = "SELECT CAM_CAT.ID AS CAM_CAT_ID, NIVEL, GENERO FROM CAMPEONATO_CATEGORIA CAM_CAT, CAMPEONATO CAM, CATEGORIA CAT  WHERE (CAMPEONATO_ID = '$id_campeonato') 
+                                                        AND (CAM_CAT.CAMPEONATO_ID=CAM.ID)
+                                                        AND (CAM_CAT.CATEGORIA_ID=CAT.ID)
+                                                        AND  (CAM_CAT.ID NOT IN 
+                                                            (SELECT CAM_CAT_ID FROM INSCRIPCION I, PAREJA P WHERE (I.PAREJA_ID=P.ID) AND (((P.JUGADOR_1='$login')OR(P.JUGADOR_2='$loginPareja')) OR ((P.JUGADOR_1='$loginPareja')OR(P.JUGADOR_2='$login')) ) 
+                                                            )
+                                                        )";
 
         $result = $this->mysqli->query($sql); 
 
@@ -361,9 +368,11 @@ class CAMPEONATO_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             if($result <> NULL) {
                   while($row = mysqli_fetch_array($result)){                                
-                    $listCategorias[$row["ID"]] = array($row["NIVEL"],$row["GENERO"]);
-                    }   
+                    $listCategorias[$row["CAM_CAT_ID"]] = array($row["NIVEL"],$row["GENERO"]);
+                    }
                 }
+                    
+
         return $listCategorias;
         }  
     }
