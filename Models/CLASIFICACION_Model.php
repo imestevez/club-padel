@@ -31,6 +31,7 @@ class CLASIFICACION_Model{
            $pareja_1 = $row['PAREJA_1'];
            $pareja_2 = $row['PAREJA_2'];
            $resultado = $row['RESULTADO'];
+           //var_dump("\n\n".$resultado);
            if($resultado <> NULL){
                $sql_clasif = "SELECT * FROM CLASIFICACION 
                                WHERE (GRUPO_ID = '$grupo_id') AND

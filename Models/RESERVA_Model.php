@@ -195,7 +195,7 @@ class RESERVA_Model{
     }// fin del metodo SEARCH_PISTAS_LIBRES
 
     function DELETE(){
-        $sql = "DELETE FROM RESERVA WHERE (ID = $this->id)";
+        $sql = "DELETE FROM RESERVA WHERE (ID = '$this->id')";
         if(!$resultado = $this->mysqli->query($sql) ){
           return 'ERROR: Fallo en la consulta sobre la base de datos';
         }else{
@@ -204,7 +204,8 @@ class RESERVA_Model{
     }
 
 		function CHECK_MAX(){
-			$sql = "SELECT COUNT(*) AS TOTAL FROM RESERVA WHERE USUARIO_LOGIN = '$_SESSION[login]'";
+            $login = $_SESSION['login'];
+			$sql = "SELECT COUNT(*) AS TOTAL FROM RESERVA WHERE USUARIO_LOGIN = '$login'";
 			$resultado = $this->mysqli->query($sql);
 			$fetch_resultado = mysqli_fetch_array($resultado);
 			if($fetch_resultado[0]==="5"){
