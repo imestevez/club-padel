@@ -138,7 +138,6 @@ class CLASIFICACION_Model{
     }
 
     function SHOWALL($campeonato_id){
-        var_dump("\n\n\n");
         $grupos = $this->GET_GRUPOS($campeonato_id);
         $i = 0;
         $list_grupo =  NULL;
@@ -159,7 +158,6 @@ class CLASIFICACION_Model{
                     GROUP BY P.ID
                     ORDER BY C.PUNTOS DESC";
 
-                        echo "SQL: ".$sql;
 
             if($clasificacion_grupo = $this->mysqli->query($sql)){  
                 $list_grupo[$i] = $clasificacion_grupo;

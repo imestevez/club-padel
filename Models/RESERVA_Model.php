@@ -202,6 +202,19 @@ class RESERVA_Model{
             return 'Borrado correctamente';
         }
     }
+
+		function CHECK_MAX(){
+			$sql = "SELECT COUNT(*) AS TOTAL FROM RESERVA WHERE USUARIO_LOGIN = '$_SESSION[login]'";
+			$resultado = $this->mysqli->query($sql);
+			$fetch_resultado = mysqli_fetch_array($resultado);
+			if($fetch_resultado[0]==="5"){
+				return TRUE;
+			}
+			else{
+				return FALSE;
+			}
+		}
+
 }
 
 ?>

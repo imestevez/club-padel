@@ -70,7 +70,7 @@ switch ($action) {
   case 'SHOW_RESERVAS':
   $RESERVA = new RESERVA_Model('','','','','');
   if($_SESSION["rol"] == 'ADMIN'){
-    $reservas = $RESERVA->SHOWALL_Login($_SESSION['login']);  // ----- CONTINUAR! -----
+    $reservas = $RESERVA->SHOWALL_Login($_SESSION['login']);
   }
   else{
     $reservas = $RESERVA->SHOWALL_Login($_SESSION['login']);
@@ -91,11 +91,16 @@ switch ($action) {
   $RESERVA = new RESERVA_Model('','','','','','');
   $PISTA = new PISTA_Model('','','');
   $PARTIDO = new PARTIDO_Model('','','','','','');
+  if($_SESSION["rol"] != 'ADMIN' && $RESERVA->CHECK_MAX()){
+    new MESSAGE("Has alcanzado el número máximo de reservas!", '../Controllers/RESERVAR_PISTA_Controller.php?action=SHOW_RESERVAS');
+  }
+  else{
   $horarios = $HORARIO->SHOWALL();
   $reservas = $RESERVA->SHOWALL();
   $pistas =  $PISTA->SHOWALL();
   $partidos =  $PARTIDO->SHOWALL();
   new RESERVAR_PISTA_Horario($horarios,$reservas,$partidos, $pistas);
+  }
   break;
 }
 
