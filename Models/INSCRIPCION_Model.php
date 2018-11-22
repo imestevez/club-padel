@@ -10,7 +10,10 @@ class INSCRIPCION_Model{
 	var $mysqli;
 
 	function __construct($fecha,$pareja_id,$cam_cat_id){
-        $this->fecha = $fecha;
+        if($fecha <> NULL){   //si viene la fecha entera le cambiamos el formato para que se adecue al de la bd
+            $aux = explode("/", $fecha);
+            $this->fecha = date('Y-m-d',mktime(0,0,0,$aux[1],$aux[0],$aux[2]));
+        }
 		$this->pareja_id = $pareja_id;
 		$this->cam_cat_id = $cam_cat_id;
 
