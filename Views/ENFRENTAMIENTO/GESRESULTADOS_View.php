@@ -42,6 +42,8 @@ function render(){
 					<?php 
 						if($this->enfrentamientos <> NULL){
 							while($row = mysqli_fetch_array($this->enfrentamientos)){
+								$hora_inicio = explode(":", $row['HORA_INICIO']);
+								$hora_fin = explode(":", $row['HORA_FIN']);
 					?>
 							<tr>
 										<td><?php echo $row['CAM_NOMBRE']?></td>
@@ -50,7 +52,7 @@ function render(){
 										<td><?php echo $row['PAREJA1_ID']?></td>
 										<td><?php echo $row['PAREJA2_ID']?></td>
 										<td><?php echo $row['FECHA']?></td>
-										<td><?php echo $row['HORA_INICIO']." - ".$row['HORA_FIN'] ?></td>
+										<td><?php echo $hora_inicio[0].":".$hora_inicio[1]." - ".$hora_fin[0].":".$hora_fin[1] ?></td>
 										<td><?php echo $row['PISTA_NOMBRE']?></td>
 										<?php if( $row['RESULTADO'] <> null){ ?>
 											<td><?php echo $row['RESULTADO']?></td>

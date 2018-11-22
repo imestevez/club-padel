@@ -67,6 +67,20 @@ class CAMPEONATO_Model{
     }
 
     //Mostramos los campeonatos con fecha de inscripción pasada
+    function SHOW_ABIERTOS(){
+
+        $fecha_actual = date('Y-m-d');
+        $sql = "SELECT * FROM CAMPEONATO WHERE (FECHA > '$fecha_actual')";
+
+        $result = $this->mysqli->query($sql); 
+        while ($row = mysqli_fetch_array($result)) {
+            $campeonatos[$row['ID']] = array($row['NOMBRE'],$row['FECHA']);
+        }
+
+            return $campeonatos;
+    }
+
+    //Mostramos los campeonatos con fecha de inscripción pasada
     function SHOW_CLOSE(){
 
         $fecha_actual = date('Y-m-d');

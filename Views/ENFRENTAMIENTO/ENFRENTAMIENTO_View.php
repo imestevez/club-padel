@@ -37,7 +37,7 @@ function render(){
 									<tr>
 
 						<?php if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){ ?>
-									<th>Campeonato</th>
+										<th>Campeonato</th>
 										<th>Categoría</th>
 										<th>Grupo</th>
 										<th>Pareja 1</th>
@@ -50,6 +50,8 @@ function render(){
 								<tbody>
 							<?php 
 							while ($row_proximos = mysqli_fetch_array($this->showall)) {
+								$hora_inicio = explode(":", $row_proximos['HORA_INICIO']);
+								$hora_fin = explode(":", $row_proximos['HORA_FIN']);
 							
 						?>			
 									<tr>	
@@ -59,7 +61,7 @@ function render(){
 										<td><?php echo $row_proximos['PAREJA1_ID']?></td>
 										<td><?php echo $row_proximos['PAREJA2_ID']?></td>
 										<td><?php echo $row_proximos['FECHA']?></td>
-										<td><?php echo $row_proximos['HORA_INICIO']." - ".$row_proximos['HORA_FIN'] ?></td>
+										<td><?php echo $hora_inicio[0].":".$hora_inicio[1]." - ".$hora_fin[0].":".$hora_fin[1] ?></td>
 										<td><?php echo $row_proximos['PISTA_NOMBRE']?></td>
 									</tr>
 						<?php }} else{ ?>		
@@ -77,6 +79,8 @@ function render(){
 						<?php 
 
 							while ($row_proximos = mysqli_fetch_array($this->proximos1)) {
+								$hora_inicio = explode(":", $row_proximos['HORA_INICIO']);
+								$hora_fin = explode(":", $row_proximos['HORA_FIN']);
 							
 						?>			
 									<tr>	
@@ -85,13 +89,15 @@ function render(){
 										<td><?php echo $row_proximos['GR_NOMBRE']?></td>
 										<td><?php echo $row_proximos['CAPITAN']?></td>
 										<td><?php echo $row_proximos['FECHA']?></td>
-										<td><?php echo $row_proximos['HORA_INICIO']." - ".$row_proximos['HORA_FIN'] ?></td>
+										<td><?php echo $hora_inicio[0].":".$hora_inicio[1]." - ".$hora_fin[0].":".$hora_fin[1] ?></td>
 										<td><?php echo $row_proximos['PISTA_NOMBRE']?></td>
 									</tr>
 						<?php } ?>
 
 						<?php 
 							while ($row_proximos = mysqli_fetch_array($this->proximos2)) {
+								$hora_inicio = explode(":", $row_proximos['HORA_INICIO']);
+								$hora_fin = explode(":", $row_proximos['HORA_FIN']);
 							
 						?>			
 									<tr>	
@@ -100,7 +106,7 @@ function render(){
 										<td><?php echo $row_proximos['GR_NOMBRE']?></td>
 										<td><?php echo $row_proximos['CAPITAN']?></td>
 										<td><?php echo $row_proximos['FECHA']?></td>
-										<td><?php echo $row_proximos['HORA_INICIO']." - ".$row_proximos['HORA_FIN'] ?></td>
+										<td><?php echo $hora_inicio[0].":".$hora_inicio[1]." - ".$hora_fin[0].":".$hora_fin[1] ?></td>
 										<td><?php echo $row_proximos['PISTA_NOMBRE']?></td>
 									</tr>
 						<?php }
