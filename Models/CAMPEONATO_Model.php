@@ -80,6 +80,24 @@ class CAMPEONATO_Model{
             return $campeonatos;
     }
 
+    function CAMP_ENFRENTAMIENTOS(){
+        $fecha_actual = date('Y-m-d');
+        $sql = "SELECT * FROM CAMPEONATO WHERE  (FECHA < '$fecha_actual') and 
+                                                (ID IN (SELECT DISTINCT CAMPEONATO_ID FROM GRUPO))";
+                                                echo "1: ".$sql;
+        return $result = $this->mysqli->query($sql);       
+    }
+
+    function CAMP_NOENFRENTAMIENTOS(){
+        $fecha_actual = date('Y-m-d');
+        $sql = "SELECT * FROM CAMPEONATO WHERE  (FECHA < '$fecha_actual') and 
+                                                (ID NOT IN (SELECT DISTINCT CAMPEONATO_ID FROM GRUPO))";
+                                                echo "2: ".$sql;
+
+
+        return $result = $this->mysqli->query($sql);       
+    }
+
     //Mostramos los campeonatos con fecha de inscripción pasada
     function SHOW_CLOSE(){
 
@@ -243,74 +261,6 @@ class CAMPEONATO_Model{
         else{
             return "ERROR: Debe existir al menos un campeonato con una categoría";
         }
-
-            /*while($row = mysqli_fetch_array($result_cat)){
-                //Para cada categoría obtenemos los inscritos
-                $cat_id = $row['CATEGORIA_ID'];
-                $sql_insc = "SELECT * FROM INSCRIPCION I, CAMPEONATO_CATEGORIA C 
-                    WHERE   (I.CAM_CAT_ID = C.ID) and
-                            (C.CATEGORIA_ID = '$cat_id') and
-                            (C.CAMPEONATO_ID = '$id_campeonato')
-                            ";           
-                $result_insc = $this->mysqli->query($sql_insc);
-                $num_inscritos = mysqli_num_rows($result_insc);
-                
-                //Creamos los grupos 
-                $num_grupos = floor($num_inscritos/8);
-
-                
-                for ($grupo = 1; $grupo <= $num_grupos ; $grupo++) { 
-                        
-                        if($num_inscritos/8 > 0){
-                        //Si quedan más de 8 parejas por asignar grupo, creamos nuevo grupo
-                            $GRUPO = new GRUPO_Model($grupo,$id_campeonato,$cat_id);
-                            $GRUPO->ADD();
-                            
-                            for ($i=0; $i < 8; $i++) { 
-                                //Registramos a un usuario como miembro de un grupo
-                                if($inscripcion = mysqli_fetch_array($result_insc)){
-                                    $INSCRIPCION = new INSCRIPCION_Model($inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
-
-                                    //Asignamos el id del grupo correspondiente
-                                    $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo')";
-                                    $result_id_gru = $this->mysqli->query($sql_id_gru);
-                                    $row_grupo_id = mysqli_fetch_array($result_id_gru);
-                                    $id_grupo = $row_grupo_id['ID'];                               
-                                    $INSCRIPCION->SET_GRUPO($id_grupo);
-
-                                    $num_inscritos--;    
-                                }                             
-                            }
-                            
-                        } 
-                                                                         
-                }
-                
-                //Si las parejas que quedan por asignar grupo son menos de 8, las repartimos entre los restantes grupos, cumpliendo que no haya más de 12
-                $grupo_actual = $num_grupos;
-                while($num_inscritos > 0 and $inscripcion = mysqli_fetch_array($result_insc)){
-
-                    $INSCRIPCION = new INSCRIPCION_Model($inscripcion['PAREJA_ID'],$inscripcion['CAM_CAT_ID']);
-
-                    //Asignamos el id del grupo correspondiente
-                    $sql_id_gru = "SELECT * FROM GRUPO WHERE (CATEGORIA_ID = '$cat_id') and (CAMPEONATO_ID = '$id_campeonato') and (NOMBRE = '$grupo_actual')";
-                    $result_id_gru = $this->mysqli->query($sql_id_gru);
-                    $row_grupo_id = mysqli_fetch_array($result_id_gru);
-                    $id_grupo = $row_grupo_id['ID'];                               
-                    $INSCRIPCION->SET_GRUPO($id_grupo);
-                                    
-                    $num_inscritos--;   
-                    $grupo_actual--; 
-
-                    if($grupo_actual == 0){
-                        $grupo_actual = $num_grupos;
-
-                    }   
-                }
-                
-            }*/
-        
-        
 
     }
     

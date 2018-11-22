@@ -134,6 +134,81 @@ class ENFRENTAMIENTO_Model{
                 $result_enf = $this->mysqli->query($sql_enf);
                 return $result_enf; 
     }
+    /*
+    function SHOWALLENF(){
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA < '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID)
+
+                                    ORDER BY 1, 2, 3, 4 
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
+    }
+    */
+        function SHOWALL_ENFRENTAMIENTOS(){
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) 
+
+                                    ORDER BY G.ID
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
+    }
 
     //Función para mostrar a un usuario las propuestas de horarios que tiene para los enfrentamientos en los que está involucrado como pareja 1
     function SHOW_TUSOFERTAS1($login_us){

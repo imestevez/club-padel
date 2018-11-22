@@ -2,10 +2,14 @@
 
 	class CampeonatosCerrados{
 
-		var $datos;
+		var $conenf;
+		var $sinenf;
 
-		function __construct($datos){
-			$this->datos = $datos;
+
+		function __construct($conenf, $sinenf){
+			$this->conenf = $conenf;
+			$this->sinenf = $sinenf;
+
 			$this->render();
 		}
 
@@ -31,10 +35,16 @@
 									</tr>
 								</thead>
 								<tbody>
-			<?php  while( $row = mysqli_fetch_array($this->datos)){ ?>	
+			<?php  while( $row = mysqli_fetch_array($this->sinenf)){ ?>	
 									<tr>
 										<td><?php echo $row['NOMBRE']?></td>
 										<td><a href="../Controllers/CAMPEONATO_Controller.php?action=GENERAR&id=<?php echo $row['ID']?>" class="button small" >Generar Enfrentamientos</a></td>
+									</tr>
+			<?php } ?>	
+			<?php  while( $row = mysqli_fetch_array($this->conenf)){ ?>	
+									<tr>
+										<td><?php echo $row['NOMBRE']?></td>
+										<td><a href="../Controllers/CAMPEONATO_Controller.php?action=SHOWALLENF&id=<?php echo $row['ID']?>&nombre=<?php echo $row['NOMBRE']?>" class="button small" >Ver enfrentamientos</a></td>
 									</tr>
 			<?php } ?>										
 								</tbody>

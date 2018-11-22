@@ -3,6 +3,9 @@
 	session_start();
 	include "../Views/CAMPEONATO/ADDCHAMPIONSHIP_View.php";
     include "../Views/CAMPEONATO/CAMPEONATOSCERRADOS_View.php";
+    include "../Views/ENFRENTAMIENTO/SHOWALLENF_View.php";
+
+    include "../Models/ENFRENTAMIENTO_Model.php";
     include "../Models/CAMPEONATO_Model.php";
     include "../Views/INDEX_View.php";
 
@@ -17,6 +20,10 @@
         $id = $_REQUEST['id'];
     }else{//Si no trae accion
         $id = '';
+    }
+
+    if(isset($_REQUEST['nombre']))  {
+        $nombre = $_REQUEST['nombre'];
     }
 
     //Función para recoger los datos del formulario de add de campeonatos
@@ -53,15 +60,23 @@
 
         case 'CAMPEONATOSCERRADOS':
             $CAMPEONATO = new CAMPEONATO_Model('','');
-            $datos = $CAMPEONATO->SHOW_CLOSE();
-            new CampeonatosCerrados($datos);
+            $conenf = $CAMPEONATO->CAMP_ENFRENTAMIENTOS();
+            $sinenf = $CAMPEONATO->CAMP_NOENFRENTAMIENTOS();
+
+            new CampeonatosCerrados($conenf,$sinenf);
             break; 
 
         case 'GENERAR':
             $CAMPEONATO = new CAMPEONATO_Model('','');
             $mensaje = $CAMPEONATO->GENERAR_GRUPOS($id);
             new MESSAGE($mensaje, "../Controllers/CAMPEONATO_Controller.php?action=CAMPEONATOSCERRADOS");
-            break;       
+            break;
+
+        case 'SHOWALLENF':
+            $CAMPEONATO = new ENFRENTAMIENTO_Model('','','','','');
+            $enfrentamientos = $CAMPEONATO->SHOWALL_ENFRENTAMIENTOS($id);
+            new EnfrentamientosCampeonato($nombre,$enfrentamientos);
+            break;         
     }
 
 
