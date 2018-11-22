@@ -25,20 +25,9 @@ class CAMPEONATOUSUARIO_Model{
 
 		$result_par = $this->mysqli->query($sql_par);
 		$listCampeonatos = NULL;
-
+		$i =0;
 		while($row = mysqli_fetch_array($result_par)){
 			$id_par = $row['ID'];
-			/*
-			$sql = "SELECT U.NOMBRE AS NOMBRE_USUARIO, CAT.NIVEL, CAT.GENERO, CAM.NOMBRE AS NOMBRE_CAMPEONATO
-	                FROM USUARIO U, PAREJA P, INSCRIPCION I, CATEGORIA CAT, CAMPEONATO_CATEGORIA CAM_CAT, CAMPEONATO CAM
-	                WHERE      ( (P.ID = '$id_par')
-	                		AND (U.LOGIN = P.JUGADOR_2) 
-	                        AND (P.ID = I.PAREJA_ID)
-	                        AND (CAT.ID = I.CAM_CAT_ID) 
-	                        AND (CAT.ID = CAM_CAT.CATEGORIA_ID)
-	                        AND (CAM.ID = CAM_CAT.CAMPEONATO_ID))     
-	                ORDER BY 4,2,3";
-	        */
 	        $sql = "SELECT  	CM.NOMBRE AS CAMPEONATO_NOMBRE,
 	        					CT.NIVEL,
 	        					CT.GENERO,
@@ -67,7 +56,7 @@ class CAMPEONATOUSUARIO_Model{
 	        }
 	        else{ // si la busqueda es correcta devolvemos el recordset resultado
 	            if($resultado <> NULL) {
-	            	$i =0;
+	            	
 	                  while($row = mysqli_fetch_array($resultado)){   
 
 	                  	$jugador_1 = $row['JUGADOR_1'];
@@ -101,7 +90,7 @@ class CAMPEONATOUSUARIO_Model{
 	                  	}                             
 	                  	$i++;
 	                    
-	                }   
+	                } 
 	            }
 
 	        }  

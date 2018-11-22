@@ -84,7 +84,6 @@ class CAMPEONATO_Model{
         $fecha_actual = date('Y-m-d');
         $sql = "SELECT * FROM CAMPEONATO WHERE  (FECHA < '$fecha_actual') and 
                                                 (ID IN (SELECT DISTINCT CAMPEONATO_ID FROM GRUPO))";
-                                                echo "1: ".$sql;
         return $result = $this->mysqli->query($sql);       
     }
 
@@ -92,7 +91,6 @@ class CAMPEONATO_Model{
         $fecha_actual = date('Y-m-d');
         $sql = "SELECT * FROM CAMPEONATO WHERE  (FECHA < '$fecha_actual') and 
                                                 (ID NOT IN (SELECT DISTINCT CAMPEONATO_ID FROM GRUPO))";
-                                                echo "2: ".$sql;
 
 
         return $result = $this->mysqli->query($sql);       
