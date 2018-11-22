@@ -70,7 +70,6 @@ class HUECO_Model{
                         (ENFRENTAMIENTO_ID = '$this->enfrentamiento_id') and
                         (PAREJA_ID = '$this->pareja_id') and
                         (HORARIO_ID = '$this->horario_id')";
-                        var_dump($sql_del);
         if( $res_del = $this->mysqli->query($sql_del)){
             return "Hueco borrado correctamente";
         }

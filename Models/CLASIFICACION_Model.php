@@ -146,7 +146,6 @@ class CLASIFICACION_Model{
         $p2_pt = 0;
 
         $ganador_partido = $this->GANADOR_PARTIDO($ganador_set_1,$ganador_set_2,$ganador_set_3);
-        echo "ganador: ".$ganador_partido . "-- enfrentamiento: " . $enfrentamiento;
         $sql_enf = "SELECT * FROM ENFRENTAMIENTO WHERE (ID = '$enfrentamiento')";
 
         $res_enf = $this->mysqli->query($sql_enf);

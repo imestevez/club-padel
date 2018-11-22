@@ -122,7 +122,6 @@ class HORARIO_Model{
             if($resultado <> NULL){
                 while ($row = mysqli_fetch_array($resultado)) {
                     $this->horarios_activos[$row["HORA_INICIO"]] = $row["HORA_FIN"];
-                    //var_dump($row["HORA_INICIO"]);
 
                 }//fin del while
             }//fin del if

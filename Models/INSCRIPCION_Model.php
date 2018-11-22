@@ -31,7 +31,6 @@ class INSCRIPCION_Model{
                                     '$this->cam_cat_id',
                                     null
                                     )";
-        var_dump("\n\n\n", $sql);
         if ($result = $this->mysqli->query($sql)){ //si la ejecución de la query no da error
                     $this->mensaje = 'Registrado correctamente';
                     return $this->mensaje; // introduzca un valor para el usuario  
