@@ -293,8 +293,11 @@ class CAMPEONATO_Model{
                     //Comprobamos si ya exise el enfrentamiento
                     $pareja2_id = $parejas[$j];
                     $sql_com = "SELECT * FROM ENFRENTAMIENTO WHERE (
+                        (
                         ( (PAREJA_1 = '$pareja1_id') and (PAREJA_2 = '$pareja2_id') ) or
                         ( (PAREJA_2 = '$pareja1_id') and (PAREJA_1 = '$pareja2_id') ) 
+                        ) and
+                        (GRUPO_ID = '$num_grupo')
                     )";
                     $result_com = $this->mysqli->query($sql_com);
                     if(mysqli_num_rows($result_com) == 0 and ($pareja1_id <> $pareja2_id)){ //Si no existe
