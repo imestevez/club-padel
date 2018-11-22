@@ -208,7 +208,7 @@ class RESERVA_Model{
 			$sql = "SELECT COUNT(*) AS TOTAL FROM RESERVA WHERE USUARIO_LOGIN = '$login'";
 			$resultado = $this->mysqli->query($sql);
 			$fetch_resultado = mysqli_fetch_array($resultado);
-			if($fetch_resultado[0]==="5"){
+			if($fetch_resultado[0]>="5"){
 				return TRUE;
 			}
 			else{
