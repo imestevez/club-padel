@@ -18,6 +18,10 @@
         $campeonato_ID = $_REQUEST['campeonato_ID'];
     }
 
+    if(isset($_REQUEST['nombre']))  {//Si trae acción, se almacena el valor en la variable action
+        $nombre = $_REQUEST['nombre'];
+    }
+
 
     switch ($action) {
         case 'SHOW':
@@ -35,7 +39,7 @@
                     $num_grupos = $CLASIFICACION->NUM_GRUPOS($campeonato_ID);
 
 
-                    new RANKING($CAMPEONATO,$nombre_tablas, $clasificaciones,$num_grupos);
+                    new RANKING($nombre,$nombre_tablas, $clasificaciones,$num_grupos);
             }
             
             break; 

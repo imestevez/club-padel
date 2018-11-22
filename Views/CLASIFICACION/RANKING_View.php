@@ -18,10 +18,13 @@ function render(){
     include '../Views/HEADER_View.php';
 ?>
 	<section id="main" class="container">
+		
 		<header>
-		   <h2><?php  $_REQUEST['nombre']?></h2>
+		   <h2><?php  echo $this->campeonato?></h2>
 		    <p>Consulta las clasificaciones de los distintos campeonatos</p>
 		 </header>
+		 <div class="row">
+			<div class="col-12">
 
 		 	<?php while($cam_cat_gru = mysqli_fetch_array($this->nombre_tablas)){ ?>
 		 		<section class="box">
@@ -60,10 +63,15 @@ function render(){
 							</table>
 						</div>
 					</section>
+				
+    <?php } ?>
+
+        </div>
+			</div>
    		</section>
-    <?php
-        include '../Views/FOOTER_View.php';
-        }
-    }
-}
+
+   	<?php
+		        include '../Views/FOOTER_View.php';
+		    }
+		}
     ?>
