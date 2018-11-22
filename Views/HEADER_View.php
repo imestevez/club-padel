@@ -5,7 +5,7 @@ include '../Locales/Strings_SPANISH.php';
 ?>
 <html>
 <head>
-  <title>SóloPádelPro - By ABP_41</title>
+  <title>SóloPádelPro</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="../assets/css/main.css" />
@@ -17,7 +17,7 @@ include '../Locales/Strings_SPANISH.php';
   <div id="page-wrapper">
     <!-- Header -->
     <header id="header">
-      <h1><a href="../index.php">SóloPádelPro</a> By ABP_41</h1>
+      <h1><a href="../index.php">SóloPádelPro</a></h1>
       <nav id="nav">
         <ul>
           <li><a href="../index.php">Inicio</a></li>
@@ -102,7 +102,7 @@ include '../Locales/Strings_SPANISH.php';
                 </li>
               </ul>
             </li>
-            
+
             <li>
               <a href="#" class="icon fa-angle-down">Gestionar Partidos</a>
               <ul>
@@ -113,7 +113,7 @@ include '../Locales/Strings_SPANISH.php';
                     <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>
                   </ul>
                 </li>
-                
+
                 <?php
                 if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                   ?>
