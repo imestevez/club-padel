@@ -178,7 +178,7 @@ class ENFRENTAMIENTO_Model{
                 return $result_enf; 
     }
     */
-        function SHOWALL_ENFRENTAMIENTOS(){
+        function SHOWALL_ENFRENTAMIENTOS($id){
         //Calculamos la fecha actual
         $fecha_act = date("Y-m-d");
 
@@ -202,7 +202,8 @@ class ENFRENTAMIENTO_Model{
 
                                     (E.GRUPO_ID = G.ID) and
                                     (G.CAMPEONATO_ID = CA.ID) and
-                                    (G.CATEGORIA_ID = CT.ID) 
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (CA.ID = '$id')
 
                                     ORDER BY G.ID
                             ";

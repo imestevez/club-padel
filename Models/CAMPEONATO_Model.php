@@ -300,7 +300,7 @@ class CAMPEONATO_Model{
                         (GRUPO_ID = '$num_grupo')
                     )";
                     $result_com = $this->mysqli->query($sql_com);
-                    if(mysqli_num_rows($result_com) == 0 and ($pareja1_id <> $pareja2_id)){ //Si no existe
+                    if(mysqli_num_rows($result_com) == 0 && ($pareja1_id <> $pareja2_id)){ //Si no existe
                         $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model($num_grupo, null, $pareja1_id, $pareja2_id, null);
                         $ENFRENTAMIENTO->ADD();
                     }
