@@ -92,7 +92,7 @@ include '../Locales/Strings_SPANISH.php';
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                     ?>
-                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW" > Introducir resultados </a></li>
+                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action" > Introducir resultados </a></li>
                     <?php
                     }
                     ?>

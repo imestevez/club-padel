@@ -6,7 +6,13 @@
     include "../Views/ENFRENTAMIENTO/PROPONERHUECO_View.php";
     include "../Views/ENFRENTAMIENTO/GESRESULTADOS_View.php";
     include "../Views/ENFRENTAMIENTO/INTRODUCIRRESULTADO_View.php";
+    include "../Views/ENFRENTAMIENTO/SHOWCAMPEONATOS_View.php";
+    include "../Views/ENFRENTAMIENTO/SHOWPAREJA_View.php";
+
     include "../Models/CLASIFICACION_Model.php";
+    include "../Models/CAMPEONATO_Model.php";
+    include "../Models/PAREJA_Model.php";
+
 
 
     include "../Models/ENFRENTAMIENTO_Model.php";
@@ -15,7 +21,7 @@
 	if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
     }else{//Si no trae accion
-        $action = 'SHOW';
+        $action = '';
     }
 
     if(isset($_REQUEST["enfrentamiento_id"]))  {//Si trae acción, se almacena el valor en la variable action
@@ -108,9 +114,20 @@
 
     switch ($action) {
         case 'SHOW':
-            $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
-            $enfrentamientos = $ENFRENTAMIENTO->SHOW();
-            new GESRESULTADOS($enfrentamientos);
+            if(isset($_REQUEST['campeonato_ID'])){
+                $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
+                $enfrentamientos = $ENFRENTAMIENTO->SHOW_ENFS_CAMP($_REQUEST['campeonato_ID']);
+                $CAMPEONATO = new CAMPEONATO_Model('','');
+                $camp = $CAMPEONATO->GET($_REQUEST['campeonato_ID']);
+                new GESRESULTADOS($camp,$enfrentamientos);
+            }
+            break;
+         case 'SHOW_PAREJA':
+             if(isset($_REQUEST['pareja_ID']) && isset($_REQUEST['campeonato_ID'])){
+                $PAREJA = new PAREJA_Model('','','');
+                $usuarios = $PAREJA->SHOW_DEPORTISTAS($_REQUEST['pareja_ID']);
+                new SHOW_PAREJA($_REQUEST['campeonato_ID'],$usuarios);
+            }
             break;
 
     	case 'SHOWPROXIMOS':
@@ -165,8 +182,11 @@
             $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW');
 
             break;
-
-    
+        default:
+            $CAMPEONATO = new CAMPEONATO_Model('','');
+            $conenf = $CAMPEONATO->CAMP_ENFRENTAMIENTOS();
+            new CAMPEONATOS_ENFRENT($conenf);
+        break;
     	
     }
 

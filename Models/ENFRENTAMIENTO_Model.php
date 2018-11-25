@@ -79,6 +79,49 @@ class ENFRENTAMIENTO_Model{
         $res = $this->mysqli->query($sql_up);
     }
 
+    function SHOW_ENFS_CAMP($campenato_ID){
+           //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA <= '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID) and
+                                    (CA.ID = '$campenato_ID')
+
+                                    ORDER BY 1, 2, 3, 4 
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
+    }
 
     function SHOW(){
         //Calculamos la fecha actual

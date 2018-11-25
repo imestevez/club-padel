@@ -44,7 +44,15 @@ class CAMPEONATO_Model{
         }
         return $this->mensaje;                      
     }
-
+    function GET($campeonato_ID){
+        $sql = "SELECT * FROM CAMPEONATO WHERE (ID = '$campeonato_ID')";
+            if (!($result = $this->mysqli->query($sql))){
+                return  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            }
+            else{ 
+                return $result;
+            }
+    }
     //Mostramos todos los campeonatos
     function SHOWALL(){
 

@@ -93,6 +93,15 @@ class PAREJA_Model{
 		}
 		return $this->mensaje;
 	}
+	function SHOW_DEPORTISTAS($pareja_ID){
+		$sql = "SELECT * FROM PAREJA WHERE (ID = '$pareja_ID')";
+		if (!($resultado = $this->mysqli->query($sql))){
+            return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+            return $resultado;
+        } 
+	}
 
 	function GET_ID(){
         

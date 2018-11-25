@@ -84,6 +84,10 @@ class SHOW_RESERVAS{
 								?>
 										<a class="button small" href="../Controllers/RESERVAR_PISTA_Controller.php?action=DELETE&reserva_ID=<?=$row['ID']?>">Borrar</a>
 								<?php
+									}else{
+								?>
+										<a class="button alt small">Menos de 12 horas</a>
+								<?php
 									}
 								?>
 									</td>
