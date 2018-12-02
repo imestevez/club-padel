@@ -179,7 +179,7 @@
             $CLASIFICACION = new CLASIFICACION_Model('','','');
             $clasificacion = $CLASIFICACION->ACTUALIZAR_CLASIFICACION($resultado,$_REQUEST["enfrentamiento_ID"]);
 
-            $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW');
+            $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php');
 
             break;
         default:
