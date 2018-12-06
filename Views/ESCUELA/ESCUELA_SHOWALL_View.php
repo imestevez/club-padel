@@ -66,7 +66,7 @@ function render(){
 								} //fin del if
 								else{
 							?>
-									<a class="button alt small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&escuela_ID=<?=$row['ID']?>">Ver Inscritos</a>
+									<a class="button small" href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_INSCRITOS&escuela_ID=<?=$row['ID']?>">Ver Inscritos</a>
 							<?php
 								}
 							?>

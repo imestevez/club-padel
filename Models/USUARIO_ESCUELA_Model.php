@@ -106,8 +106,13 @@ class USUARIO_ESCUELA_Model{
     }  // fin del metodo UPDATE 
 
     function SHOW_INSCRITOS(){
-        $sql = "SELECT * FROM USUARIO_ESCUELA UP , USUARIO U, ESCUELA P, HORARIO H
-                WHERE (UP.ESCUELA_ID = '$this->escuela_ID') AND (UP.USUARIO_LOGIN = U.LOGIN)  AND (P.ID = '$this->escuela_ID') AND (H.ID = P.HORARIO_ID)";
+        $sql = "SELECT *, U.LOGIN, U.NOMBRE, U.APELLIDOS, E.INSCRIPCIONES 
+                FROM USUARIO_ESCUELA UE , USUARIO U, ESCUELA E, HORARIO H
+                WHERE (UE.ESCUELA_ID = '$this->escuela_ID') 
+                        AND (UE.USUARIO_LOGIN = U.LOGIN)  
+                        AND (E.ID = '$this->escuela_ID') 
+                        AND (H.ID = E.HORARIO_ID)";
+
         if(!$resultado = $this->mysqli->query($sql) ){
             return 'ERROR: Fallo en la consulta sobre la base de datos'; 
         }else{

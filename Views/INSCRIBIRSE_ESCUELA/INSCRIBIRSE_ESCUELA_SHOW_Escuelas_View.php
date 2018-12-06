@@ -1,10 +1,10 @@
 <?php
 
-class SHOW_INSCRIPCIONES{
-	var $tuplas;
+class INSCRIBIRSE_ESCUELA{
+	var $escuelas;
 
-	function __construct($tuplas){	
-		$this->tuplas = $tuplas;
+	function __construct($escuelas){	
+		$this->escuelas = $escuelas;
 		//$this->render();
 	}
 
@@ -18,38 +18,33 @@ function render(){
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Tus Inscripciones</h2>
-	    <p>Consulta los partidos en los que estas inscrito</p>
+	   <h2>Inscripción en escuelas</h2>
+	    <p>Inscribete en una escuela deportiva del club</p>
 	    
 	 </header>
 				<div class="table-wrapper">
 					<table>
 						<thead >
 							<tr>
-								<th>Fecha</th>
+								<th>Nombre</th>
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
 								<th>Pista</th>
 								<th>Numero Inscritos</th>
-								<th><a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirse</a></th>
 							</tr>
 						</thead>
 						<tbody>
 					<?php 
-						if($this->tuplas <> NULL){
-							while($row = mysqli_fetch_array($this->tuplas)){
-								$hoy = date('Y-m-d');
-								$baja = true;
-								if($hoy > $row['FECHA']){
-									$baja = false;
-								}
-								$fecha = explode("-", $row['FECHA']);
+						if($this->escuelas <> NULL){
+							while($row = mysqli_fetch_array($this->escuelas)){
 								$hora_inicio = explode(":", $row["HORA_INICIO"]);
 								$hora_fin = explode(":", $row["HORA_FIN"]);
-						?>
+
+					?>
+					<form method="post" action="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=ADD">
 							<tr>
 								<td>
-									<?=$fecha[2]."/".$fecha[1]."/".$fecha[0]?>
+									<?=$row['NOMBRE']?>
 								</td>
 								<td>
 									<?=$hora_inicio[0].":".$hora_inicio[1]?>
@@ -58,28 +53,17 @@ function render(){
 									<?=$hora_fin[0].":".$hora_fin[1]?>
 								</td>
 								<td>
-									<?=$row['NOMBRE']?>
+									<?=$row['NOMBRE_PISTA']?>
 								</td>
 								<td>
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-							<?php
-								if( ($baja == true) && ($row['INSCRIPCIONES'] < 4) ){
-							?>
-									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">Dar de baja</a>
-							<?php
-								}
-								if($row['INSCRIPCIONES'] >= 4){
-							?>
-									<a class="button alt small">Reserva</a>
-							<?php
-								}
-							?>
-									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">Ver Inscritos</a>
-								</td>
-
-							</tr>
+										<input class="oculto" name="escuela_ID" readonly value="<?=$row['ID']?>">
+										<input type="submit" class="small" value="Inscribir">
+									</td>
+								</tr>
+						</form>	
 					<?php
 							}//fin del while
 						}//fin del if
@@ -102,37 +86,30 @@ function render(){
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Partidos</h2>
-	    <p>Consulta las inscripciones de los deportistas</p>
+	   <h2>Inscripción en escuelas</h2>
+	    <p>Elige una escuela deportiva para inscribir a un deportista</p>
 	 </header>
 				<div class="table-wrapper">
 					<table>
 						<thead >
 							<tr>
-								<th>Fecha</th>
+								<th>Nombre</th>
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
 								<th>Pista</th>
 								<th>Numero Inscritos</th>
-								<th><a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirse</a></th>
 							</tr>
 						</thead>
 						<tbody>
 					<?php 
-						if($this->tuplas <> NULL){
-							while($row = mysqli_fetch_array($this->tuplas)){
-								$hoy = date('Y-m-d');
-								$baja = true;
-								if($hoy > $row['FECHA']){
-									$baja = false;
-								}
-								$fecha = explode("-", $row['FECHA']);
+						if($this->escuelas <> NULL){
+							while($row = mysqli_fetch_array($this->escuelas)){
 								$hora_inicio = explode(":", $row["HORA_INICIO"]);
 								$hora_fin = explode(":", $row["HORA_FIN"]);
 						?>
-							<tr>
+														<tr>
 								<td>
-									<?=$fecha[2]."/".$fecha[1]."/".$fecha[0]?>
+									<?=$row['NOMBRE']?>
 								</td>
 								<td>
 									<?=$hora_inicio[0].":".$hora_inicio[1]?>
@@ -141,14 +118,13 @@ function render(){
 									<?=$hora_fin[0].":".$hora_fin[1]?>
 								</td>
 								<td>
-									<?=$row['NOMBRE']?>
+									<?=$row['NOMBRE_PISTA']?>
 								</td>
 								<td>
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">Ver Inscritos</a>
-						
+									<a class="button small" href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=ADD&escuela_ID=<?=$row['ID']?>">Inscribir</a>
 								</td>
 
 							</tr>

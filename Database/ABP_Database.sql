@@ -633,3 +633,7 @@ INSERT INTO USUARIO_PARTIDO (ID, USUARIO_LOGIN, PARTIDO_ID) VALUES  (0, 'pepe', 
                                                                     (0, 'jose', 5),
                                                                     (0, 'guillermo', 5);
 
+-- INSERTS EN TABLA ESCUELA
+INSERT INTO ESCUELA (ID, NOMBRE, PISTA_ID, HORARIO_ID, INSCRIPCIONES ) VALUES (1, "ESCUELA 1", 1, 2, 0),
+                                                                              (2, "ESCUELA 2", 1, 1, 0),
+                                                                              (3, "ESCUELA 3", 1, 4, 0);

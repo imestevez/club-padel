@@ -28,11 +28,67 @@ class RESERVA_Model{
 		$this->hoy = date_format(date_create(date('Y-m-d')), 'Y-m-d');
 		$this->hoy_mas6 = date_format(date_create(date('Y-m-d',strtotime("+6 day"))), 'Y-m-d');
 
+
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
+
+       if($_SESSION["reserva"] == 0){ 
+        $this->HORARIO_FULL(7) ; //reserva de la franja horaria de las 18:00
+       }
+
     }
+    function HORARIO_FULL($horario){
+       $_SESSION["reserva"] = 1;
+        $i = 0;
+        for($i = 0; $i<10; $i++){
+            $this->fecha = date("Y-m-d",strtotime("+".$i." day"));
+            $this->horario_ID = $horario;
+            $this->user_login = "ADMIN";
 
+            $sql = "SELECT ID FROM PISTA";
 
+            if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
+                return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
+            }else {
+                if($resultado <> NULL){
+                    while ($row = mysqli_fetch_array($resultado)) {
+                        $this->pista_ID = $row[0];
+                        $this->ADD_OVERRIDE();
+                    }
+                }
+            }
+        }
+        return;
+
+    }//  fin HORARIO_FULL()
+
+    function ADD_MULTI (){
+        $i = 0;
+        for($i = 0; $i<30; $i++){
+            $this->fecha = date("Y-m-d",strtotime("+".$i." day"));
+           $resultado=  $this->ADD_OVERRIDE();
+        }
+        return $resultado;
+    } //fin ADD_MULTI
+
+    function ADD_OVERRIDE()
+    {
+
+        $sql = "SELECT * FROM RESERVA
+                WHERE       (FECHA = '$this->fecha')
+                        AND (HORARIO_ID = '$this->horario_ID')
+                        AND (PISTA_ID = '$this->pista_ID')";
+        if (!$resultado = $this->mysqli->query($sql)){ //si da error la ejecución de la query
+            return 'ERROR: No se ha podido conectar con la base de datos'; //error en la consulta (no se ha podido conectar con la bd). Devolvemos un mensaje que el controlador manejara
+        }else { //si la ejecución de la query no da error
+            $num_rows = mysqli_num_rows($resultado);
+            if($num_rows > 0){
+               $this->DELETE_Duplicada();
+            }
+          return $this->ADD();
+        }
+
+    } // fin del metodo ADD_ESCUELA
 
     function ADD()
     {
@@ -99,7 +155,7 @@ class RESERVA_Model{
         }
     }
      function SHOWALL(){
-		$sql = "SELECT * FROM RESERVA ORDER BY FECHA";
+		$sql = "SELECT * FROM RESERVA ORDER BY FECHA DESC";
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
             return $this->mensaje;
@@ -111,10 +167,10 @@ class RESERVA_Model{
 
 		function SHOWALL_Login($login){
 			if($_SESSION["rol"] == 'ADMIN'){
-				$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA, H.HORA_INICIO, P.ID";
+				$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA DESC, H.HORA_INICIO, P.ID";
 			}
 			else{
-			$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (USUARIO_LOGIN = '$login') AND (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA, H.HORA_INICIO, P.ID";
+			$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (USUARIO_LOGIN = '$login') AND (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA DESC, H.HORA_INICIO, P.ID";
 		}
 		  if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
@@ -202,19 +258,30 @@ class RESERVA_Model{
             return 'Borrado correctamente';
         }
     }
+    function DELETE_Duplicada(){
+        $sql = "DELETE FROM RESERVA 
+                WHERE       (FECHA = '$this->fecha')
+                        AND (HORARIO_ID = '$this->horario_ID')
+                        AND (PISTA_ID = '$this->pista_ID')";
+        if(!$resultado = $this->mysqli->query($sql) ){
+          return 'ERROR: Fallo en la consulta sobre la base de datos';
+        }else{
+            return 'Borrado correctamente';
+        }
+    }//fin DELETE_Duplicada
 
-		function CHECK_MAX(){
-            $login = $_SESSION['login'];
-			$sql = "SELECT COUNT(*) AS TOTAL FROM RESERVA WHERE USUARIO_LOGIN = '$login'";
-			$resultado = $this->mysqli->query($sql);
-			$fetch_resultado = mysqli_fetch_array($resultado);
-			if($fetch_resultado[0]>="5"){
-				return TRUE;
-			}
-			else{
-				return FALSE;
-			}
+	function CHECK_MAX(){
+        $login = $_SESSION['login'];
+		$sql = "SELECT COUNT(*) AS TOTAL FROM RESERVA WHERE USUARIO_LOGIN = '$login'";
+		$resultado = $this->mysqli->query($sql);
+		$fetch_resultado = mysqli_fetch_array($resultado);
+		if($fetch_resultado[0]>="5"){
+			return TRUE;
 		}
+		else{
+			return FALSE;
+		}
+	}
 
 }
 

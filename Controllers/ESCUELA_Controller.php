@@ -5,6 +5,8 @@
     include '../Models/PISTA_Model.php';
     include '../Models/HORARIO_Model.php';
     include '../Models/ESCUELA_Model.php';
+    include '../Models/USUARIO_ESCUELA_Model.php';
+
 
     include '../Views/ESCUELA/ESCUELA_ADD_View.php'; 
     include '../Views/ESCUELA/ESCUELA_SHOWALL_View.php'; 
@@ -46,20 +48,6 @@ function get_data_form(){
 
     return $ESCUELA;
 }
-function get_data_recordset($tupla){
-    if($tupla <> NULL){
-        $RESERVA = new RESERVA_Model(
-            NULL,
-            $tupla["FECHA"],
-            $_SESSION["login"],
-            $tupla["PISTA_ID"],
-            $tupla["HORARIO_ID"]
-            );
-    }else{
-        $RESERVA = new RESERVA_Model('','','','','');
-    }
-    return $RESERVA;
-}
 
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
@@ -90,16 +78,16 @@ function get_data_recordset($tupla){
             case 'SHOW_INSCRITOS':
                 if($_SESSION['rol'] == 'ADMIN'){
                   if(isset($_REQUEST["escuela_ID"])){
-                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"], '','','','');
-                        $inscritos = $ESCUELA->SHOW_INSCRITOS();
-                        $VIEW = new INSCRITOS_PARTIDO($inscritos);
+                        $USUARIO_ESCUELA = new USUARIO_ESCUELA_Model('','',$_REQUEST["escuela_ID"]);
+                        $inscritos = $USUARIO_ESCUELA->SHOW_INSCRITOS();
+                        $VIEW = new INSCRITOS_ESCUELA($inscritos);
                         $VIEW->renderAdmin();
                      }
                 }else{
                     if(isset($_REQUEST["escuela_ID"])){
-                        $ESCUELA = new ESCUELA_Model('','',$_REQUEST["escuela_ID"]);
-                        $inscritos = $ESCUELA->SHOW_INSCRITOS();
-                        $VIEW = new INSCRITOS_PARTIDO($inscritos);
+                        $USUARIO_ESCUELA = new USUARIO_ESCUELA_Model('','',$_REQUEST["escuela_ID"]);
+                        $inscritos = $USUARIO_ESCUELA->SHOW_INSCRITOS();
+                        $VIEW = new INSCRITOS_ESCUELA($inscritos);
                         $VIEW->render();
                      }
                 }
@@ -116,6 +104,7 @@ function get_data_recordset($tupla){
                         $resultado = "ERROR: No tienes privilegios de Administrador";
                         $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }
+            }
             break;
 
     	default:

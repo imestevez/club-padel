@@ -18,10 +18,37 @@ class ESCUELA_Model{
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
-      //  $this->UPDATE();
+        $this->UPDATE();
 
     }
+   function UPDATE(){
 
+        $sql = "SELECT * FROM ESCUELA";
+
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+           $num_rows = mysqli_num_rows($resultado);
+            $list = NULL;
+           while ($row = mysqli_fetch_array($resultado)) {
+                $list[$row["ID"]] = $row["INSCRIPCIONES"];
+            } //fin while 
+            if($list <> NULL){
+                foreach ($list as $key => $value) {
+
+                    $sql = "UPDATE ESCUELA SET INSCRIPCIONES = (SELECT COUNT(*) 
+                                                                    FROM USUARIO_ESCUELA 
+                                                                    WHERE (ESCUELA_ID = '$key')  ) 
+                            WHERE ID = '$key'";
+                    if(!$resultado = $this->mysqli->query($sql)){
+                       $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+                    }
+                }//fin del foreach
+            }//fin del id
+        }//fin else
+    }  // fin del metodo UPDATE  
     function ADD()
     {
         if (($this->nombre <> '') || ($this->horario_ID <> '') || ($this->pista_ID <> '') ){ // si los atributos estan vacios
@@ -76,10 +103,10 @@ class ESCUELA_Model{
 
     function SHOWALL(){
 
-        $sql = "SELECT E.ID, E.NOMBRE, E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN, P.NOMBRE AS NOMBRE_PISTA 
-                FROM ESCUELA E, HORARIO H, PISTA P 
+        $sql = "SELECT E.ID, E.NOMBRE, E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN, PI.NOMBRE AS NOMBRE_PISTA 
+                FROM ESCUELA E, HORARIO H, PISTA PI 
                 WHERE       (E.HORARIO_ID = H.ID)
-                        AND (E.PISTA_ID = P.ID)";
+                        AND (E.PISTA_ID = PI.ID)";
         if (!($resultado = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
             return 'ERROR: No se ha podido conectar con la base de datos';
         }else{
@@ -97,54 +124,14 @@ class ESCUELA_Model{
             return $this->mensaje;
         }
     }// fin del método DELETE
-    
-    /*
-    function UPDATE(){
+     function SHOWALL_Inscripciones(){
 
-        $sql = "SELECT * FROM ESCUELA";
-
-        if (!($resultado = $this->mysqli->query($sql))){
-            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-            return $this->mensaje; 
-        }
-        else{ // si la busqueda es correcta devolvemos el recordset resultado
-           $num_rows = mysqli_num_rows($resultado);
-            $list = NULL;
-           while ($row = mysqli_fetch_array($resultado)) {
-                $list[$row["ID"]] = $row["INSCRIPCIONES"];
-            } //fin while 
-            if($list <> NULL){
-                foreach ($list as $key => $value) {
-
-                    $sql = "UPDATE ESCUELA SET INSCRIPCIONES = (SELECT COUNT(*) 
-                                                                    FROM USUARIO_ESCUELA 
-                                                                    WHERE (ESCUELA_ID = '$key')  ) 
-                            WHERE ID = '$key'";
-                    if(!$resultado = $this->mysqli->query($sql)){
-                       $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
-                    }
-                }//fin del foreach
-            }//fin del id
-        }//fin else
-    }  // fin del metodo UPDATE   
-    
-    function EDIT(){
-        $sql = "UPDATE ESCUELA SET RESERVA_ID = '$this->reserva_ID'
-                WHERE ID = '$this->id'";
-            if(!$resultado = $this->mysqli->query($sql)){
-               return  'ERROR: Fallo en la consulta sobre la base de datos';
-            }else{
-                return true;
-            }
-    }// fin del método EDIT
-    function SHOWALL_Inscripciones(){
-
-        $sql = "SELECT P.ID, UP.USUARIO_LOGIN, P.NOMBRE, P.PISTA_ID, PI.NOMBRE, P.HORARIO_ID, 
-                        P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM ESCUELA P, HORARIO H, USUARIO_ESCUELA UP, PISTA PI
-                WHERE      (H.ID = P.HORARIO_ID) AND (P.ID = UP.ESCUELA_ID)  AND (PI.ID = P.PISTA_ID)
-                GROUP BY P.ID
-                ORDER BY P.NOMBRE DESC, H.HORA_INICIO, P.PISTA_ID";
+        $sql = "SELECT E.ID, UE.USUARIO_LOGIN, E.NOMBRE, E.PISTA_ID, PI.NOMBRE AS NOMBRE_PISTA, E.HORARIO_ID, 
+                        E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM ESCUELA E, HORARIO H, USUARIO_ESCUELA UE, PISTA PI
+                WHERE      (H.ID = E.HORARIO_ID) AND (E.ID = UE.ESCUELA_ID)  AND (PI.ID = E.PISTA_ID)
+                GROUP BY E.ID
+                ORDER BY E.NOMBRE DESC, H.HORA_INICIO, E.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
@@ -157,11 +144,11 @@ class ESCUELA_Model{
     
     function SHOWALL_Login($login){
 
-        $sql = "SELECT P.ID, P.NOMBRE, P.PISTA_ID, P.HORARIO_ID, P.INSCRIPCIONES, PI.NOMBRE, H.HORA_INICIO, H.HORA_FIN
-                FROM ESCUELA P, HORARIO H, USUARIO_ESCUELA U, PISTA PI
-                WHERE      (H.ID = P.HORARIO_ID) AND (U.ESCUELA_ID = P.ID) AND (U.USUARIO_LOGIN = '$login')  AND (PI.ID = P.PISTA_ID)
-                GROUP BY P.ID
-                ORDER BY P.NOMBRE DESC, H.HORA_INICIO, P.PISTA_ID";
+        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, E.INSCRIPCIONES, PI.NOMBRE AS NOMBRE_PISTA, H.HORA_INICIO, H.HORA_FIN
+                FROM ESCUELA E, HORARIO H, USUARIO_ESCUELA U, PISTA PI
+                WHERE      (H.ID = E.HORARIO_ID) AND (U.ESCUELA_ID = E.ID) AND (U.USUARIO_LOGIN = '$login')  AND (PI.ID = E.PISTA_ID)
+                GROUP BY E.ID
+                ORDER BY E.NOMBRE DESC, H.HORA_INICIO, E.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
@@ -170,103 +157,56 @@ class ESCUELA_Model{
         else{ // si la busqueda es correcta devolvemos el recordset resultado
             return $resultado;
         }  
-    }// fin del método SHOWALL_Partidos
+    }// fin del método SHOWALL_Login
 
-    function SHOW_FuturosLogin($login){
-        $nombre_completa = getdate();
-        $hora = date('H:i:s');
-        $nombre = date('Y-m-d');
-            
-        $sql = "SELECT * FROM USUARIO_ESCUELA WHERE USUARIO_LOGIN = '$login'";
-            // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
-        if (!($resultado1 = $this->mysqli->query($sql))){
-            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-            return $this->mensaje; 
-        }
-        else{ // si la busqueda es correcta devolvemos el recordset resultado
-            $num_rows1 = mysqli_num_rows($resultado1);
+    function SHOWALL_Disponibles(){
 
-
-            $sql = "SELECT P.ID, P.NOMBRE, P.PISTA_ID, P.HORARIO_ID, PI.NOMBRE, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM ESCUELA P, HORARIO H, PISTA PI
-                WHERE      ( (H.ID = P.HORARIO_ID) 
-                        AND (P.INSCRIPCIONES < 4) 
-                        AND (PI.ID = P.PISTA_ID) )
-                        AND 
-                          ( ( (H.HORA_INICIO > '$hora') AND (P.NOMBRE = '$nombre') )
-                        ||  (P.NOMBRE > '$nombre'))
-                GROUP BY P.ID        
-                ORDER BY P.NOMBRE DESC, H.HORA_INICIO, P.PISTA_ID";
-
-                if (!($resultado2 = $this->mysqli->query($sql))){
-                    $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
-                    return $this->mensaje; 
-                }
-                else{  //si se ejecuta la query
-                    $listPartidos = NULL;
-                    $listInscripcion = NULL;
-
-                    if($resultado1 <> NULL){ //si hay tuplas
-                        while($row = mysqli_fetch_array($resultado1)){
-                            $listInscripcion[$row["ESCUELA_ID"]] = "Inscrito";
-                        }
-                    }
-
-                    if($resultado2 <> NULL) {
-                        if($listInscripcion == NULL ){ //si no esta inscrito en ningun partido
-                            while($row = mysqli_fetch_array($resultado2)){                                
-                                $listPartidos[$row["ID"]] = array($row["NOMBRE"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["NOMBRE"],$row["INSCRIPCIONES"]);
-                            }   
-                        }else{ //si esta inscrito en algun partido
-                             while($row = mysqli_fetch_array($resultado2)){
-                                if( !array_key_exists($row["ID"],  $listInscripcion)){
-                                    $listPartidos[$row["ID"]] = array($row["NOMBRE"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["NOMBRE"],$row["INSCRIPCIONES"]);
-                                }
-                            }//fin del while
-                        }//fin del else
-                    }
-                    return $listPartidos;
-                }//fin del else
-            return NULL;
-        }  
-    }// fin del método SHOW_Futuros
-
-    function SHOW_Futuros(){
-        $nombre_completa = getdate();
-        $hora = date('H:i:s');
-        $nombre = date('Y-m-d');
-        $listPartidos = NULL;
-        $sql = "SELECT P.ID, P.NOMBRE, P.PISTA_ID, P.HORARIO_ID, PI.NOMBRE, P.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
-                FROM ESCUELA P, HORARIO H, PISTA PI
-                WHERE      ( (H.ID = P.HORARIO_ID) 
-                        AND (P.INSCRIPCIONES < 4)
-                        AND (PI.ID = P.PISTA_ID) )
-                        AND 
-                          ( ( (H.HORA_INICIO > '$hora') AND (P.NOMBRE = '$nombre') )
-                        ||  (P.NOMBRE > '$nombre'))
-                GROUP BY P.ID        
-                ORDER BY P.NOMBRE DESC, H.HORA_INICIO, P.PISTA_ID";
+        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+                FROM ESCUELA E, HORARIO H, PISTA PI
+                WHERE      ( (H.ID = E.HORARIO_ID) 
+                        AND (E.INSCRIPCIONES < 3)
+                        AND (PI.ID = E.PISTA_ID) )
+                GROUP BY E.ID        
+                ORDER BY H.HORA_INICIO, E.PISTA_ID";
             // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
             return $this->mensaje; 
         }
         else{ // si la busqueda es correcta devolvemos el recordset resultado
-            if($resultado <> NULL) {
-                  while($row = mysqli_fetch_array($resultado)){                                
-                    $listPartidos[$row["ID"]] = array($row["NOMBRE"],$row["HORA_INICIO"],$row["HORA_FIN"],$row["NOMBRE"],$row["INSCRIPCIONES"]);
-                    }   
-                }
-                return $listPartidos;
+                return $resultado;
         }  
-    }// fin del método SHOW_Futuros
+    }// fin SHOWALL_Disponibles
+
+   function SHOWALL_DisponiblesLogin($login){
+        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+            FROM ESCUELA E, HORARIO H, PISTA PI, USUARIO_ESCUELA UE
+            WHERE      ( (H.ID = E.HORARIO_ID) 
+                    AND (E.INSCRIPCIONES < 3)
+                    AND (PI.ID = E.PISTA_ID) 
+                    AND  (E.ID NOT IN (SELECT ESCUELA_ID FROM  USUARIO_ESCUELA WHERE (USUARIO_LOGIN = '$login') ))
+                      )
+            GROUP BY E.ID        
+            ORDER BY H.HORA_INICIO, E.PISTA_ID";
+
+            var_dump("\n\n".$sql);
+        // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
+        if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
+            return $this->mensaje; 
+        }
+        else{ // si la busqueda es correcta devolvemos el recordset resultado
+                return $resultado;
+        }  
+
+    }// fin SHOWALL_DisponiblesLogin
 
     function SHOW_Usuarios_Diponibles(){
 
 
         $sql = "SELECT U.LOGIN, U.NOMBRE, U.APELLIDOS
-                FROM USUARIO_ESCUELA UP, USUARIO U
-                WHERE  (UP.USUARIO_LOGIN = U.LOGIN)  AND (UP.ESCUELA_ID = '$this->id') 
+                FROM USUARIO_ESCUELA UE, USUARIO U
+                WHERE  (UE.USUARIO_LOGIN = U.LOGIN)  AND (UE.ESCUELA_ID = '$this->id') 
                 ORDER BY U.LOGIN";
 
         if(!$resultado = $this->mysqli->query($sql) ){
@@ -305,7 +245,9 @@ class ESCUELA_Model{
         }//fin del else
             return NULL;
     }// fin del métodoSHOW_Usuarios_Diponibles
-   
+
+
+
     function ADD_RESERVA(){
         $sql = "SELECT * FROM ESCUELA WHERE ID = '$this->id' ";
           if(!$resultado = $this->mysqli->query($sql) ){
@@ -315,6 +257,6 @@ class ESCUELA_Model{
             return $row;
         }        
     }//fin del metodo ADD_RESERVA
-    */
+    
 }
 ?>

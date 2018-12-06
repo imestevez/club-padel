@@ -24,6 +24,7 @@
                 if($respuesta <> NULL){
                     $_SESSION['login'] = $_REQUEST['login']; //guarda en la variable $_SESSION el nombre de usuario
                     $_SESSION['rol'] = $respuesta;
+                    $_SESSION['reserva'] = 0;
                     header('Location:../index.php'); //redirige al index.php (estando autenticado)
                 }else{
                     $respuesta = 'ERROR: No se ha podido conectar con la base de datos';

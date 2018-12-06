@@ -46,7 +46,7 @@ include '../Locales/Strings_SPANISH.php';
             if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
               <li>
-                <a href="#" class="icon fa-angle-down">Gestionar Pistas y Horarios</a>
+                <a href="#" class="icon fa-angle-down">Gestionar Pistas</a>
                 <ul>
                   <li><a href="../Controllers/GESTIONAR_PISTAS_Controller.php">Gestionar Pistas</a></li>
                   <li><a href="../Controllers/HORARIO_Controller.php">Gestionar Horarios</a></li>
@@ -92,11 +92,11 @@ include '../Locales/Strings_SPANISH.php';
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                     ?>
-                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action" > Introducir resultados </a></li>
+                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action" >Introducir resultados </a></li>
                     <?php
                     }
                     ?>
-                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOWPROXIMOS" > Próximos</a></li>
+                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOWPROXIMOS" >Próximos</a></li>
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
                       ?>
@@ -116,7 +116,7 @@ include '../Locales/Strings_SPANISH.php';
                   <a>Inscripciones</a>
                   <ul>
                     <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php">Ver Inscripciones</a></li>
-                    <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribirte</a></li>
+                    <li><a href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS">Inscribir</a></li>
                   </ul>
                 </li>
 
@@ -124,6 +124,26 @@ include '../Locales/Strings_SPANISH.php';
                 if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                   ?>
                   <li><a href="../Controllers/PROMOCIONAR_PARTIDOS_Controller.php">Promocionar Partidos</a></li>
+                  <?php
+                }
+                ?>
+
+              </ul>
+            </li>
+             <li>
+              <a href="#" class="icon fa-angle-down">Gestionar Escuelas</a>
+              <ul>
+                <li>
+                  <a>Inscripciones</a>
+                  <ul>
+                    <li><a href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php">Ver Inscripciones</a></li>
+                    <li><a href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_PARTIDOS">Inscribir</a></li>
+                  </ul>
+                </li>
+                <?php
+                if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+                  ?>
+                  <li><a href="../Controllers/ESCUELA_Controller.php">Ver Escuelas</a></li>
                   <?php
                 }
                 ?>
