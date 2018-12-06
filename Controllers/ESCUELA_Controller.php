@@ -7,33 +7,44 @@
     include '../Models/ESCUELA_Model.php';
 
     include '../Views/ESCUELA/ESCUELA_ADD_View.php'; 
-   // include '../Views/ESCUELA/ESCUELA_SHOWALL_View.php'; 
+    include '../Views/ESCUELA/ESCUELA_SHOWALL_View.php'; 
     include '../Views/ESCUELA/ESCUELA_SHOW_Inscritos_View.php';
 
     include '../Views/MESSAGE_View.php'; 
 
 
 function get_data_form(){
-    if(isset( $_REQUEST['login'])){
-        $login = $_REQUEST['login'];
-    }elseif($_SESSION['login']){
-        $login = $_SESSION['login'];
+  
+    if(isset( $_REQUEST['nombre'])){
+        $nombre = $_REQUEST['nombre'];
     }else{
-          $login= NULL;
-    }    
-     if(isset( $_REQUEST['partido_ID'])){
-        $partido_ID = $_REQUEST['partido_ID'];
+        $nombre = NULL;
+    }
+    if(isset( $_REQUEST['horario_ID'])){
+        $horario_ID = $_REQUEST['horario_ID'];
     }else{
-        $partido_ID = NULL;
+        $horario_ID = NULL;
+    }
+    if(isset( $_REQUEST['pista_ID'])){
+        $pista_ID = $_REQUEST['pista_ID'];
+    }else{
+        $pista_ID = NULL;
+    }
+    if(isset( $_REQUEST['inscripciones'])){
+        $inscripciones = $_REQUEST['inscripciones'];
+    }else{
+        $inscripciones = 0;
     }
 
-    $USUARIO_PARTIDO = new ESCUELA_Model(
+    $ESCUELA = new ESCUELA_Model(
         NULL,
-        $login,
-        $partido_ID
+        $nombre,
+        $horario_ID, 
+        $pista_ID,
+        $inscripciones
         );
 
-    return $USUARIO_PARTIDO;
+    return $ESCUELA;
 }
 function get_data_recordset($tupla){
     if($tupla <> NULL){
@@ -53,7 +64,7 @@ function get_data_recordset($tupla){
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
     }else{//Si no trae accion
-        $action = 'ADD';
+        $action = '';
     }
     switch ($action) {
     	case 'ADD':
@@ -71,54 +82,23 @@ function get_data_recordset($tupla){
                 }
             }else{ //si  viene del post
   
-                    $USUARIO_PARTIDO = get_data_form();
-                    $resultado =  $USUARIO_PARTIDO->ADD();
-                    $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
-                    if($num_inscripciones == '4'){
-                        if(isset($_REQUEST['partido_ID'])){
-                            $PARTIDO = new PARTIDO_Model($_REQUEST['partido_ID'], '', '', '', '', '');
-                            $tupla = $PARTIDO->ADD_RESERVA();
-                            $RESERVA = get_data_recordset($tupla);
-                            $resultado = $RESERVA->ADD();
-                            if(isset($resultado['reserva_ID'])){
-                                $PARTIDO = new PARTIDO_Model($_REQUEST['partido_ID'], '', $resultado['reserva_ID'], '', '', '');
-                                $PARTIDO->EDIT();
-                            }
-                            $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                        }else{
-                            $resultado = "ERROR: El ID del partido no se ha podido encontrar";
-                            $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); 
-                        }
-                    }else{
-                        $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                    }
+                $ESCUELA = get_data_form(); //get data from form
+                $mensaje = $ESCUELA->ADD();
+                $resul = new MESSAGE($mensaje, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
             }
-    		break;
-    	case 'SHOW_PARTIDOS':
-                if($_SESSION["rol"] == 'ADMIN'){
-                    $PARTIDO = new PARTIDO_Model('','','', '', '', '');
-                    $partidos = $PARTIDO->SHOW_Futuros();
-                    $VIEW = new ESCUELA($partidos);
-                    $VIEW->renderAdmin();
-                }else{
-                    $PARTIDO = new PARTIDO_Model('','','', '', '', '');
-                    $partidos = $PARTIDO->SHOW_FuturosLogin($_SESSION['login']);
-                    $VIEW = new ESCUELA($partidos);
-                    $VIEW->render();
-                }
     		break;
             case 'SHOW_INSCRITOS':
                 if($_SESSION['rol'] == 'ADMIN'){
-                  if(isset($_REQUEST["partido_ID"])){
-                        $USUARIO_PARTIDO = new ESCUELA_Model('','',$_REQUEST["partido_ID"]);
-                        $inscritos = $USUARIO_PARTIDO->SHOW_INSCRITOS();
+                  if(isset($_REQUEST["escuela_ID"])){
+                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"], '','','','');
+                        $inscritos = $ESCUELA->SHOW_INSCRITOS();
                         $VIEW = new INSCRITOS_PARTIDO($inscritos);
                         $VIEW->renderAdmin();
                      }
                 }else{
-                    if(isset($_REQUEST["partido_ID"])){
-                        $USUARIO_PARTIDO = new ESCUELA_Model('','',$_REQUEST["partido_ID"]);
-                        $inscritos = $USUARIO_PARTIDO->SHOW_INSCRITOS();
+                    if(isset($_REQUEST["escuela_ID"])){
+                        $ESCUELA = new ESCUELA_Model('','',$_REQUEST["escuela_ID"]);
+                        $inscritos = $ESCUELA->SHOW_INSCRITOS();
                         $VIEW = new INSCRITOS_PARTIDO($inscritos);
                         $VIEW->render();
                      }
@@ -127,28 +107,23 @@ function get_data_recordset($tupla){
         case 'DELETE':
             if (!$_POST){ //si viene del showall (no es un post)
                 if($_SESSION["rol"] == 'ADMIN'){
-                    if(isset($_REQUEST["partido_ID"]) && isset($_REQUEST["usuario_login"])){
-                         $USUARIO_PARTIDO = new ESCUELA_Model('',$_REQUEST["usuario_login"],$_REQUEST["partido_ID"]);
-                        $resultado = $USUARIO_PARTIDO->DELETE();
-                        $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                    if(isset($_REQUEST["escuela_ID"])){
+                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"],'','','','' );
+                        $resultado = $ESCUELA->DELETE();
+                        $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); 
                     }
-                 }else{//si no es admin
-                    if(isset($_REQUEST["partido_ID"])){
-                        $USUARIO_PARTIDO = new ESCUELA_Model('',$_SESSION["login"],$_REQUEST["partido_ID"]);
-                        $resultado = $USUARIO_PARTIDO->DELETE();
+              }else{
+                        $resultado = "ERROR: No tienes privilegios de Administrador";
                         $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                     }
-                 }
-             }
+                }
             break;
 
     	default:
             if($_SESSION["rol"] == 'ADMIN'){
-                $PARTIDO = new PARTIDO_Model('','','', '', '', '');
-                $partidos = $PARTIDO->SHOWALL_Inscripciones();
+                $ESCUELA = new ESCUELA_MODEL('','','', '', '', '');
+                $partidos = $ESCUELA->SHOWALL();
                 if(!is_array($partidos)){
-                    $VIEW = new SHOW_INSCRIPCIONES($partidos);
-                    $VIEW->renderAdmin();
+                    $VIEW = new ESCUELA_SHOWALL($partidos);
                 }else{
                     $result = new MESSAGE($partidos, '../Controllers/ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }

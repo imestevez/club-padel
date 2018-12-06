@@ -64,22 +64,19 @@ function render(){
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
-						<?php
-							if( ($baja == true) && ($row['INSCRIPCIONES'] < 4) ){
-						?>
+							<?php
+								if( ($baja == true) && ($row['INSCRIPCIONES'] < 4) ){
+							?>
 									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=DELETE&partido_ID=<?=$row['ID']?>">Dar de baja</a>
-						<?php
-							}
-							if($row['INSCRIPCIONES'] >= 4){
-						?>
+							<?php
+								}
+								if($row['INSCRIPCIONES'] >= 4){
+							?>
 									<a class="button alt small">Reserva</a>
-
-						<?php
-							
-							}
-						?>
+							<?php
+								}
+							?>
 									<a class="button small" href="../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_INSCRITOS&partido_ID=<?=$row['ID']?>">Ver Inscritos</a>
-
 								</td>
 
 							</tr>

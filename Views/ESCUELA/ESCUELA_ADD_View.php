@@ -28,16 +28,16 @@ function render(){
             <form method="post" action="../Controllers/ESCUELA_Controller.php?action=ADD">
                 <div class="row gtr-50 gtr-uniform">
                     <div class="col-4">
-                        <input type="text" value="" placeholder="Nombre" id="nombre" name="nombre" />
+                        <input type="text" required maxlength="50" value="" placeholder="Nombre" id="nombre" name="nombre" />
                     </div>
-                    <div class="col-4">
+                    <!--div class="col-4">
                         <input type="text" name="fecha_inicio" placeholder="Fecha Inicio" readonly="" class="tcal" id="fecha" size="10"  >
                     </div>
                     <div class="col-4">
                         <input type="text" name="fecha_fin" placeholder="Fecha Fin" readonly="" class="tcal" id="fecha" size="10"  >
-                    </div>
-                    <div class="col-4">
-                       <select name="horario_ID" class="col-5">
+                    </div-->
+                    <div class="col-3">
+                       <select name="horario_ID" class="col-3">
                         <?php 
                             if( ($this->horarios <> NULL) &&  (!is_string($this->horarios))) {
                                 while($row = mysqli_fetch_array($this->horarios)){
@@ -51,8 +51,8 @@ function render(){
                         ?>  
                         </select>
                     </div>
-                    <div class="col-4">
-                       <select name="pista_ID" class="col-5">
+                    <div class="col-3">
+                       <select name="pista_ID" class="col-3">
                         <?php 
                             if( ($this->pistas <> NULL) &&  ( !is_string($this->pistas))) {
                                 while($row = mysqli_fetch_array($this->pistas)) {
@@ -64,12 +64,15 @@ function render(){
                         ?>  
                         </select>
                     </div>
-                    <div class="col-4">
-                            <input type="submit" value="Añadir"  >
+                    <div class="col-2">
+                          <input type="submit" class="small" value="Añadir">
                     </div>
-                </div>
-            </form>
         </div>
+
+            </form>
+                    <ul class="actions special" style="float: right;">
+                            <li><a href="../Controllers/ESCUELA_Controller.php" class="button small">Volver</a></li>
+                    </ul>
     </section>
 
     <?php
