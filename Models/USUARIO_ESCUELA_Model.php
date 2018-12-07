@@ -11,7 +11,7 @@ class USUARIO_ESCUELA_Model{
         $this->id = $id;
         $this->login = $login;
         $this->escuela_ID = $escuela_ID;
-        $this->max_inscripciones = 4;
+        $this->max_inscripciones = 3;
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
@@ -58,12 +58,12 @@ class USUARIO_ESCUELA_Model{
                             return $this->mensaje; // introduzca un valor para el usuario
                         }else{
                             if($this->UPDATE() == true){
-                                $this->mensaje['mensaje'] = "Inscrito en el partido correctamente";
+                                $this->mensaje['mensaje'] = "Inscrito en la escuela correctamente";
                             }
                             return $this->mensaje; 
                         }
                     }else{
-                       $this->mensaje['mensaje'] = 'ERROR: El usuario ya esta inscrito en este partido';
+                       $this->mensaje['mensaje'] = 'ERROR: El usuario ya esta inscrito en esta escuela';
                         return $this->mensaje; // introduzca un valor para el usuario
                     }
                 }
@@ -128,7 +128,7 @@ class USUARIO_ESCUELA_Model{
         }else{
                                 //$this->mensaje['escuela_ID'] = mysql_insert_id();
            if($this->UPDATE() == true){
-                $this->mensaje['mensaje'] = "Dado de baja del partido correctamente";
+                $this->mensaje['mensaje'] = "Dado de baja de la escuela correctamente";
             }
             return $this->mensaje; // introduzca un valor para el usuario
         }

@@ -43,7 +43,7 @@ class RESERVA_Model{
         for($i = 0; $i<10; $i++){
             $this->fecha = date("Y-m-d",strtotime("+".$i." day"));
             $this->horario_ID = $horario;
-            $this->user_login = "ADMIN";
+            $this->user_login = "admin";
 
             $sql = "SELECT ID FROM PISTA";
 

@@ -189,7 +189,6 @@ class ESCUELA_Model{
             GROUP BY E.ID        
             ORDER BY H.HORA_INICIO, E.PISTA_ID";
 
-            var_dump("\n\n".$sql);
         // si se produce un error en la busqueda mandamos el mensaje de error en la consulta
         if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos'; 
