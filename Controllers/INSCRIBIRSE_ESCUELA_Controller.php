@@ -86,9 +86,9 @@ function get_data_recordset($tupla){
                     if($num_inscripciones >= '3'){
                         if(isset($_REQUEST['escuela_ID'])){
                             $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'], '', '', '', '', '');
-                            $tupla = $ESCUELA->ADD_RESERVA();
+                            $tupla = $ESCUELA->GET_ESCUELA();
                             $RESERVA = get_data_recordset($tupla);
-                            $resultado = $RESERVA->ADD_MULTI();
+                            $resultado = $RESERVA->ADD_MULTI($_REQUEST['escuela_ID']);
                             $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                         }else{
                             $resultado = "ERROR: El ID del partido no se ha podido encontrar";

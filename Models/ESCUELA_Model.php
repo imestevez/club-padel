@@ -247,7 +247,7 @@ class ESCUELA_Model{
 
 
 
-    function ADD_RESERVA(){
+    function GET_ESCUELA(){
         $sql = "SELECT * FROM ESCUELA WHERE ID = '$this->id' ";
           if(!$resultado = $this->mysqli->query($sql) ){
             return NULL; 

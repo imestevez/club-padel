@@ -62,13 +62,27 @@ class RESERVA_Model{
 
     }//  fin HORARIO_FULL()
 
-    function ADD_MULTI (){
+    function ADD_MULTI ($escuela_ID){
         $i = 0;
         for($i = 0; $i<30; $i++){
             $this->fecha = date("Y-m-d",strtotime("+".$i." day"));
-           $resultado=  $this->ADD_OVERRIDE();
+            $resultado =  $this->ADD_OVERRIDE();
+
+            if(isset($resultado['reserva_ID'])){
+                $reserva_ID = $resultado['reserva_ID'];
+                
+                $sql = "INSERT INTO ESCUELA_RESERVA(
+                        ID,
+                        RESERVA_ID,
+                        ESCUELA_ID) VALUES(
+                                            NULL,
+                                            '$reserva_ID',
+                                            '$escuela_ID'
+                                        )";
+                $resultado = $this->mysqli->query($sql);
+            }
         }
-        return $resultado;
+        return 'Inscripción realizada correctamente';
     } //fin ADD_MULTI
 
     function ADD_OVERRIDE()
@@ -167,12 +181,29 @@ class RESERVA_Model{
 
 		function SHOWALL_Login($login){
 			if($_SESSION["rol"] == 'ADMIN'){
-				$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA DESC, H.HORA_INICIO, P.ID";
+				$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (R.PISTA_ID=P.ID) AND (P.ID = '$this->pista_ID') AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA DESC, H.HORA_INICIO, P.ID";
 			}
 			else{
-			$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (USUARIO_LOGIN = '$login') AND (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA DESC, H.HORA_INICIO, P.ID";
+			$sql = "SELECT P.NOMBRE, R.FECHA, R.ID, R.USUARIO_LOGIN, H.HORA_INICIO, H.HORA_FIN FROM RESERVA R, PISTA P, HORARIO H WHERE (USUARIO_LOGIN = '$login') AND (P.ID = '$this->pista_ID') AND (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) ORDER BY R.FECHA DESC, H.HORA_INICIO, P.ID";
 		}
 		  if (!($resultado = $this->mysqli->query($sql))){
+            $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+            return $this->mensaje;
+        }
+        else{
+            return $resultado;
+        }
+    }
+
+    function SHOWALL_PISTAS_Login($login){
+            if($login == 'ADMIN'){
+                $sql = "SELECT P.ID, P.NOMBRE, P.TIPO FROM RESERVA R, PISTA P, HORARIO H WHERE (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID) 
+                GROUP BY P.ID ORDER BY P.NOMBRE";
+            }
+            else{
+            $sql = "SELECT P.ID, P.NOMBRE, P.TIPO FROM RESERVA R, PISTA P, HORARIO H WHERE (USUARIO_LOGIN = '$login') AND (R.PISTA_ID=P.ID) AND (R.HORARIO_ID=H.ID)  GROUP BY P.ID ORDER BY P.NOMBRE";
+        }
+          if (!($resultado = $this->mysqli->query($sql))){
             $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
             return $this->mensaje;
         }

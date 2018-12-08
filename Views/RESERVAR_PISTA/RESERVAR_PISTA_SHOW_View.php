@@ -1,10 +1,13 @@
 <?php
 
-class SHOW_RESERVAS{
+class SHOW_RESERVAS_PISTA{
 	var $tuplas;
+	var $nombre;
 
-	function __construct($tuplas){
+	function __construct($tuplas,$nombre){
 		$this->tuplas = $tuplas;
+		$this->nombre = $nombre;
+
 		$this->render(); // ---- CONTINUAR -----
 	}
 
@@ -26,31 +29,67 @@ class SHOW_RESERVAS{
 				}
 				?>
 
-				<p>Consulta las reservas realizadas</p>
+				<p>Consulta las reservas realizadas de la <?=$this->nombre?></p>
+
 			</header>
 			<div class="table-wrapper">
 				<table>
 					<thead >
 						<tr>
-							<th>Pista</th>
-							<th>Tipo</th>
+							<?php
+							if($_SESSION["rol"] == 'ADMIN'){
+								?>
+								<th>Usuario</th>
+								<?php
+							}
+							?>
+							<th>Fecha</th>
+							<th>Hora Inicio</th>
+							<th>Hora Fin</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
 						if($this->tuplas <> NULL){
 							while($row = mysqli_fetch_array($this->tuplas)){
+								$fecha = explode("-", $row['FECHA']);
+								$hora_inicio = explode(":", $row["HORA_INICIO"]);
+								$hora_fin = explode(":", $row["HORA_FIN"]);
+								$eliminar_reserva = false;
+								$eliminar_reserva = $this->checkFecha($row['FECHA'], $row["HORA_INICIO"]);
 								?>
 								<tr>
+									<?php
+									if($_SESSION["rol"] == 'ADMIN'){
+										?>
+										<td>
+											<?=$row['USUARIO_LOGIN']?>
+										</td>
+										<?php
+									}
+									?>
 									<td>
-										<?=$row['NOMBRE']?>
+										<?=$fecha[2]."/".$fecha[1]."/".$fecha[0]?>
 									</td>
 									<td>
-										<?=$row['TIPO']?>
+										<?=$hora_inicio[0].":".$hora_inicio[1]?>
 									</td>
 									<td>
-										<a class="button small" href="../Controllers/RESERVAR_PISTA_Controller.php?action=SHOW_RESERVAS_PISTA&pista_ID=<?=$row['ID']?>">Ver reservas</a>
+										<?=$hora_fin[0].":".$hora_fin[1]?>
+									</td>
+									<td>
 
+								<?php
+										if($eliminar_reserva == true){
+								?>
+										<a class="button small" href="../Controllers/RESERVAR_PISTA_Controller.php?action=DELETE&reserva_ID=<?=$row['ID']?>">Borrar</a>
+								<?php
+									}else{
+								?>
+										<a class="button alt small">Menos de 12 horas</a>
+								<?php
+									}
+								?>
 									</td>
 
 								</tr>
@@ -60,7 +99,14 @@ class SHOW_RESERVAS{
 						?>
 					</tbody>
 				</table>
+					<div class="col-12">
+                        <ul class="actions special">
+                            <li><a class="button small" href="../Controllers/RESERVAR_PISTA_Controller.php?action=SHOW_RESERVAS">Volver</a>
+                            </li>
+                        </ul>
 			</div>
+				
+
 		</section>
 		<?php
 		include '../Views/FOOTER_View.php';

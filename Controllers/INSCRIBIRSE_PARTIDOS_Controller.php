@@ -85,7 +85,7 @@ function get_data_recordset($tupla){
                     if($num_inscripciones >= '4'){
                         if(isset($_REQUEST['partido_ID'])){
                             $PARTIDO = new PARTIDO_Model($_REQUEST['partido_ID'], '', '', '', '', '');
-                            $tupla = $PARTIDO->ADD_RESERVA();
+                            $tupla = $PARTIDO->GET_PARTIDO();
                             $RESERVA = get_data_recordset($tupla);
                             $resultado = $RESERVA->ADD();
                             if(isset($resultado['reserva_ID'])){

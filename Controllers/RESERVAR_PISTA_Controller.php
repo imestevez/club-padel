@@ -9,6 +9,7 @@ include '../Models/HORARIO_Model.php';
 include '../Views/RESERVAR_PISTA/RESERVAR_PISTA_Horario_View.php';
 include '../Views/RESERVAR_PISTA/RESERVAR_PISTA_ADD_View.php';
 include '../Views/RESERVAR_PISTA/RESERVAR_PISTA_SHOWALL_View.php';
+include '../Views/RESERVAR_PISTA/RESERVAR_PISTA_SHOW_View.php';
 include '../Views/MESSAGE_View.php';
 
 
@@ -70,14 +71,23 @@ switch ($action) {
   case 'SHOW_RESERVAS':
   $RESERVA = new RESERVA_Model('','','','','');
   if($_SESSION["rol"] == 'ADMIN'){
-    $reservas = $RESERVA->SHOWALL_Login($_SESSION['login']);
+    $reservas = $RESERVA->SHOWALL_PISTAS_Login($_SESSION['login']);
   }
   else{
-    $reservas = $RESERVA->SHOWALL_Login($_SESSION['login']);
+    $reservas = $RESERVA->SHOWALL_PISTAS_Login($_SESSION['login']);
   }
   new SHOW_RESERVAS($reservas, '../Controllers/RESERVAR_PISTA_Controller.php');
   break;
 
+  case 'SHOW_RESERVAS_PISTA':
+  if(isset($_REQUEST["pista_ID"])){
+  $RESERVA = new RESERVA_Model('','','',$_REQUEST["pista_ID"],'');
+  $PISTA  = new PISTA_Model($_REQUEST["pista_ID"],'','');
+  $nombre = $PISTA->GET_NOMBRE();
+  $reservas = $RESERVA->SHOWALL_Login($_SESSION['login']);
+  new SHOW_RESERVAS_PISTA($reservas, $nombre, '../Controllers/RESERVAR_PISTA_Controller.php');
+  }
+  break;
 
   case 'DELETE':
   $RESERVA = new RESERVA_Model($_REQUEST["reserva_ID"],'','','','');

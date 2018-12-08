@@ -51,29 +51,41 @@ class PISTA_Model{
 
 	}
 
-		function DELETE(){
-			$sql = "DELETE FROM PISTA WHERE (ID = $this->id)";
-			if(!$resultado = $this->mysqli->query($sql) ){
-				return 'ERROR: Fallo en la consulta sobre la base de datos';
-			}else{
-				return 'Pista borrada correctamente';
-			}
+	function DELETE(){
+		$sql = "DELETE FROM PISTA WHERE (ID = $this->id)";
+		if(!$resultado = $this->mysqli->query($sql) ){
+			return 'ERROR: Fallo en la consulta sobre la base de datos';
+		}else{
+			return 'Pista borrada correctamente';
 		}
+	}
 
 
-		function SEARCH(){ // --- TODO --- Se utiliza en algún caso de uso???
-			$sql = "SELECT ID FROM PISTA
-			ORDER BY ID";
+	function SEARCH(){ // --- TODO --- Se utiliza en algún caso de uso???
+		$sql = "SELECT ID FROM PISTA
+		ORDER BY ID";
 
-			if (!($resultado = $this->mysqli->query($sql))){
-				$this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
-				//  return $this->mensaje;
-			}
-			else{ // si la busqueda es correcta devolvemos el recordset resultado
-				// return $resultado;
-			}
-		}//fin del  método SEARCH
+		if (!($resultado = $this->mysqli->query($sql))){
+			$this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+			//  return $this->mensaje;
+		}
+		else{ // si la busqueda es correcta devolvemos el recordset resultado
+			// return $resultado;
+		}
+	}//fin del  método SEARCH
 
+	function GET_NOMBRE(){
+		$sql = "SELECT NOMBRE FROM PISTA WHERE ID = '$this->id' ";
+
+		if (!($resultado = $this->mysqli->query($sql))){
+			return  'ERROR: Fallo en la consulta sobre la base de datos';
+		}
+		else{ // si la busqueda es correcta devolvemos el recordset resultado
+			
+			$row = mysqli_fetch_array($resultado);
+			return $row[0];
+		}
+	}//fin GET_NOMBRE
 
 	}
 	?>
