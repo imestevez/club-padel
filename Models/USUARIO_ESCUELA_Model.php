@@ -6,12 +6,13 @@ class USUARIO_ESCUELA_Model{
     var $escuela_ID;
     var $mensaje;
     var $mysqli;
+    var $max_inscripciones;
 
     function __construct($id,$login,$escuela_ID){
         $this->id = $id;
         $this->login = $login;
         $this->escuela_ID = $escuela_ID;
-        $this->max_inscripciones = 3;
+        $this->max_inscripciones = 4;
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();

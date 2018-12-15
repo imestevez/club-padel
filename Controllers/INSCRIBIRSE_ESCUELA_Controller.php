@@ -83,7 +83,7 @@ function get_data_recordset($tupla){
                     $USUARIO_PARTIDO = get_data_form();
                     $resultado =  $USUARIO_PARTIDO->ADD();
                     $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
-                    if($num_inscripciones >= '3'){
+                    if( ($num_inscripciones >= '1') && ($num_inscripciones <='4')) {
                         if(isset($_REQUEST['escuela_ID'])){
                             $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'], '', '', '', '', '');
                             $tupla = $ESCUELA->GET_ESCUELA();

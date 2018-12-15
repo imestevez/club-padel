@@ -6,6 +6,8 @@ class ESCUELA_Model{
     var $horario;
     var $pista_ID;
     var $inscripciones;
+    var $max_inscripciones;
+
     var $mensaje;
     var $mysqli;
 
@@ -15,6 +17,8 @@ class ESCUELA_Model{
         $this->horario_ID = $horario_ID;
         $this->pista_ID = $pista_ID;
         $this->inscripciones = $inscripciones;
+        $this->max_inscripciones = 4;
+
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
@@ -164,7 +168,7 @@ class ESCUELA_Model{
         $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
                 FROM ESCUELA E, HORARIO H, PISTA PI
                 WHERE      ( (H.ID = E.HORARIO_ID) 
-                        AND (E.INSCRIPCIONES < 3)
+                        AND (E.INSCRIPCIONES < '$this->max_inscripciones')
                         AND (PI.ID = E.PISTA_ID) )
                 GROUP BY E.ID        
                 ORDER BY H.HORA_INICIO, E.PISTA_ID";
@@ -182,7 +186,7 @@ class ESCUELA_Model{
         $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
             FROM ESCUELA E, HORARIO H, PISTA PI, USUARIO_ESCUELA UE
             WHERE      ( (H.ID = E.HORARIO_ID) 
-                    AND (E.INSCRIPCIONES < 3)
+                    AND (E.INSCRIPCIONES < '$this->max_inscripciones')
                     AND (PI.ID = E.PISTA_ID) 
                     AND  (E.ID NOT IN (SELECT ESCUELA_ID FROM  USUARIO_ESCUELA WHERE (USUARIO_LOGIN = '$login') ))
                       )
