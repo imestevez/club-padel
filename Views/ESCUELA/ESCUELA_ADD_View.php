@@ -26,12 +26,23 @@ function render(){
         </header>
         <div class="box">
             <form method="post" action="../Controllers/ESCUELA_Controller.php?action=ADD">
-                <div class="row gtr-50 gtr-uniform">
-                    <div class="col-4">
+                <div class="row gtr-100 gtr-uniform">
+                    <div class="col-12">
                         <input type="text" required maxlength="50" value="" placeholder="Nombre" id="nombre" name="nombre" />
                     </div>
-                    <div class="col-3">
-                       <select name="horario_ID" class="col-3">
+                     <div class="col-3">
+                       <select name="dia" class="col-3">
+                            <option value="Monday"> Lunes </option>
+                            <option value="Tuesday"> Martes </option>
+                            <option value="Wednesday"> Miercoles </option>
+                            <option value="Thursday"> Jueves </option>
+                            <option value="Friday"> Viernes </option>
+                            <option value="Saturday"> Sabado </option>
+                            <option value="Sunday"> Domingo </option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                       <select name="horario_ID" class="col-4">
                         <?php 
                             if( ($this->horarios <> NULL) &&  (!is_string($this->horarios))) {
                                 while($row = mysqli_fetch_array($this->horarios)){

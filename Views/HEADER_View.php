@@ -131,7 +131,7 @@ include '../Locales/Strings_SPANISH.php';
               </ul>
             </li>
              <li>
-              <a href="#" class="icon fa-angle-down">Gestionar Escuelas</a>
+              <a href="#" class="icon fa-angle-down">Gestionar Clases</a>
               <ul>
                 <li>
                   <a>Inscripciones</a>
@@ -143,7 +143,7 @@ include '../Locales/Strings_SPANISH.php';
                 <?php
                 if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                   ?>
-                  <li><a href="../Controllers/ESCUELA_Controller.php">Ver Escuelas</a></li>
+                  <li><a href="../Controllers/ESCUELA_Controller.php">Ver Clases</a></li>
                   <?php
                 }
                 ?>

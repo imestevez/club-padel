@@ -52,6 +52,9 @@ function get_data_recordset($tupla){
     return $RESERVA;
 }
 
+function get_dia($tupla){
+    return $tupla['DIA'];
+}
     if(isset($_REQUEST["action"]))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST["action"];
     }else{//Si no trae accion
@@ -62,7 +65,7 @@ function get_data_recordset($tupla){
     		if (!$_POST){ //si viene del showall (no es un post)
                 if($_SESSION["rol"] == 'ADMIN'){ //si es el admin
                     if(isset($_REQUEST["escuela_ID"])){//si se inserta el ID del partido
-                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"],'','','','','');
+                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"],'','','','','','');
                         $resultado = $ESCUELA->SHOW_Usuarios_Diponibles();
                         if(!is_string( $resultado)){
                             new INSCRIBIRSE_ESCUELA_ADD($resultado,$_REQUEST["escuela_ID"]);
@@ -71,7 +74,7 @@ function get_data_recordset($tupla){
                         }
                     }//si no trae el id del partido
                     else{
-                        $resultado = "ERROR: El ID del partido no se ha podido encontrar";
+                        $resultado = "ERROR: El ID de la escuela no se ha podido encontrar";
                         $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                     }
                 }else{
@@ -79,34 +82,54 @@ function get_data_recordset($tupla){
                         $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }
             }else{ //si  viene del post
-  
+  /*
                     $USUARIO_PARTIDO = get_data_form();
                     $resultado =  $USUARIO_PARTIDO->ADD();
                     $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
                     if( ($num_inscripciones >= '1') && ($num_inscripciones <='4')) {
                         if(isset($_REQUEST['escuela_ID'])){
-                            $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'], '', '', '', '', '');
+                            $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'],'','', '', '', '', '');
                             $tupla = $ESCUELA->GET_ESCUELA();
                             $RESERVA = get_data_recordset($tupla);
                             $resultado = $RESERVA->ADD_MULTI($_REQUEST['escuela_ID']);
                             $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                         }else{
-                            $resultado = "ERROR: El ID del partido no se ha podido encontrar";
+                            $resultado = "ERROR: El ID de la escuela no se ha podido encontrar";
                             $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); 
                         }
                     }else{
                         $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                     }
+*/
+                    $USUARIO_PARTIDO = get_data_form();
+                    $resultado =  $USUARIO_PARTIDO->ADD();
+                    $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
+                    if( ($num_inscripciones >= '1') && ($num_inscripciones <='4')) {
+                        if(isset($_REQUEST['escuela_ID'])){
+                            $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'],'','', '', '', '', '');
+                            $tupla = $ESCUELA->GET_ESCUELA();
+                            $RESERVA = get_data_recordset($tupla);
+                            $dia = get_dia($tupla);
+                            $resultado = $RESERVA->ADD_RESERVA_TO_ESCUELA($_REQUEST['escuela_ID'],$dia);
+                            $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                        }else{
+                            $resultado = "ERROR: El ID de la escuela no se ha podido encontrar";
+                            $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); 
+                        }
+                    }else{
+                        $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                    }
+
             }
     		break;
     	case 'SHOW_ESCUELAS':
                 if($_SESSION["rol"] == 'ADMIN'){
-                    $ESCUELA = new ESCUELA_Model('','','', '', '', '');
+                    $ESCUELA = new ESCUELA_Model('','','','', '', '', '');
                     $escuelas = $ESCUELA->SHOWALL_Disponibles();
                     $VIEW = new INSCRIBIRSE_ESCUELA($escuelas);
                     $VIEW->renderAdmin();
                 }else{
-                    $ESCUELA = new ESCUELA_Model('','','', '', '', '');
+                    $ESCUELA = new ESCUELA_Model('','','','', '', '', '');
                     $escuelas = $ESCUELA->SHOWALL_DisponiblesLogin($_SESSION['login']);
                     $VIEW = new INSCRIBIRSE_ESCUELA($escuelas);
                     $VIEW->render();

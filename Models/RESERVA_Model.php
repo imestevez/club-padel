@@ -61,7 +61,32 @@ class RESERVA_Model{
         return;
 
     }//  fin HORARIO_FULL()
-
+    function ADD_RESERVA_TO_ESCUELA($escuela_ID, $dia){
+        $dia_aux = date('l');
+        $j = 0;
+        while ($dia != $dia_aux) {
+            $j++;
+            $dia_aux = date('l' , strtotime('+'.$j.'day'));
+        }   
+        for($i = $j ; $i<365; $i += 7){
+            $this->fecha = date("Y-m-d",strtotime("+".$i." day"));
+            $resultado =  $this->ADD_OVERRIDE();
+            if(isset($resultado['reserva_ID'])){
+                $reserva_ID = $resultado['reserva_ID'];
+                
+                $sql = "INSERT INTO ESCUELA_RESERVA(
+                        ID,
+                        RESERVA_ID,
+                        ESCUELA_ID) VALUES(
+                                            NULL,
+                                            '$reserva_ID',
+                                            '$escuela_ID'
+                                        )";
+                $resultado = $this->mysqli->query($sql);
+            }
+        }
+        return 'Inscripción realizada correctamente';
+    }
     function ADD_MULTI ($escuela_ID){
         $i = 0;
         for($i = 0; $i<30; $i++){

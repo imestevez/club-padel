@@ -22,6 +22,11 @@ function get_data_form(){
     }else{
         $nombre = NULL;
     }
+    if(isset( $_REQUEST['dia'])){
+        $dia = $_REQUEST['dia'];
+    }else{
+        $dia = NULL;
+    }
     if(isset( $_REQUEST['horario_ID'])){
         $horario_ID = $_REQUEST['horario_ID'];
     }else{
@@ -41,6 +46,7 @@ function get_data_form(){
     $ESCUELA = new ESCUELA_Model(
         NULL,
         $nombre,
+        $dia,
         $horario_ID, 
         $pista_ID,
         $inscripciones
@@ -96,7 +102,7 @@ function get_data_form(){
             if (!$_POST){ //si viene del showall (no es un post)
                 if($_SESSION["rol"] == 'ADMIN'){
                     if(isset($_REQUEST["escuela_ID"])){
-                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"],'','','','' );
+                        $ESCUELA = new ESCUELA_Model($_REQUEST["escuela_ID"],'','','','','' );
                         $resultado = $ESCUELA->DELETE();
                         $result = new MESSAGE($resultado, '../Controllers/ESCUELA_Controller.php'); 
                     }

@@ -26,6 +26,7 @@ function render(){
 						<thead >
 							<tr>
 								<th>Nombre</th>
+								<th>Dia</th>
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
 								<th>Pista</th>
@@ -43,6 +44,9 @@ function render(){
 							<tr>
 								<td>
 									<?=$row['NOMBRE']?>
+								</td>
+								<td>
+									<?=$strings[$row['DIA']]?>
 								</td>
 								<td>
 									<?=$hora_inicio[0].":".$hora_inicio[1]?>
