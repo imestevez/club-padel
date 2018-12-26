@@ -21,8 +21,8 @@ function render(){
     <!-- Main -->
     <section id="main" class="container medium">
         <header>
-            <h2>Añadir Escuela Deportiva</h2>
-            <p>Crea una Escuela Deportiva para el club</p>
+            <h2>Añadir Clase de la Escuela Deportiva</h2>
+            <p>Crea una nueva clase de Escuela Deportiva del club</p>
         </header>
         <div class="box">
             <form method="post" action="../Controllers/ESCUELA_Controller.php?action=ADD">
@@ -30,12 +30,6 @@ function render(){
                     <div class="col-4">
                         <input type="text" required maxlength="50" value="" placeholder="Nombre" id="nombre" name="nombre" />
                     </div>
-                    <!--div class="col-4">
-                        <input type="text" name="fecha_inicio" placeholder="Fecha Inicio" readonly="" class="tcal" id="fecha" size="10"  >
-                    </div>
-                    <div class="col-4">
-                        <input type="text" name="fecha_fin" placeholder="Fecha Fin" readonly="" class="tcal" id="fecha" size="10"  >
-                    </div-->
                     <div class="col-3">
                        <select name="horario_ID" class="col-3">
                         <?php 

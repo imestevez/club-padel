@@ -18,8 +18,8 @@ function render(){
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Tus Escuelas Deportivas</h2>
-	    <p>Consulta las clases mensuales en las que estas inscrito</p>
+	   <h2>Tus Clases de la Escuela Deportiva</h2>
+	    <p>Consulta las clases semanales en las que estas inscrito</p>
 	 </header>
 				<div class="table-wrapper">
 					<table>
