@@ -10,6 +10,7 @@
     include "../Views/INDEX_View.php";
 
 
+
 	if(isset($_REQUEST['action']))  {//Si trae acción, se almacena el valor en la variable action
         $action = $_REQUEST['action'];
     }else{//Si no trae accion
@@ -26,36 +27,46 @@
         $nombre = $_REQUEST['nombre'];
     }
 
+    if(isset($_REQUEST['fecha']))  {
+        $fecha = $_REQUEST['fecha'];
+        $fechaTrozos = explode("/", $fecha);
+        $fecha = $fechaTrozos[2]."-".$fechaTrozos[0]."-".$fechaTrozos[1];
+    }
+
+    if(isset($_REQUEST['categorias'])){
+        $categorias = $_REQUEST['categorias'];
+    }
+
     //Función para recoger los datos del formulario de add de campeonatos
     function get_data_form(){
 
-        $nombre = '';
-        $fecha = '';
+        $this->nombre = '';
+        $this->fecha = '';
 
         if(isset($_REQUEST['nombre'])){
-            $nombre = $_REQUEST['nombre'];
+            $this->nombre = $_REQUEST['nombre'];
         }
 
         if(isset($_REQUEST['fecha'])){
-            $fecha = $_REQUEST['fecha'];
+            $this->fecha = $_REQUEST['fecha'];
         }
 
-        return new CAMPEONATO_Model($nombre,$fecha);
 
     }
 
 
     switch ($action) {
-    	case 'Añadir':
-
-    		$CAMPEONATO = get_data_form();
-            $mensaje = $CAMPEONATO->ADD();
-            new MESSAGE($mensaje, "../Controllers/USERCHAMPIONSHIP_Controller.php?action=OPENCHAMPIONSHIPS");
+    	case 'Añadir':   		
+            $CAMPEONATO = new CAMPEONATO_Model($nombre, $fecha);
+            $mensaje = $CAMPEONATO->ADD($categorias);
+            new MESSAGE($mensaje, "../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS");
 
     		break;
 
     	case 'FORMADD':
-            new ChampionshipAdd();
+            $CAMPEONATO = new CAMPEONATO_Model('','');
+            $categorias = $CAMPEONATO->GET_CATEGORIASADD();
+            new ChampionshipAdd($categorias);
             break;
 
         case 'CAMPEONATOSCERRADOS':

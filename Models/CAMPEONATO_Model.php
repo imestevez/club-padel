@@ -26,17 +26,49 @@ class CAMPEONATO_Model{
         
     }
 
+    //Función para obtener todas las posibles categorías de un campeonato
+    function GET_CATEGORIASADD(){
+        $sql = "SELECT * FROM CATEGORIA";
+        $result = $this->mysqli->query($sql);
+        return $result;
+    }
+
+    //Función para obtener las categorias de un campeonato
+    function GET_CATEGORIASCAMPEONATO($campeonato_id){
+        $sql = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE CAMPEONATO_ID = '$campeonato_id";
+        $result = $this->mysqli->query($sql);
+        //$cam_cat = new array();
+        //while ($row = mysqli_fetch_array($result) {
+            
+        //}
+
+    }
+
     //Función añadir un campeonato a la bd
-    function ADD(){
+    function ADD($categorias){
  
         $sql = "INSERT INTO CAMPEONATO(ID,NOMBRE, FECHA) 
-                VALUES( 0,
+                VALUES( NULL,
                         '$this->nombre',
                         '$this->fecha')"; 
 
         $result = $this->mysqli->query($sql);
 
         if($result){
+            //Cogemos el ID
+            $sql = "SELECT * FROM CAMPEONATO ORDER BY ID DESC";
+            $result = $this->mysqli->query($sql);
+            $campeonatos = mysqli_fetch_array($result);
+            $campeonato_id= $campeonatos['ID'];
+            
+            //Cogemos las categorias seleccionadas
+            foreach ($categorias as $key => $categoria_id) {
+                //Para cada categoría la relacionamos con el campeonato
+                $sql = "INSERT INTO CAMPEONATO_CATEGORIA(ID,CAMPEONATO_ID,CATEGORIA_ID)
+                            VALUES (NULL, '$campeonato_id', '$categoria_id')";
+                $result = $this->mysqli->query($sql);            
+            }
+
             $this->mensaje = "Campeonato registrado correctamente";
         }
         else{
@@ -44,6 +76,7 @@ class CAMPEONATO_Model{
         }
         return $this->mensaje;                      
     }
+
     function GET($campeonato_ID){
         $sql = "SELECT * FROM CAMPEONATO WHERE (ID = '$campeonato_ID')";
             if (!($result = $this->mysqli->query($sql))){
