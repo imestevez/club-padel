@@ -137,7 +137,7 @@ include '../Locales/Strings_SPANISH.php';
                   <a>Inscripciones</a>
                   <ul>
                     <li><a href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php">Ver Inscripciones</a></li>
-                    <li><a href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_PARTIDOS">Inscribir</a></li>
+                    <li><a href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_ESCUELAS">Inscribir</a></li>
                   </ul>
                 </li>
                 <?php
