@@ -82,44 +82,24 @@ function get_dia($tupla){
                         $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
                 }
             }else{ //si  viene del post
-  /*
-                    $USUARIO_PARTIDO = get_data_form();
-                    $resultado =  $USUARIO_PARTIDO->ADD();
-                    $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
-                    if( ($num_inscripciones >= '1') && ($num_inscripciones <='4')) {
-                        if(isset($_REQUEST['escuela_ID'])){
-                            $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'],'','', '', '', '', '');
-                            $tupla = $ESCUELA->GET_ESCUELA();
-                            $RESERVA = get_data_recordset($tupla);
-                            $resultado = $RESERVA->ADD_MULTI($_REQUEST['escuela_ID']);
-                            $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                        }else{
-                            $resultado = "ERROR: El ID de la escuela no se ha podido encontrar";
-                            $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); 
-                        }
-                    }else{
+                $USUARIO_PARTIDO = get_data_form();
+                $resultado =  $USUARIO_PARTIDO->ADD();
+                $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
+                if( ($num_inscripciones >= '1') && ($num_inscripciones <='4')) {
+                    if(isset($_REQUEST['escuela_ID'])){
+                        $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'],'','', '', '', '', '');
+                        $tupla = $ESCUELA->GET_ESCUELA();
+                        $RESERVA = get_data_recordset($tupla);
+                        $dia = get_dia($tupla);
+                        $resultado = $RESERVA->ADD_RESERVA_TO_ESCUELA($_REQUEST['escuela_ID'],$dia);
                         $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                    }
-*/
-                    $USUARIO_PARTIDO = get_data_form();
-                    $resultado =  $USUARIO_PARTIDO->ADD();
-                    $num_inscripciones = $USUARIO_PARTIDO->CHECK_INSCRIPCIONES();
-                    if( ($num_inscripciones >= '1') && ($num_inscripciones <='4')) {
-                        if(isset($_REQUEST['escuela_ID'])){
-                            $ESCUELA = new ESCUELA_Model($_REQUEST['escuela_ID'],'','', '', '', '', '');
-                            $tupla = $ESCUELA->GET_ESCUELA();
-                            $RESERVA = get_data_recordset($tupla);
-                            $dia = get_dia($tupla);
-                            $resultado = $RESERVA->ADD_RESERVA_TO_ESCUELA($_REQUEST['escuela_ID'],$dia);
-                            $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
-                        }else{
-                            $resultado = "ERROR: El ID de la escuela no se ha podido encontrar";
-                            $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); 
-                        }
                     }else{
-                        $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                        $resultado = "ERROR: El ID de la escuela no se ha podido encontrar";
+                        $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); 
                     }
-
+                }else{
+                    $result = new MESSAGE($resultado, '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php'); //muestra el mensaje despues de la sentencia sql
+                }
             }
     		break;
     	case 'SHOW_ESCUELAS':

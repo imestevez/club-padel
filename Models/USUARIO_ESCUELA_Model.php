@@ -98,7 +98,7 @@ class USUARIO_ESCUELA_Model{
                                                                     WHERE (ESCUELA_ID = '$key')  ) 
                             WHERE ID = '$key'";
                     if(!$resultado = $this->mysqli->query($sql)){
-                       $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
+                      return $this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
                     }
                 }//fin del foreach
             }//fin del id
@@ -131,8 +131,31 @@ class USUARIO_ESCUELA_Model{
            if($this->UPDATE() == true){
                 $this->mensaje['mensaje'] = "Dado de baja de la escuela correctamente";
             }
+           $num_inscripciones = $this->CHECK_INSCRIPCIONES();
+           if($num_inscripciones == 0){
+            $resp = $this->DELETE_RESERVAS();
+           }
             return $this->mensaje; // introduzca un valor para el usuario
         }
     }// fin del método DELETE
-}
+
+    function DELETE_RESERVAS(){
+        $sql = "SELECT * FROM ESCUELA_RESERVA WHERE (ESCUELA_ID = '$this->escuela_ID')";
+         if(!$resultado = $this->mysqli->query($sql) ){
+            return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+        }else{
+            if($resultado <> NULL){
+                while($row = mysqli_fetch_array($resultado)){
+                    $reserva_id = $row['RESERVA_ID'];
+                    $sql2 = "DELETE FROM RESERVA WHERE (ID = '$reserva_id')";
+                    if(!$resultado2 = $this->mysqli->query($sql2) ){
+                        return 'ERROR: Fallo en la consulta sobre la base de datos';
+                    }
+                }
+            }
+            return true;
+        }
+
+    }//find el DELETE_RESERVAS
+}//fin clase
 ?>

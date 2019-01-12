@@ -101,14 +101,9 @@ function render(){
 								<td>
 									<?=$row['APELLIDOS']?>
 								</td>
-														<?php
-							if(($row['INSCRIPCIONES'] < 4) ){
-						?>
-									<td> <a class="button small" href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=DELETE&escuela_ID=<?=$row['ESCUELA_ID']?>&usuario_login=<?=$row['LOGIN']?>">Dar de baja</a>
-									</td>
-					<?php
-						}
-						?>
+
+								<td> <a class="button small" href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=DELETE&escuela_ID=<?=$row['ESCUELA_ID']?>&usuario_login=<?=$row['LOGIN']?>">Dar de baja</a>
+								</td>
 							</tr>
 					<?php
 							}//fin del while

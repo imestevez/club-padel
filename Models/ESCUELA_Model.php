@@ -125,6 +125,25 @@ class ESCUELA_Model{
         if(!$resultado = $this->mysqli->query($sql) ){
           return 'ERROR: Fallo en la consulta sobre la base de datos'; 
         }else{
+                $sql2 = "SELECT * FROM ESCUELA_RESERVA WHERE (ESCUELA_ID = '$this->id')";
+                $resultado2 = $this->mysqli->query($sql2);
+
+                $sql3 = "DELETE FROM ESCUELA_RESERVA WHERE (ESCUELA_ID = '$this->id')";
+                $resultado3 = $this->mysqli->query($sql3);
+
+                if(!$resultado = $this->mysqli->query($sql) ){
+                    return 'ERROR: Fallo en la consulta sobre la base de datos'; 
+                }else{
+                    if($resultado2 <> NULL){
+                        while($row = mysqli_fetch_array($resultado2)){
+                            $reserva_id = $row['RESERVA_ID'];
+                            $sql4 = "DELETE FROM RESERVA WHERE (ID = '$reserva_id')";
+                            if(!$resultado4 = $this->mysqli->query($sql4) ){
+                                return 'ERROR: Fallo en la consulta sobre la base de datos';
+                            }
+                        }
+                    }
+                }
             $this->mensaje['mensaje'] = 'Borrado correctamente';
             return $this->mensaje;
         }
