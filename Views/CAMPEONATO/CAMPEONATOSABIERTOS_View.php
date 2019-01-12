@@ -51,6 +51,7 @@ function render(){
 										<td>
 											<?=$value[1]?>
 										</td>
+										
 										<td>
 											<input class="oculto" name="campeonato_ID" readonly value="<?=$key?>">
 											<input class="oculto" name="nombre" readonly value="<?=$value[0]?>">

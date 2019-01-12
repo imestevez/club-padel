@@ -15,6 +15,7 @@
 			$this->categoria_id = $categoria_id;
 
 			include_once '../Functions/Access_DB.php';
+			include_once '../Models/FINALISTA_CAMPEONATO_Model.php';
 
         	$this->mysqli = ConnectDB();
 		}
@@ -26,6 +27,11 @@
 
 		$result = $this->mysqli->query($sql);
 	}
+
+	
+
+	
+	
 
 	}
 

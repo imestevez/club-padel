@@ -179,7 +179,7 @@ class HUECO_Model{
             $row_cap = mysqli_fetch_array($res_cap);
             $log_capitan = $row_cap['CAPITAN'];
             $RESERVA = new RESERVA_Model(null, $this->fecha, 'admin', $id_pista, $this->horario_id);
-            $RESERVA->ADD();
+            var_dump("AÑADIENTO RESERVA...".$RESERVA->ADD()['mensaje']);
 
             //Buscamos el id de la reserva que acabamos de crear
             $sql_idres = "SELECT * FROM RESERVA WHERE 

@@ -155,7 +155,6 @@ class RESERVA_Model{
 	                                        '$this->fecha',
                                             '$this->horario_ID'
 	                                    )";
-
 	                    if (!($resultado = $this->mysqli->query($sql))){ //ERROR en la consulta ADD
 		                    $this->mensaje['mensaje'] = 'ERROR: Introduzca todos los valores de todos los campos';
 	                        return $this->mensaje; // introduzca un valor para el usuario

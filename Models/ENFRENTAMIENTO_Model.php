@@ -29,6 +29,13 @@ class ENFRENTAMIENTO_Model{
         $this->mysqli = ConnectDB();
     }
 
+    function ADD_FINAL(){
+        //Insertamos el enfrentamiento de la BD
+                $sql_ins = "INSERT INTO ENFRENTAMIENTO(ID,GRUPO_ID,RESULTADO,PAREJA_1,PAREJA_2,RESERVA_ID) VALUES(null,$this->grupo_id,null,$this->pareja_1,$this->pareja_2,null)";
+
+                $result_ins = $this->mysqli->query($sql_ins);
+    }
+
     //Función para crar enfrentamientos, automatizada y con reserva y resultado a null, posteriormente se actualizarán sus valores
     function ADD(){
     	
@@ -36,7 +43,7 @@ class ENFRENTAMIENTO_Model{
         $sql_cmp = "SELECT * FROM ENFRENTAMIENTO WHERE(
             (PAREJA_1 = '$this->pareja_1' ) and (PAREJA_2 = '$this->pareja_2')
         )";
-
+        var_dump("SQL DE INSERT: ".$sql_cmp);
         $result_cmp = $this->mysqli->query($sql_cmp);
         if($result_cmp){
             if(mysqli_num_rows($result_cmp) > 0){
@@ -75,8 +82,196 @@ class ENFRENTAMIENTO_Model{
     function SET_RESERVA($enfrentamiento_id){
         $sql_up = "UPDATE ENFRENTAMIENTO SET RESERVA_ID = '$this->reserva_id'
                                  WHERE (ID = '$enfrentamiento_id')";
-
+                                 var_dump("SQL DE SET RESERVA: ".$sql_up);
         $res = $this->mysqli->query($sql_up);
+    }
+
+    function SHOW_ENF_FASE($grupo_id,$etapa){
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI,
+                                    FINALISTA_CAMPEONATO FC
+
+                                    WHERE
+
+                                    (FC.ETAPA = '$etapa') and
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA <= '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID) and
+                                    (FC.GRUPO_ID = '$grupo_id') and
+                                    (R.FECHA > FC.FECHA) and
+                                    (G.ID = '$grupo_id')
+
+                                    ORDER BY 1, 2, 3, 4 
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
+    }
+
+    //Función para mostrar todos de la fase de grupos
+    function SHOWALL_ENFRENTAMIENTOS_2($grupo_id){
+        //Calculamos la fecha actual
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT  CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (G.ID = '$grupo_id') and
+                                    ((SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') < 1 )
+
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
+    }
+
+    //Función para mostrar todos los enfrentamientos según su etapa
+    function SHOW_ENF_FASE2($grupo_id,$etapa){
+        $fecha_act = date("Y-m-d");
+
+        //Seleccionamos las fechas en las que comenzo la etapa
+        $sql_fecha = "SELECT FECHA FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = '$etapa')";
+        $result_fecha = $this->mysqli->query($sql_fecha);
+        if($row_fecha = mysqli_fetch_array($result_fecha)){
+            $fecha_cierre = $row_fecha['FECHA'];
+        }
+        else{
+           $fecha_cierre = null; 
+        }
+        if($fecha_cierre <> null){
+
+        
+        $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    FINALISTA_CAMPEONATO FC
+
+                                    WHERE
+
+                                    (
+                                        (SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') > 0 ) AND
+                                        (E.GRUPO_ID = G.ID) AND
+                                        (G.CAMPEONATO_ID = CA.ID) AND
+                                        (G.CATEGORIA_ID = CT.ID) AND
+                                        (G.ID = '$grupo_id') AND
+                                        ( 
+                                            (
+                                                ( E.RESERVA_ID IS NOT NULL) AND
+                                                ( E.RESERVA_ID IN (SELECT DISTINCT ID FROM RESERVA WHERE (FECHA > '$fecha_cierre') )
+                                            ) 
+                                            OR
+                                            (E.RESERVA_ID IS NULL)
+                                        )
+                                    )
+
+                            ";
+                            echo("ESTE SQL SI: ".$sql_enf);
+                $result_enf = $this->mysqli->query($sql_enf);
+        }
+        else{
+            $result_enf = null;
+        }
+
+        return $result_enf; 
+    }
+
+    //Función para mostrar todos los enfrentamientos de un grupo de un campeonato
+    function SHOW_ENFS_GRUPO($grupo_id){
+        $fecha_act = date("Y-m-d");
+
+        $sql_enf = "SELECT DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                    CT.NIVEL,
+                                    CT.GENERO,
+                                    G.NOMBRE AS GR_NOMBRE,
+                                    E.ID AS ENFRENTAMIENTO_ID,
+                                    E.PAREJA_1 AS PAREJA1_ID,
+                                    E.PAREJA_2 AS PAREJA2_ID,
+                                    R.FECHA,
+                                    H.HORA_INICIO,
+                                    H.HORA_FIN,
+                                    PI.NOMBRE AS PISTA_NOMBRE,
+                                    E.RESULTADO
+
+                                    FROM
+
+                                    ENFRENTAMIENTO E,
+                                    GRUPO G,
+                                    CATEGORIA CT,
+                                    CAMPEONATO CA,
+                                    RESERVA R,
+                                    HORARIO H,
+                                    PISTA PI
+
+                                    WHERE
+
+                                    (E.GRUPO_ID = G.ID) and
+                                    (G.CAMPEONATO_ID = CA.ID) and
+                                    (G.CATEGORIA_ID = CT.ID) and
+                                    (E.RESERVA_ID = R.ID) and
+                                    (R.FECHA <= '$fecha_act') and
+                                    (R.HORARIO_ID = H.ID) and
+                                    (R.PISTA_ID = PI.ID) and
+                                    (G.ID = '$grupo_id')
+
+                                    ORDER BY 1, 2, 3, 4 
+                            ";
+                $result_enf = $this->mysqli->query($sql_enf);
+                return $result_enf; 
     }
 
     function SHOW_ENFS_CAMP($campenato_ID){

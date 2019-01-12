@@ -20,7 +20,7 @@ function render(){
     <section id="main" class="container">
         <header>
 		   <h2>Campeonatos</h2>
-		   <p>Consulta los enfrenatemientos del campenoato que elijas</p>
+		   <p>Consulta los enfrenatemientos del campenonato que elijas</p>
 		 </header>
 		 <div class="row">
 		<div class="col-12">
@@ -46,8 +46,50 @@ function render(){
 											<?=$row['NOMBRE']?>
 										</td>
 										<td>
-											<a class="button small" href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW&campeonato_ID=<?=$row['ID']?>">Enfrentamientos</a>
+											
 										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										<td>
+											
+										</td>
+										
+										<?php 
+										if($_SESSION["rol"] == 'ADMIN'){
+
+
+										?>
+
+											<td>
+											<a class="button small" href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW&campeonato_ID=<?=$row['ID']?>">Introducir Resultados</a>
+										</td>
+
+										<?php	
+										}
+										?>
+										<td>
+											<a class="button small" href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW_ENF_CC&campeonato_ID=<?=$row['ID']?>">Enfrentamientos</a>
+										</td>
+
 									</tr>
 						
 					<?php
