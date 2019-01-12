@@ -63,12 +63,7 @@ function render(){
 								</td>
 								<td>
 							<?php
-								if($row['INSCRIPCIONES'] >= 4){
-							?>
-									<a class="button alt small">Reserva</a>
-							<?php
-								}
-								else if($row['INSCRIPCIONES'] == 0){
+								 if($row['INSCRIPCIONES'] == 0){
 							?>
 									<a class="button alt small">Ver Inscritos</a>
 							<?php
@@ -147,10 +142,19 @@ function render(){
 									<?=$row['INSCRIPCIONES']?>
 								</td>
 								<td>
+								<?php
+								 if($row['INSCRIPCIONES'] == 0){
+							?>
+									<a class="button alt small">Ver Inscritos</a>
+							<?php
+								} //fin del if
+								else{
+							?>
 									<a class="button small" href="../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_INSCRITOS&escuela_ID=<?=$row['ID']?>">Ver Inscritos</a>
-						
-								</td>
-
+							<?php
+								}
+							?>
+						</td>
 							</tr>
 					<?php
 							}//fin del while
