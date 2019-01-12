@@ -18,8 +18,8 @@ function render(){
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Inscripción en escuelas</h2>
-	    <p>Inscribete en una escuela deportiva del club</p>
+	   <h2>Inscripción en clases</h2>
+	    <p>Inscribete en una clases de la escuela deportiva del club</p>
 	    
 	 </header>
 				<div class="table-wrapper">
@@ -27,6 +27,7 @@ function render(){
 						<thead >
 							<tr>
 								<th>Nombre</th>
+								<th>Dia</th>
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
 								<th>Pista</th>
@@ -45,6 +46,9 @@ function render(){
 							<tr>
 								<td>
 									<?=$row['NOMBRE']?>
+								</td>
+								<td>
+									<?=$strings[$row['DIA']]?>
 								</td>
 								<td>
 									<?=$hora_inicio[0].":".$hora_inicio[1]?>
@@ -94,6 +98,7 @@ function render(){
 						<thead >
 							<tr>
 								<th>Nombre</th>
+								<th>Dia</th>
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
 								<th>Pista</th>
@@ -110,6 +115,9 @@ function render(){
 														<tr>
 								<td>
 									<?=$row['NOMBRE']?>
+								</td>
+								<td>
+									<?=$strings[$row['DIA']]?>
 								</td>
 								<td>
 									<?=$hora_inicio[0].":".$hora_inicio[1]?>

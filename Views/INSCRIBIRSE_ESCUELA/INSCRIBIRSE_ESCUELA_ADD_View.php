@@ -21,8 +21,8 @@ function render(){
     <!-- Main -->
 	<section id="main" class="container">
 	<header>
-	   <h2>Inscribir en Escuelas</h2>
-	    <p>Inscribe a deportistas en las escuelas del club</p>
+	   <h2>Inscribir en Clases</h2>
+	    <p>Inscribe a deportistas en las clases de las escuelas deportivas del club</p>
 	 </header>
 		<div class="table-wrapper">
 					<table>

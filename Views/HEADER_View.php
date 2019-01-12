@@ -25,7 +25,7 @@ include '../Locales/Strings_SPANISH.php';
             <?php
             if(IsAuthenticated()){
               ?>
-              <a href="#" class="icon fa-angle-down">Reservas</a>
+              <a href="#" class="icon fa-angle-down">Gestionar Reservas</a>
               <ul>
                 <?php
                 if($_SESSION["rol"] == 'ADMIN'){
@@ -46,10 +46,10 @@ include '../Locales/Strings_SPANISH.php';
             if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
               <li>
-                <a href="#" class="icon fa-angle-down">Pistas</a>
+                <a href="#" class="icon fa-angle-down">Gestionar Pistas</a>
                 <ul>
-                  <li><a href="../Controllers/GESTIONAR_PISTAS_Controller.php">Gst. Pistas</a></li>
-                  <li><a href="../Controllers/HORARIO_Controller.php">Horarios</a></li>
+                  <li><a href="../Controllers/GESTIONAR_PISTAS_Controller.php">Gestionar Pistas</a></li>
+                  <li><a href="../Controllers/HORARIO_Controller.php">Gestionar Horarios</a></li>
                 </ul>
               </li>
               <?php
@@ -58,14 +58,13 @@ include '../Locales/Strings_SPANISH.php';
             <?php
             if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
-              <li><a href="../Controllers/USER_Controller.php">Usuarios</a></li>
+              <li><a href="../Controllers/USER_Controller.php">Gestionar Usuarios</a></li>
               <?php
             }
             ?>
             <li>
-              <a class="icon fa-angle-down">Campeonatos</a>
+              <a class="icon fa-angle-down">Gestionar Campeonatos</a>
               <ul>
-                
                 <li><a href="../Controllers/CLASIFICACION_Controller.php?action=SHOW">Rankings</a></li>
                 <li>
                   <a>Gest. de Campeonatos</a>
@@ -81,9 +80,6 @@ include '../Locales/Strings_SPANISH.php';
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                       ?>
-                      <li>
-                        <a href="../Controllers/CAMPEONATO_Controller.php?action=FORMADD">Añadir</a>
-                      </li>
                       <li><a href="../Controllers/CAMPEONATO_Controller.php?action=CAMPEONATOSCERRADOS">Campeonatos cerrados</a></li>
                       <?php
                     }
@@ -114,7 +110,7 @@ include '../Locales/Strings_SPANISH.php';
             </li>
 
             <li>
-              <a href="#" class="icon fa-angle-down">Partidos</a>
+              <a href="#" class="icon fa-angle-down">Gestionar Partidos</a>
               <ul>
                 <li>
                   <a>Inscripciones</a>
@@ -135,7 +131,7 @@ include '../Locales/Strings_SPANISH.php';
               </ul>
             </li>
              <li>
-              <a href="#" class="icon fa-angle-down">Escuelas</a>
+              <a href="#" class="icon fa-angle-down">Gestionar Clases</a>
               <ul>
                 <li>
                   <a>Inscripciones</a>
@@ -147,7 +143,7 @@ include '../Locales/Strings_SPANISH.php';
                 <?php
                 if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
                   ?>
-                  <li><a href="../Controllers/ESCUELA_Controller.php">Ver Escuelas</a></li>
+                  <li><a href="../Controllers/ESCUELA_Controller.php">Ver Clases</a></li>
                   <?php
                 }
                 ?>

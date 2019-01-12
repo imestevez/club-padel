@@ -4,17 +4,23 @@ class ESCUELA_Model{
     var $id;
     var $nombre;
     var $horario;
+    var $dia;
     var $pista_ID;
     var $inscripciones;
+    var $max_inscripciones;
+
     var $mensaje;
     var $mysqli;
 
-    function __construct($id,$nombre, $horario_ID, $pista_ID ,$inscripciones){
+    function __construct($id,$nombre, $dia,$horario_ID, $pista_ID ,$inscripciones){
         $this->id = $id;
         $this->nombre = $nombre;
+        $this->dia = $dia;
         $this->horario_ID = $horario_ID;
         $this->pista_ID = $pista_ID;
         $this->inscripciones = $inscripciones;
+        $this->max_inscripciones = 4;
+
 
         include_once '../Functions/Access_DB.php';
         $this->mysqli = ConnectDB();
@@ -51,10 +57,11 @@ class ESCUELA_Model{
     }  // fin del metodo UPDATE  
     function ADD()
     {
-        if (($this->nombre <> '') || ($this->horario_ID <> '') || ($this->pista_ID <> '') ){ // si los atributos estan vacios
+        if (($this->nombre <> '') || ($this->horario_ID <> '') || ($this->pista_ID <> '') || ($this->dia <> '')){ // si los atributos estan vacios
             // construimos el sql para buscar esa clave en la tabla
             $sql = "SELECT * FROM ESCUELA 
                     WHERE      (HORARIO_ID = '$this->horario_ID')
+                            AND (DIA = '$this->dia' )
                             AND (PISTA_ID = '$this->pista_ID')";
 
 
@@ -66,11 +73,13 @@ class ESCUELA_Model{
                         $sql = "INSERT INTO ESCUELA(
                         ID,
                         NOMBRE,
+                        DIA,
                         HORARIO_ID,
                         PISTA_ID,
                         INSCRIPCIONES) VALUES(
                                             NULL,
                                             '$this->nombre',
+                                            '$this->dia',
                                             '$this->horario_ID',
                                             '$this->pista_ID',
                                             '0'
@@ -85,7 +94,7 @@ class ESCUELA_Model{
                             return $this->mensaje; // introduzca un valor para el usuario
                         }
                     }else{
-                            $this->mensaje['mensaje'] = 'ERROR: Ya existe una escuela en esa pista y horario';
+                            $this->mensaje['mensaje'] = 'ERROR: Ya existe una escuela en esa pista, dia y horario';
                             return $this->mensaje; // introduzca un valor para el usuario
                     }
 
@@ -97,13 +106,9 @@ class ESCUELA_Model{
                     
     } // fin del metodo ADD
 
-    function RESERVAR(){
-
-    }// fin del metodo reservar
-
     function SHOWALL(){
 
-        $sql = "SELECT E.ID, E.NOMBRE, E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN, PI.NOMBRE AS NOMBRE_PISTA 
+        $sql = "SELECT E.ID, E.NOMBRE, E.DIA, E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN, PI.NOMBRE AS NOMBRE_PISTA 
                 FROM ESCUELA E, HORARIO H, PISTA PI 
                 WHERE       (E.HORARIO_ID = H.ID)
                         AND (E.PISTA_ID = PI.ID)";
@@ -126,7 +131,7 @@ class ESCUELA_Model{
     }// fin del método DELETE
      function SHOWALL_Inscripciones(){
 
-        $sql = "SELECT E.ID, UE.USUARIO_LOGIN, E.NOMBRE, E.PISTA_ID, PI.NOMBRE AS NOMBRE_PISTA, E.HORARIO_ID, 
+        $sql = "SELECT E.ID, UE.USUARIO_LOGIN, E.NOMBRE, E.DIA, E.PISTA_ID, PI.NOMBRE AS NOMBRE_PISTA, E.HORARIO_ID, 
                         E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
                 FROM ESCUELA E, HORARIO H, USUARIO_ESCUELA UE, PISTA PI
                 WHERE      (H.ID = E.HORARIO_ID) AND (E.ID = UE.ESCUELA_ID)  AND (PI.ID = E.PISTA_ID)
@@ -144,7 +149,7 @@ class ESCUELA_Model{
     
     function SHOWALL_Login($login){
 
-        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, E.INSCRIPCIONES, PI.NOMBRE AS NOMBRE_PISTA, H.HORA_INICIO, H.HORA_FIN
+        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.DIA,E.HORARIO_ID, E.INSCRIPCIONES, PI.NOMBRE AS NOMBRE_PISTA, H.HORA_INICIO, H.HORA_FIN
                 FROM ESCUELA E, HORARIO H, USUARIO_ESCUELA U, PISTA PI
                 WHERE      (H.ID = E.HORARIO_ID) AND (U.ESCUELA_ID = E.ID) AND (U.USUARIO_LOGIN = '$login')  AND (PI.ID = E.PISTA_ID)
                 GROUP BY E.ID
@@ -161,10 +166,10 @@ class ESCUELA_Model{
 
     function SHOWALL_Disponibles(){
 
-        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.DIA, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
                 FROM ESCUELA E, HORARIO H, PISTA PI
                 WHERE      ( (H.ID = E.HORARIO_ID) 
-                        AND (E.INSCRIPCIONES < 3)
+                        AND (E.INSCRIPCIONES < '$this->max_inscripciones')
                         AND (PI.ID = E.PISTA_ID) )
                 GROUP BY E.ID        
                 ORDER BY H.HORA_INICIO, E.PISTA_ID";
@@ -179,10 +184,10 @@ class ESCUELA_Model{
     }// fin SHOWALL_Disponibles
 
    function SHOWALL_DisponiblesLogin($login){
-        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
+        $sql = "SELECT E.ID, E.NOMBRE, E.PISTA_ID, E.DIA, E.HORARIO_ID, PI.NOMBRE AS NOMBRE_PISTA , E.INSCRIPCIONES, H.HORA_INICIO, H.HORA_FIN
             FROM ESCUELA E, HORARIO H, PISTA PI, USUARIO_ESCUELA UE
             WHERE      ( (H.ID = E.HORARIO_ID) 
-                    AND (E.INSCRIPCIONES < 3)
+                    AND (E.INSCRIPCIONES < '$this->max_inscripciones')
                     AND (PI.ID = E.PISTA_ID) 
                     AND  (E.ID NOT IN (SELECT ESCUELA_ID FROM  USUARIO_ESCUELA WHERE (USUARIO_LOGIN = '$login') ))
                       )

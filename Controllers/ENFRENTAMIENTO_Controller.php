@@ -5,9 +5,14 @@
     include "../Views/ENFRENTAMIENTO/GESHORARIOS_View.php";
     include "../Views/ENFRENTAMIENTO/PROPONERHUECO_View.php";
     include "../Views/ENFRENTAMIENTO/GESRESULTADOS_View.php";
+    include "../Views/ENFRENTAMIENTO/GESRESULTADOSBUS_View.php";
     include "../Views/ENFRENTAMIENTO/INTRODUCIRRESULTADO_View.php";
     include "../Views/ENFRENTAMIENTO/SHOWCAMPEONATOS_View.php";
     include "../Views/ENFRENTAMIENTO/SHOWPAREJA_View.php";
+    include "../Views/ENFRENTAMIENTO/SHOW_ENF_CC_View.php";
+    include "../Views/ENFRENTAMIENTO/SHOW_ENF_CC_BUS_View.php";
+
+
 
     include "../Models/CLASIFICACION_Model.php";
     include "../Models/CAMPEONATO_Model.php";
@@ -113,15 +118,75 @@
   
 
     switch ($action) {
+        case 'SHOW_ENF_CC':
+            if(isset($_REQUEST['campeonato_ID'])){
+                $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
+                $enfrentamientos = $ENFRENTAMIENTO->SHOW_ENFS_CAMP($_REQUEST['campeonato_ID']);
+                $CAMPEONATO = new CAMPEONATO_Model('','');
+                $camp = $CAMPEONATO->GET_NOMBRE($_REQUEST['campeonato_ID']);
+                $grupo_cat = $CAMPEONATO->GET_CG($_REQUEST['campeonato_ID']);
+                new SHOW_ENF_CC($camp,$enfrentamientos,$grupo_cat,$_REQUEST['campeonato_ID']);
+            }
+            break;
         case 'SHOW':
             if(isset($_REQUEST['campeonato_ID'])){
                 $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
                 $enfrentamientos = $ENFRENTAMIENTO->SHOW_ENFS_CAMP($_REQUEST['campeonato_ID']);
                 $CAMPEONATO = new CAMPEONATO_Model('','');
-                $camp = $CAMPEONATO->GET($_REQUEST['campeonato_ID']);
-                new GESRESULTADOS($camp,$enfrentamientos);
+                $camp = $CAMPEONATO->GET_NOMBRE($_REQUEST['campeonato_ID']);
+                $grupo_cat = $CAMPEONATO->GET_CG($_REQUEST['campeonato_ID']);
+                new GESRESULTADOS($camp,$enfrentamientos,$grupo_cat,$_REQUEST['campeonato_ID']);
             }
             break;
+        case 'SHOW_ENF_ETAPAS':
+            if (isset($_REQUEST['campeonato_ID'])) {
+                $CAMPEONATO = new CAMPEONATO_Model('','');
+                $camp = $CAMPEONATO->GET_NOMBRE($_REQUEST['campeonato_ID']);
+
+                $grupo_cat = explode(",", $_REQUEST['grupo_cat']);
+
+                $categoria = $CAMPEONATO->CATEGORIA_FETCH($grupo_cat[1]);
+                $grupo =  $CAMPEONATO->GRUPO_NOMBRE($grupo_cat[0]);
+                $categorias = $CAMPEONATO->GET_CATEGORIASCAMPEONATO($_REQUEST['campeonato_ID']);
+                $grupos = $CAMPEONATO->GET_GRUPOS($_REQUEST['campeonato_ID']);
+                //Obtenemos los datos a mostrar de las etapas que haya actualamente en el campeonato
+                $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
+                $fase_grupos = $ENFRENTAMIENTO->SHOWALL_ENFRENTAMIENTOS_2($grupo_cat[0]);
+                $fase_cuartos = $ENFRENTAMIENTO-> SHOW_ENF_FASE2($grupo_cat[0],'C');
+                $fase_semis = $ENFRENTAMIENTO-> SHOW_ENF_FASE2($grupo_cat[0],'S');
+                $fase_final = $ENFRENTAMIENTO-> SHOW_ENF_FASE2($grupo_cat[0],'F');
+                //Calculamos la etapa actual 
+                $actual = $CAMPEONATO->ETAPA_ACT($grupo_cat[0]);
+                $grupo_cat = $CAMPEONATO->GET_CG($_REQUEST['campeonato_ID']);
+                new SHOW_ENF_CC_BUS($camp,$categoria,$grupo,$fase_grupos,$fase_cuartos,$fase_semis,$fase_final,$actual,$grupo_cat,$_REQUEST['campeonato_ID']);
+
+            }
+            break;
+        case 'SHOW_ETAPAS':
+            if (isset($_REQUEST['campeonato_ID'])) {
+                $CAMPEONATO = new CAMPEONATO_Model('','');
+                $camp = $CAMPEONATO->GET_NOMBRE($_REQUEST['campeonato_ID']);
+
+                $grupo_cat = explode(",", $_REQUEST['grupo_cat']);
+
+                $categoria = $CAMPEONATO->CATEGORIA_FETCH($grupo_cat[1]);
+                $grupo =  $CAMPEONATO->GRUPO_NOMBRE($grupo_cat[0]);
+                $categorias = $CAMPEONATO->GET_CATEGORIASCAMPEONATO($_REQUEST['campeonato_ID']);
+                $grupos = $CAMPEONATO->GET_GRUPOS($_REQUEST['campeonato_ID']);
+                //Obtenemos los datos a mostrar de las etapas que haya actualamente en el campeonato
+                $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model('','','','','');
+                $fase_grupos = $ENFRENTAMIENTO->SHOW_ENFS_GRUPO($grupo_cat[0]);
+                $fase_cuartos = $ENFRENTAMIENTO-> SHOW_ENF_FASE($grupo_cat[0],'C');
+                $fase_semis = $ENFRENTAMIENTO-> SHOW_ENF_FASE($grupo_cat[0],'S');
+                $fase_final = $ENFRENTAMIENTO-> SHOW_ENF_FASE($grupo_cat[0],'F');
+                //Calculamos la etapa actual 
+                $actual = $CAMPEONATO->ETAPA_ACT($grupo_cat[0]);
+                $grupo_cat = $CAMPEONATO->GET_CG($_REQUEST['campeonato_ID']);
+                new GESRESULTADOSBUS($camp,$categoria,$grupo,$fase_grupos,$fase_cuartos,$fase_semis,$fase_final,$actual,$grupo_cat,$_REQUEST['campeonato_ID']);
+
+            }
+            break;
+
          case 'SHOW_PAREJA':
              if(isset($_REQUEST['pareja_ID']) && isset($_REQUEST['campeonato_ID'])){
                 $PAREJA = new PAREJA_Model('','','');
@@ -169,7 +234,8 @@
         case 'INTRODUCIRRESULTADO':
 
             if(isset($_REQUEST["enfrentamiento_ID"])){
-                $VIEW = new IntroducirResultado($_REQUEST["enfrentamiento_ID"]);
+                var_dump("LA ETAPA ES 1: ".$_REQUEST['etapa']);
+                $VIEW = new IntroducirResultado($_REQUEST["enfrentamiento_ID"],$_REQUEST["grupo_id"],$_REQUEST["etapa"]);
             }
         break;
         case 'RESULTADO':
@@ -178,8 +244,23 @@
             $enfrentamiento = $ENFRENTAMIENTO->SET_RESULTADO($_REQUEST["enfrentamiento_ID"],  $resultado);
             $CLASIFICACION = new CLASIFICACION_Model('','','');
             $clasificacion = $CLASIFICACION->ACTUALIZAR_CLASIFICACION($resultado,$_REQUEST["enfrentamiento_ID"]);
+                var_dump("LA ETAPA ES 2: ".$_REQUEST["etapa"]);
+            
+            //Comprobamos si es el ultimo enfrentamiento en tener resultado
+            $CAMPEONATO = new CAMPEONATO_Model('','');
+            $promocion_grupo = $CAMPEONATO->COMPROBAR_ETAPA($_REQUEST["grupo_id"],$_REQUEST["etapa"]);
+            var_dump("VAMOS A PROMOCIONA: ". $promocion_grupo);
+            if( $promocion_grupo == 1){
+                $CAMPEONATO->GANADORES_GRUPO($_REQUEST["grupo_id"],$_REQUEST["etapa"]);
+                $mensaje_cambio = "Ha terminado una fase del campeonato";
+                $campeonato_id = $CAMPEONATO->GET_ID($_REQUEST["grupo_id"]);
+                $VIEW = new MESSAGE($mensaje_cambio, '../Controllers/ENFRENTAMIENTO_Controller.php');
+                var_dump("LA PROXIMA VEZ SERÁ");
 
-            $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php');
+            }
+            else{
+                $VIEW = new MESSAGE($enfrentamiento, '../Controllers/ENFRENTAMIENTO_Controller.php'); 
+            }
 
             break;
         default:

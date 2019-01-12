@@ -3,9 +3,15 @@
 
 class INTRODUCIRRESULTADO{
     var $enfrentamiento;
+    var $grupo_id;
+    var $etapa;
 
-    function __construct($enfrentamiento){
-        $this->enfrentamiento=$enfrentamiento;
+
+    function __construct($enfrentamiento,$grupo_id, $etapa){
+        $this->enfrentamiento = $enfrentamiento;
+        $this->grupo_id = $grupo_id;
+        $this->etapa = $etapa;
+
         $this->render();
     }
 
@@ -21,7 +27,7 @@ function render(){
            <h2>Resultado del enfrentamiento</h2>
         </header>
         <div class="box col-6">
-            <form method="post" action="../Controllers/ENFRENTAMIENTO_Controller.php?action=RESULTADO">
+            <form method="post" action="../Controllers/ENFRENTAMIENTO_Controller.php?action=RESULTADO&etapa=<?=$this->etapa?>&grupo_id=<?=$this->grupo_id?>">
                 <div class="row gtr-50 gtr-uniform">
                     <div class="table-wrapper col-4" style="margin-left: 34%">
                         <table>

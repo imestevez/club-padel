@@ -19,11 +19,19 @@ class CAMPEONATO_Model{
         include_once '../Models/GRUPO_Model.php';
         include_once '../Models/INSCRIPCION_Model.php';
         include_once '../Models/CLASIFICACION_Model.php';
+        include_once '../Models/FINALISTA_CAMPEONATO_Model.php';
         include_once '../Models/ENFRENTAMIENTO_Model.php';
 
         $this->mysqli = ConnectDB();
 
         
+    }
+
+    function GET_ID($grupo_id){
+        $sql = "SELECT * FROM GRUPO WHERE ID = '$grupo_id'";
+        $result = $this->mysqli->query($sql);
+        $row = mysqli_fetch_array($result);
+        return $row['CAMPEONATO_ID'];
     }
 
     //Función para obtener todas las posibles categorías de un campeonato
@@ -35,13 +43,404 @@ class CAMPEONATO_Model{
 
     //Función para obtener las categorias de un campeonato
     function GET_CATEGORIASCAMPEONATO($campeonato_id){
-        $sql = "SELECT * FROM CAMPEONATO_CATEGORIA WHERE CAMPEONATO_ID = '$campeonato_id";
+        $sql = "SELECT * FROM   CAMPEONATO_CATEGORIA CC,
+                                CATEGORIA C
+                                WHERE 
+                                (CC.CAMPEONATO_ID = '$campeonato_id') AND
+                                (CC.CATEGORIA_ID = C.ID)
+                                ";
         $result = $this->mysqli->query($sql);
-        //$cam_cat = new array();
-        //while ($row = mysqli_fetch_array($result) {
-            
-        //}
+        return $result;
 
+    }
+
+    //Función para obtener las categorías-grupo de un campeonato
+    function GET_CG($campeonato_id){
+        $sql = "SELECT  G.ID AS GRUPO_ID,
+                        C.ID AS CATEGORIA_ID,
+                        G.NOMBRE AS GRUPO_NOMBRE,
+                        C.NIVEL,
+                        C.GENERO        
+                        FROM GRUPO G, CATEGORIA C
+                                WHERE
+                                        (G.CAMPEONATO_ID = '$campeonato_id')
+                                    AND (G.CATEGORIA_ID = C.ID)";    
+        $result = $this->mysqli->query($sql);
+        return $result;                                
+                                
+    }
+
+    //Función para obtener el nombre de un campeonato
+    function GET_NOMBRE($campeonato_id){
+        $datos = $this->GET($campeonato_id);
+        if($row = mysqli_fetch_array($datos)){
+            return $row['NOMBRE'];
+        }
+    }
+
+    //Función que devuleve los grupos de un camponato
+    function GET_GRUPOS($campeonato_id){
+        $sql = "SELECT * FROM GRUPO WHERE CAMPEONATO_ID = '$campeonato_id'";
+        $result = $this->mysqli->query($sql);
+
+        return $result;
+
+    } 
+
+    function CATEGORIA_FETCH($categoria_id){
+        $sql = "SELECT * FROM CATEGORIA WHERE ID = '$categoria_id'";
+        
+        $result = $this->mysqli->query($sql);
+        return $result;
+        
+    }
+
+    function GRUPO_NOMBRE($grupo_id){
+        $sql = "SELECT * FROM GRUPO WHERE ID = '$grupo_id'";
+        $result = $this->mysqli->query($sql);
+        return $result;
+    }
+
+    //Función para calcular la etapa actual de un campeonato
+    function ETAPA_ACT($grupo_id){
+        //Si etapa final
+        $sql = "SELECT * FROM FINALISTA_CAMPEONATO WHERE (ETAPA = 'F') AND (GRUPO_ID = '$grupo_id')";
+        $result = $this->mysqli->query($sql);
+        if(mysqli_num_rows($result) > 0){
+            return 'F';
+        }
+        //Si etapa de semis
+        $sql = "SELECT * FROM FINALISTA_CAMPEONATO WHERE (ETAPA = 'S') AND (GRUPO_ID = '$grupo_id')";
+        $result = $this->mysqli->query($sql);
+        if(mysqli_num_rows($result) > 0){
+            return 'S';
+        }
+        //Si etapa de cuartos
+        $sql = "SELECT * FROM FINALISTA_CAMPEONATO WHERE (ETAPA = 'C') AND (GRUPO_ID = '$grupo_id')";
+        $result = $this->mysqli->query($sql);
+        if(mysqli_num_rows($result) > 0){
+            return 'C';
+        }
+
+        return 'G';
+    }
+
+    function GANADOR_SET($set_p1, $set_p2){
+        if( ($set_p1 >= 6) || ($set_p2 >= 6)) {
+            if($set_p1 > $set_p2){
+                return 1;
+            }
+             if($set_p1 < $set_p2){
+                return 2;
+            }
+            return 0;
+        }else{
+            return 0;
+        }
+    }
+
+    function GANADOR_SETS($set1,$set2,$set3){
+        $cont_p1 = 0;
+        $cont_p2 = 0;
+
+        if($set1 == 1){
+            $cont_p1 = $cont_p1 + 1;
+        }
+        if($set1 == 2){
+            $cont_p2 = $cont_p2 + 1;
+        }
+        if($set2 == 1){
+            $cont_p1 = $cont_p1 + 1;
+        }
+       if($set2 == 2){
+            $cont_p2 = $cont_p2 + 1;
+        }
+        if($set3 == 1){
+            $cont_p1 = $cont_p1 + 1;
+        }
+       if($set3 == 2){
+            $cont_p2 = $cont_p2 + 1;
+        }
+
+        if($cont_p1 > $cont_p2 ){
+            return 1;
+        }
+       if($cont_p1 < $cont_p2 ){
+            return 2;
+        }
+
+        return 0;
+    }
+
+    function GANADOR_PARTIDO($resultado){
+        $sets=explode("/", $resultado);
+        $set_1=$sets[0];
+        $set_2=$sets[1];
+        $set_3=$sets[2];
+
+        $set_1=explode('-', $set_1);
+        $p1_set1 = $set_1[0];
+        $p2_set1 = $set_1[1];
+
+        $set_2=explode('-', $set_2);
+        $p1_set2 = $set_2[0];
+        $p2_set2 = $set_2[1];
+
+        $set_3=explode('-', $set_3);
+        $p1_set3 = $set_3[0];
+        $p2_set3 = $set_3[1];
+
+        $ganador_set_1 = $this->GANADOR_SET($p1_set1, $p2_set1);
+        $ganador_set_2 = $this->GANADOR_SET($p1_set2, $p2_set2);
+        $ganador_set_3 = $this->GANADOR_SET($p1_set3, $p2_set3);
+
+        $ganador_partido = $this->GANADOR_SETS($ganador_set_1,$ganador_set_2,$ganador_set_3);
+        return $ganador_partido;
+    }
+
+    //Función para seleccionar los ganadores de un grupo de la fase de grupos
+    function GANADORES_GRUPO($grupo_id,$etapa){
+
+        switch ($etapa) {
+                case 'F':
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
+                                                FINALISTA_CAMPEONATO F
+                                            WHERE 
+                                                (E.GRUPO_ID = '$grupo_id')
+                                            AND (E.GRUPO_ID = F.GRUPO_ID)
+                                            AND (F.ETAPA = 'F')";
+                    $result = $this->mysqli->query($sql_cmp);
+
+                    while($row =  mysqli_fetch_array($result)){
+                        $resultado_partido = $row['RESULTADO'];
+                        $ganador = $this->GANADOR_PARTIDO($resultado_partido);
+                        if($ganador = 1){
+                            $ganador = $row['PAREJA_1'];           
+                        }
+                        else{
+                             $ganador = $row['PAREJA_2'];
+                        }
+                        //Ganador del campeonato
+                            $this->PROMOCIONAR_PAREJA($ganador,$grupo_id,"-");
+                    }     
+
+                    break;
+                case 'S':
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
+                                                FINALISTA_CAMPEONATO F
+                                            WHERE 
+                                                (E.GRUPO_ID = '$grupo_id')
+                                            AND (E.GRUPO_ID = F.GRUPO_ID)
+                                            AND (F.ETAPA = 'F')";
+                    $result = $this->mysqli->query($sql_cmp);
+
+                    while($row =  mysqli_fetch_array($result)){
+                        $resultado_partido = $row['RESULTADO'];
+                        $ganador = $this->GANADOR_PARTIDO($resultado_partido);
+                        if($ganador = 1){
+                            $ganador = $row['PAREJA_1'];           
+                        }
+                        else{
+                             $ganador = $row['PAREJA_2'];
+                        }
+                        //Ganador del campeonato
+                            $this->PROMOCIONAR_PAREJA($ganador,$grupo_id,"F");
+                    }    
+                    break;
+                case 'C':
+                $fecha_act = date("Y-m-d");
+
+                    //Seleccionamos las fechas en las que comenzo la etapa
+                    $sql_fecha = "SELECT FECHA FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'C')";
+                    $result_fecha = $this->mysqli->query($sql_fecha);
+                    if($row_fecha = mysqli_fetch_array($result_fecha)){
+                        $fecha_cierre = $row_fecha['FECHA'];
+                    }
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT DISTINCT * FROM   ENFRENTAMIENTO E,
+                                                RESERVA R
+                                            WHERE 
+                                                (E.GRUPO_ID = '$grupo_id')
+                                            AND (E.PAREJA_1 IN (SELECT PAREJA_ID FROM FINALISTA_CAMPEONATO WHERE ETAPA = 'C') )
+                                            AND (E.RESERVA_ID = R.ID)
+                                            AND (E.RESERVA_ID IS NOT NULL)
+                                            AND (R.FECHA > '$fecha_cierre')";
+                    $result = $this->mysqli->query($sql_cmp);
+                    echo "ESTE SQL 1 ES: ".$sql_cmp;
+                    while($row =  mysqli_fetch_array($result)){
+                        $resultado_partido = $row['RESULTADO'];
+                        $ganador = $this->GANADOR_PARTIDO($resultado_partido);
+                        if($ganador = 1){
+                            $ganador = $row['PAREJA_1'];           
+                        }
+                        else{
+                             $ganador = $row['PAREJA_2'];
+                        }
+                        //Ganador del campeonato
+                            $this->PROMOCIONAR_PAREJA($ganador,$grupo_id,"S");
+                    }    
+                    break;
+                case 'G':
+                    //Buscamos todas las clasificaciones del grupo y las ordenamos por puntos
+                    $sql_cmp = "SELECT * FROM CLASIFICACION WHERE (GRUPO_ID = '$grupo_id') ORDER BY PUNTOS DESC"; 
+                    $result = $this->mysqli->query($sql_cmp);
+                    //Seleccionamos los 8 primeros y los añadimos como finalistas
+                    $num_finalistas = 0;
+                    while ( $num_finalistas < 8 ) {
+                        if($row_g =  mysqli_fetch_array($result)){
+                            $pareja_id = $row_g['PAREJA_ID'];
+                        //Creamos la instancia del jugador como finalista
+                        $FINALISTA_CAMPEONATO = new FINALISTA_CAMPEONATO_Model($grupo_id,$pareja_id,"C",$num_finalistas);
+                        $FINALISTA_CAMPEONATO->ADD();
+                        $num_finalistas++;
+                        }
+                        
+                    }         
+                
+                default:
+                    # code...
+                    break;    
+        }
+
+        //Por último, generamos los enfrentamientos 
+        $this->GENERAR_ENFREN_ETAPA($etapa,$grupo_id);
+        
+    }
+
+    //Función para generar los enfrentamientos según la etapa 
+    function GENERAR_ENFREN_ETAPA($etapa, $grupo_id){
+        switch ($etapa) {
+            case 'S':
+                $sql = "SELECT * FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'F') ORDER BY PUNTOS ASC";
+                $result = $this->mysqli->query($sql);
+                $participantes = [];
+                $i=0;
+                while($row = mysqli_fetch_array($result)){
+                    $participantes[$i] = $row['PAREJA_ID'];
+                    $i++;
+                }
+                //Generamos los enfrentamientos de la etapa de cuartos según las especificaciones
+                for ($i=0; $i < 1; $i++) { 
+                    $pareja_1 = $participantes[$i];
+                    $pareja_2 = $participantes[$i+1];
+                    $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model($grupo_id,null,$pareja_1,$pareja_2,null);
+                    $ENFRENTAMIENTO->ADD_FINAL();
+                }
+                break;
+            case 'C':
+                $sql = "SELECT * FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'S') ORDER BY PUNTOS ASC";
+                $result = $this->mysqli->query($sql);
+                $participantes = [];
+                $i=0;
+                while($row = mysqli_fetch_array($result)){
+                    $participantes[$i] = $row['PAREJA_ID'];
+                    $i++;
+                }
+                //Generamos los enfrentamientos de la etapa de cuartos según las especificaciones
+                for ($i=0; $i < 2; $i++) { 
+                    $pareja_1 = $participantes[$i];
+                    $indice_2 = 3 - $i;
+                    $pareja_2 = $participantes[$indice_2];
+                    $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model($grupo_id,null,$pareja_1,$pareja_2,null);
+                    $ENFRENTAMIENTO->ADD_FINAL();
+                }
+                break;
+            case 'G':
+                $sql = "SELECT * FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'C') ORDER BY PUNTOS ASC";
+                $result = $this->mysqli->query($sql);
+                $participantes = [];
+                $i=0;
+                while($row = mysqli_fetch_array($result)){
+                    $participantes[$i] = $row['PAREJA_ID'];
+                    $i++;
+                }
+                //Generamos los enfrentamientos de la etapa de cuartos según las especificaciones
+                for ($i=0; $i < 4; $i++) { 
+                    $pareja_1 = $participantes[$i];
+                    $indice_2 = 7 - $i;
+                    $pareja_2 = $participantes[$indice_2];
+                    $ENFRENTAMIENTO = new ENFRENTAMIENTO_Model($grupo_id,null,$pareja_1,$pareja_2,null);
+                    $ENFRENTAMIENTO->ADD_FINAL();
+                }
+                break;   
+            default:
+                # code...
+                break;
+        }
+    }
+
+    //Función para promocionar de etapa a un jugador
+    function PROMOCIONAR_PAREJA($pareja_id,$grupo_id,$etapa_siguiente){
+        $fecha_act = date("Y-m-d");
+        $sql = "UPDATE FINALISTA_CAMPEONATO 
+                        SET ETAPA = '$etapa_siguiente',
+                            FECHA = '$fecha_act'
+                            WHERE 
+                                (GRUPO_ID = '$grupo_id')
+                            AND (PAREJA_ID = '$pareja_id')
+                            ";
+                            var_dump("VOY A PROMOCINAR DE ETAPA: ".$etapa_siguiente);
+                            echo "El sql es: ".$sql;
+        $result = $this->mysqli->query($sql);                    
+    }
+
+    //Función que comprueba si se han jugado todos los enfrentamientos de la fase de grupos de un grupo
+    function COMPROBAR_ETAPA($grupo_id,$etapa){
+
+        switch ($etapa) {
+
+                case 'F':
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
+                                                FINALISTA_CAMPEONATO F
+                                            WHERE 
+                                                (E.GRUPO_ID = '$grupo_id')
+                                            AND (E.GRUPO_ID = F.GRUPO_ID)
+                                            AND (F.ETAPA = 'F')";
+                    break;
+                case 'S':
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
+                                                FINALISTA_CAMPEONATO F
+                                            WHERE 
+                                                (E.GRUPO_ID = '$grupo_id')
+                                            AND (E.GRUPO_ID = F.GRUPO_ID)
+                                            AND (F.ETAPA = 'S')";
+                    break;
+                case 'C':
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
+                                                FINALISTA_CAMPEONATO F
+                                            WHERE 
+                                                (E.GRUPO_ID = '$grupo_id')
+                                            AND (E.GRUPO_ID = F.GRUPO_ID)
+                                            AND (F.ETAPA = 'C')";
+                    break;
+                case 'G':
+                    //Buscamos todos los enfrentamientos para ese grupo
+                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E
+                                            WHERE 
+                                                (GRUPO_ID = '$grupo_id')";
+                    break;          
+                
+                default:
+                    $sql_cmp = null;
+
+                    break;    
+        }
+
+        $result = $this->mysqli->query($sql_cmp);
+        //Comprobamos que todos los enfrentamientos encontrados tienen un resultado asociado
+        while ($row =  mysqli_fetch_array($result) ) {
+            //Si algún enfrentamiento no se ha jugado paramos de buscar
+            if($row['RESULTADO'] == NULL){
+                return 0;
+            }
+        }
+
+        return 1;
     }
 
     //Función añadir un campeonato a la bd
