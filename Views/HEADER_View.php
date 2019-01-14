@@ -21,10 +21,12 @@ include '../Locales/Strings_SPANISH.php';
       <nav id="nav">
         <ul>
           <li><a href="../index.php">Inicio</a></li>
-          <li>
+
             <?php
             if(IsAuthenticated()){
               ?>
+              <li><a href="../Controllers/NOTICIAS_Controller.php?action=SHOW_NOTICIAS">Noticias</a></li>
+              <li>
               <a href="#" class="icon fa-angle-down">Gestionar Reservas</a>
               <ul>
                 <?php
@@ -42,7 +44,7 @@ include '../Locales/Strings_SPANISH.php';
                 <li><a href="../Controllers/RESERVAR_PISTA_Controller.php">Reservar</a></li>
               </ul>
             </li>
-            <?php //???
+            <?php
             if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
               <li>

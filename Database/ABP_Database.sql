@@ -205,6 +205,16 @@ CREATE TABLE IF NOT EXISTS FINALISTA_CAMPEONATO(
 );
 
 
+CREATE TABLE IF NOT EXISTS NOTICIA(
+  ID int(255) AUTO_INCREMENT NOT NULL,
+  TITULO tinytext NOT NULL,
+  DESCRIPCION text NOT NULL,
+  LINK tinytext,
+  PRIMARY KEY (ID)
+);
+
+
+
 USE ABP;
 
 -- INSERTS DE TABLA ROL
@@ -280,11 +290,11 @@ INSERT INTO PAREJA (ID, JUGADOR_1, JUGADOR_2, CAPITAN) VALUES (1,"pepe", "carlos
                                                               (11,"juan", "hector", "juan"),
                                                               (12,"trinidad", "roberto", "trinidad"),
                                                               (13,"francisco", "nuria", "francisco"),
-                                                              (14,"joel", "yeray", "joel"), 
-                                                              (15,"adrian", "santiago", "adrian"), 
-                                                              (16,"lucas2", "ian", "lucas2"), 
-                                                              (17,"arturo", "rafael", "arturo"), 
-                                                              (18,"mario", "nico", "mario"), 
+                                                              (14,"joel", "yeray", "joel"),
+                                                              (15,"adrian", "santiago", "adrian"),
+                                                              (16,"lucas2", "ian", "lucas2"),
+                                                              (17,"arturo", "rafael", "arturo"),
+                                                              (18,"mario", "nico", "mario"),
                                                               (19,"jesus", "miguelan", "jesus"),
                                                               (20,"julian", "sergio", "julian"),
                                                               (21,"angel", "nicolas", "angel"),
@@ -641,7 +651,7 @@ INSERT INTO CAMPEONATO_CATEGORIA (ID, CAMPEONATO_ID, CATEGORIA_ID) VALUES   (1, 
                                                                             (8, 3, 2),
                                                                             (9, 3, 3);
 
--- INSERTS EN TABLA GRUPO                                                             
+-- INSERTS EN TABLA GRUPO
 INSERT INTO GRUPO (ID, NOMBRE, CAMPEONATO_ID, CATEGORIA_ID) VALUES
                                                                     (1, '1', 2, 1),
                                                                     (2, '2', 2, 1),
@@ -860,5 +870,10 @@ INSERT INTO USUARIO_ESCUELA (`ID`, `USUARIO_LOGIN`, `ESCUELA_ID`) VALUES
 (4, 'alejandra', 2),
 (5, 'pepe', 1);
 
-COMMIT;
+INSERT INTO NOTICIA (`ID`, `TITULO`, `DESCRIPCION`, `LINK`) VALUES
+(1, 'Nueva web!', 'Os presentamos la nueva web del club, esperamos que os guste!',''),
+(2, 'Clases gratis el primer mes!', 'NO ES BROMA! Aprovechad esta oferta de apertura.', '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_ESCUELAS'),
+(3, 'Primeros partidos promocionados del año!', 'Otro año mas, volvemos con los partidos promocionados!','../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS');
 
+
+COMMIT;
