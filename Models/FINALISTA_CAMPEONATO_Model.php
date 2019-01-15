@@ -41,7 +41,7 @@ class FINALISTA_CAMPEONATO_Model
 								'$this->puntos',
 								'$fecha_act'
 								)";
-								var_dump("SQL DE INSERTAR FIN: ".$sql);
+								echo("SQL DE INSERTAR FIN: ".$sql);
 		$result = $this->mysqli->query($sql);								
 	}
 

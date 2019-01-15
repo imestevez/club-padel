@@ -35,7 +35,6 @@ class CAMPEONATO_Model{
             $sql_2 = "DELETE FROM CAMPEONATO_CATEGORIA WHERE CAMPEONATO_ID = '$campeonato_id'";
             if($result = $this->mysqli->query($sql_2)){
                 $sql_3 = "DELETE FROM CAMPEONATO WHERE ID = '$campeonato_id'";
-                echo "voy a eliminar: ".$sql_3;
                 if($result = $this->mysqli->query($sql_3)){
                     return "EL campeonato ha sido eliminado con éxito";
                 }
@@ -297,7 +296,6 @@ class CAMPEONATO_Model{
                                             AND (E.RESERVA_ID IS NOT NULL)
                                             AND (R.FECHA > '$fecha_cierre')";
                     $result = $this->mysqli->query($sql_cmp);
-                    echo "ESTE SQL 1 ES: ".$sql_cmp;
                     while($row =  mysqli_fetch_array($result)){
                         $resultado_partido = $row['RESULTADO'];
                         $ganador = $this->GANADOR_PARTIDO($resultado_partido);
@@ -410,8 +408,6 @@ class CAMPEONATO_Model{
                                 (GRUPO_ID = '$grupo_id')
                             AND (PAREJA_ID = '$pareja_id')
                             ";
-                            var_dump("VOY A PROMOCINAR DE ETAPA: ".$etapa_siguiente);
-                            echo "El sql es: ".$sql;
         $result = $this->mysqli->query($sql);                    
     }
 
