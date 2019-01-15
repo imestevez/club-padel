@@ -28,11 +28,12 @@ function render(){
                         </label>
                     </div>
                     <div class="col-12">
-                        <label>Fecha
-                        <input type="text" name="fecha" class="tcal" id="fecha" size="10"  >   
+                        <label>Fecha<br>
+                        <input type="date" name="fecha"  id="fecha" size="10"  >   
                         </label>
                         
                     </div>
+
                     <div class="col-12">
                         <label>Categoría/s
                             <br>

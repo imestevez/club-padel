@@ -27,6 +27,35 @@ class CAMPEONATO_Model{
         
     }
 
+    //Función para eliminar un campeonato abierto
+    function DELETE($campeonato_id){
+
+        $sql_1 = "DELETE FROM INSCRIPCION WHERE CAM_CAT_ID IN (SELECT ID FROM CAMPEONATO_CATEGORIA WHERE CAMPEONATO_ID = '$campeonato_id')";  
+        if($result = $this->mysqli->query($sql_1)){
+            $sql_2 = "DELETE FROM CAMPEONATO_CATEGORIA WHERE CAMPEONATO_ID = '$campeonato_id'";
+            if($result = $this->mysqli->query($sql_2)){
+                $sql_3 = "DELETE FROM CAMPEONATO WHERE ID = '$campeonato_id'";
+                echo "voy a eliminar: ".$sql_3;
+                if($result = $this->mysqli->query($sql_3)){
+                    return "EL campeonato ha sido eliminado con éxito";
+                }
+                else{
+                    return "ERROR: Al eliminar el campeonato seleccionado";
+                    
+                }
+            }
+            else{
+                return "ERROR: Al eliminar el campeonato seleccionado";
+                
+            }
+        }
+        else{
+            return "ERROR: Al eliminar el campeonato seleccionado";
+            
+
+        }
+    }
+
     function GET_ID($grupo_id){
         $sql = "SELECT * FROM GRUPO WHERE ID = '$grupo_id'";
         $result = $this->mysqli->query($sql);
@@ -513,6 +542,7 @@ class CAMPEONATO_Model{
         $sql = "SELECT * FROM CAMPEONATO WHERE (FECHA > '$fecha_actual')";
 
         $result = $this->mysqli->query($sql); 
+        $campeonatos = null;
         while ($row = mysqli_fetch_array($result)) {
             $campeonatos[$row['ID']] = array($row['NOMBRE'],$row['FECHA']);
         }

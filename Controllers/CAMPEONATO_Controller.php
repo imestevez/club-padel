@@ -29,8 +29,6 @@
 
     if(isset($_REQUEST['fecha']))  {
         $fecha = $_REQUEST['fecha'];
-        $fechaTrozos = explode("/", $fecha);
-        $fecha = $fechaTrozos[2]."-".$fechaTrozos[0]."-".$fechaTrozos[1];
     }
 
     if(isset($_REQUEST['categorias'])){
@@ -62,6 +60,11 @@
             new MESSAGE($mensaje, "../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS");
 
     		break;
+
+        case 'DELETE':
+            $CAMPEONATO = new CAMPEONATO_Model('','');
+            $mensaje = $CAMPEONATO->DELETE($id);   
+            new MESSAGE($mensaje, "../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS");
 
     	case 'FORMADD':
             $CAMPEONATO = new CAMPEONATO_Model('','');

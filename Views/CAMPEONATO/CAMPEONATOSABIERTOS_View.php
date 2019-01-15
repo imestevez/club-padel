@@ -57,9 +57,19 @@ function render(){
 											<input class="oculto" name="nombre" readonly value="<?=$value[0]?>">
 											<input type="submit" class="small" value="Inscribir">
 										</td>
-									</tr>
+									
 						
-						</form>			
+						</form>
+							<?php
+		                    	if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+		                    ?>		
+									<td>
+									<a class="button small" href="../Controllers/CAMPEONATO_Controller.php?action=DELETE&id=<?=$key?>">Eliminar</a>
+									</td>
+
+							<?php } ?>		
+						</tr>
+
 
 					<?php
 							}//fin del while

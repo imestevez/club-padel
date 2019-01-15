@@ -78,6 +78,13 @@ include '../Locales/Strings_SPANISH.php';
                      <?php
                     }
                     ?>
+                    <?php
+                    if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
+                      ?>
+                    <li><a href="../Controllers/CAMPEONATO_Controller.php?action=FORMADD">Crear campeonato</a></li>
+                     <?php
+                    }
+                    ?>
                     <li><a href="../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS">Campeonatos abiertos</a></li>
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
@@ -89,24 +96,7 @@ include '../Locales/Strings_SPANISH.php';
                   </ul>
                 </li>
                 <li>
-                  <a>Gest. de enfrentamientos</a>
-                  <ul>
-                    <?php
-                    if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
-                    ?>
-                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action" >Introducir resultados </a></li>
-                    <?php
-                    }
-                    ?>
-                    <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOWPROXIMOS" >Próximos</a></li>
-                    <?php
-                    if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
-                      ?>
-                      <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=GESHORARIOS" >Establecer horarios</a></li>
-                      <?php
-                    }
-                    ?>
-                  </ul>
+                  <a  href="../Controllers/ENFRENTAMIENTO_Controller.php?action" >Gest. de enfrentamientos</a>
                 </li>
               </ul>
             </li>

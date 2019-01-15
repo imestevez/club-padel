@@ -174,58 +174,64 @@ class ENFRENTAMIENTO_Model{
         //Seleccionamos las fechas en las que comenzo la etapa
         $sql_fecha = "SELECT FECHA FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = '$etapa')";
         $result_fecha = $this->mysqli->query($sql_fecha);
-        if($row_fecha = mysqli_fetch_array($result_fecha)){
+        if($result_fecha <> NULL){
+            if($row_fecha = mysqli_fetch_array($result_fecha)){
             $fecha_cierre = $row_fecha['FECHA'];
-        }
-        else{
-           $fecha_cierre = null; 
-        }
-        if($fecha_cierre <> null){
+            }
+            else{
+               $fecha_cierre = null; 
+            }
+            if($fecha_cierre <> null){
 
-        
-        $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
-                                    CT.NIVEL,
-                                    CT.GENERO,
-                                    G.NOMBRE AS GR_NOMBRE,
-                                    E.ID AS ENFRENTAMIENTO_ID,
-                                    E.PAREJA_1 AS PAREJA1_ID,
-                                    E.PAREJA_2 AS PAREJA2_ID,
-                                    E.RESULTADO
+            
+            $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                        CT.NIVEL,
+                                        CT.GENERO,
+                                        G.NOMBRE AS GR_NOMBRE,
+                                        E.ID AS ENFRENTAMIENTO_ID,
+                                        E.PAREJA_1 AS PAREJA1_ID,
+                                        E.PAREJA_2 AS PAREJA2_ID,
+                                        E.RESULTADO
 
-                                    FROM
+                                        FROM
 
-                                    ENFRENTAMIENTO E,
-                                    GRUPO G,
-                                    CATEGORIA CT,
-                                    CAMPEONATO CA,
-                                    RESERVA R,
-                                    FINALISTA_CAMPEONATO FC
+                                        ENFRENTAMIENTO E,
+                                        GRUPO G,
+                                        CATEGORIA CT,
+                                        CAMPEONATO CA,
+                                        RESERVA R,
+                                        FINALISTA_CAMPEONATO FC
 
-                                    WHERE
+                                        WHERE
 
-                                    (
-                                        (SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') > 0 ) AND
-                                        (E.GRUPO_ID = G.ID) AND
-                                        (G.CAMPEONATO_ID = CA.ID) AND
-                                        (G.CATEGORIA_ID = CT.ID) AND
-                                        (G.ID = '$grupo_id') AND
-                                        ( 
-                                            (
-                                                ( E.RESERVA_ID IS NOT NULL) AND
-                                                ( E.RESERVA_ID IN (SELECT DISTINCT ID FROM RESERVA WHERE (FECHA > '$fecha_cierre') )
-                                            ) 
-                                            OR
-                                            (E.RESERVA_ID IS NULL)
+                                        (
+                                            (SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') > 0 ) AND
+                                            (E.GRUPO_ID = G.ID) AND
+                                            (G.CAMPEONATO_ID = CA.ID) AND
+                                            (G.CATEGORIA_ID = CT.ID) AND
+                                            (G.ID = '$grupo_id') AND
+                                            ( 
+                                                (
+                                                    ( E.RESERVA_ID IS NOT NULL) AND
+                                                    ( E.RESERVA_ID IN (SELECT DISTINCT ID FROM RESERVA WHERE (FECHA > '$fecha_cierre') )
+                                                ) 
+                                                OR
+                                                (E.RESERVA_ID IS NULL)
+                                            )
                                         )
-                                    )
 
-                            ";
-                            echo("ESTE SQL SI: ".$sql_enf);
-                $result_enf = $this->mysqli->query($sql_enf);
+                                ";
+                                echo("ESTE SQL SI: ".$sql_enf);
+                    $result_enf = $this->mysqli->query($sql_enf);
+            }
+            else{
+                $result_enf = null;
+            }
         }
         else{
             $result_enf = null;
         }
+        
 
         return $result_enf; 
     }
