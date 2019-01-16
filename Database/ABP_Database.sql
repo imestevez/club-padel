@@ -319,9 +319,13 @@ INSERT INTO HORARIO (ID, HORA_INICIO, HORA_FIN) VALUES  (1, '9:00', '10:30'),
                                                         (7, '18:00', '19:30'),
                                                         (8, '19:30', '20:00');
 -- INSERTS EN TABLA CAMPEONATO
-INSERT INTO CAMPEONATO (ID, NOMBRE, FECHA) VALUES   (1, "Campeonato Provincial", '2018-11-20'),
-                                                    (2, "Campeonato Autonomico", '2018-11-16'),
-                                                    (3, "Campeonato Internacional", '2019-01-15');
+
+INSERT INTO CAMPEONATO (ID, NOMBRE, FECHA) VALUES
+                            (1, 'Campeonato Provincial', '2018-11-20'),
+                            (2, 'Campeonato Autonomico', '2018-11-16'),
+                            (3, 'Campeonato Internacional', '2019-01-15'),
+                            (4, 'Campeonato Norte', '2019-01-31');
+
 -- INSERTS EN TABLA CATEGORIA
 INSERT INTO CATEGORIA (ID, NIVEL, GENERO) VALUES  (1, 1, "Masculina"),
                                                   (2, 1, "Femenina"),
@@ -837,12 +841,17 @@ INSERT INTO ENFRENTAMIENTO (ID, GRUPO_ID, RESULTADO, PAREJA_1, PAREJA_2, RESERVA
 
 
 -- INSERTS EN TABLA PARTIDO
-INSERT INTO PARTIDO (ID, FECHA, RESERVA_ID, PISTA_ID, HORARIO_ID, INSCRIPCIONES) VALUES   (1, '2018-11-22', NULL, 5, 1, 1),
-                                                                                          (2, '2018-11-26', 5, 5, 1, 4),
-                                                                                          (3, '2018-11-27', NULL, 1, 4, 2),
-                                                                                          (4, '2018-11-28', NULL, 1, 2, 1),
-                                                                                          (5, '2018-11-29', NULL, 2, 5, 3),
-                                                                                          (6, '2018-12-01', NULL, 3, 2, 0);
+INSERT INTO PARTIDO (ID, FECHA, RESERVA_ID, PISTA_ID, HORARIO_ID, INSCRIPCIONES) VALUES
+                                                                                        (1, '2018-11-22', NULL, 5, 1, 1),
+                                                                                        (2, '2018-11-26', 5, 5, 1, 4),
+                                                                                        (3, '2018-11-27', NULL, 1, 4, 2),
+                                                                                        (4, '2018-11-28', NULL, 1, 2, 1),
+                                                                                        (5, '2018-11-29', NULL, 2, 5, 3),
+                                                                                        (6, '2018-12-01', NULL, 3, 2, 0),
+                                                                                        (7, '2019-01-19', NULL, 1, 1, 0),
+                                                                                        (8, '2019-01-20', NULL, 1, 1, 0),
+                                                                                        (9, '2019-01-20', NULL, 2, 1, 0),
+                                                                                        (10, '2019-01-22', NULL, 1, 4, 0);
 
 -- INSERTS EN TABLA USUARIO_PARTIDO
 INSERT INTO USUARIO_PARTIDO (ID, USUARIO_LOGIN, PARTIDO_ID) VALUES  (1, 'pepe', 1),
@@ -858,23 +867,33 @@ INSERT INTO USUARIO_PARTIDO (ID, USUARIO_LOGIN, PARTIDO_ID) VALUES  (1, 'pepe', 
                                                                     (11, 'guillermo', 5);
 
 -- INSERTS EN TABLA ESCUELA
-INSERT INTO ESCUELA (ID, NOMBRE, DIA, PISTA_ID, HORARIO_ID, INSCRIPCIONES ) VALUES (1, 'Clase Saque','Monday' , 1, 2, 0),
-                                                                              (2, 'Clase Golpeo', 'Tuesday' , 1, 1, 0),
-                                                                              (3, 'Clase Dejadas', 'Friday', 1, 4, 0);
+INSERT INTO ESCUELA (ID, NOMBRE, DIA, PISTA_ID, HORARIO_ID, INSCRIPCIONES) VALUES
+                                                                            (1, 'Clase Saque', 'Monday', 1, 2, 1),
+                                                                            (2, 'Clase Golpeo', 'Tuesday', 1, 1, 4),
+                                                                            (3, 'Clase Dejadas', 'Friday', 1, 4, 0),
+                                                                            (4, 'Clase Volea', 'Friday', 4, 7, 0);
 
 
 -- INSERTS EN TABLA USUARIO_ESCUELA
-INSERT INTO USUARIO_ESCUELA (`ID`, `USUARIO_LOGIN`, `ESCUELA_ID`) VALUES
-(1, 'adrian', 2),
-(2, 'pepe', 2),
-(3, 'agustin', 2),
-(4, 'alejandra', 2),
-(5, 'pepe', 1);
-
-INSERT INTO NOTICIA (`ID`, `TITULO`, `DESCRIPCION`, `LINK`) VALUES
-(1, 'Nueva web!', 'Os presentamos la nueva web del club, esperamos que os guste!',''),
-(2, 'Clases gratis el primer mes!', 'NO ES BROMA! Aprovechad esta oferta de apertura.', '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php?action=SHOW_ESCUELAS'),
-(3, 'Primeros partidos promocionados del año!', 'Otro año mas, volvemos con los partidos promocionados!','../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php?action=SHOW_PARTIDOS');
+INSERT INTO USUARIO_ESCUELA (ID, USUARIO_LOGIN, ESCUELA_ID) VALUES
+                                                              (1, 'adrian', 2),
+                                                              (2, 'pepe', 2),
+                                                              (3, 'agustin', 2),
+                                                              (4, 'alejandra', 2),
+                                                              (5, 'pepe', 1);
 
 
-COMMIT;
+
+
+
+
+
+INSERT INTO NOTICIA (ID, TITULO, DESCRIPCION, LINK) VALUES
+                                                        (1, 'Nueva web!', 'Os presentamos la nueva web del club, esperamos que os guste!', '../Controllers/INDEX_Controller.php'),
+                                                        (2, 'Nuevo partido', 'Nuevo partido 2019-01-20 1, pista: 1', '../Controller/INSCRIBIRSE_PARTIDOS_Controller.php'),
+                                                        (3, 'Nuevo partido', 'Nuevo partido 2019-01-20 1, pista: 2', '../Controller/INSCRIBIRSE_PARTIDOS_Controller.php'),
+                                                        (4, 'Nuevo campeonato', 'Nuevo campeonato Campeonato General, limite de inscripcion hasta: 2019-01-01', '../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS'),
+                                                        (5, 'Nuevo partido', 'Nuevo partido 2019-01-22 4, pista: 1', '../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php'),
+                                                        (6, 'Nuevo campeonato', 'Nuevo campeonato Campeonato Norte, lÃ­mite de inscripcion hasta: 2019-01-31', '../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS'),
+                                                        (7, 'Nueva clase', 'Nueva clase Friday 7, pista: 4', '../Controllers/INSCRIBIRSE_ESCUELA_Controller.php');
+
