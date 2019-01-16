@@ -27,7 +27,7 @@ include '../Locales/Strings_SPANISH.php';
               ?>
               <li><a href="../Controllers/NOTICIAS_Controller.php?action=SHOW_NOTICIAS">Noticias</a></li>
               <li>
-              <a href="#" class="icon fa-angle-down">Gestionar Reservas</a>
+              <a href="#" class="icon fa-angle-down">Reservas</a>
               <ul>
                 <?php
                 if($_SESSION["rol"] == 'ADMIN'){
@@ -48,7 +48,7 @@ include '../Locales/Strings_SPANISH.php';
             if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
               <li>
-                <a href="#" class="icon fa-angle-down">Gestionar Pistas</a>
+                <a href="#" class="icon fa-angle-down">Pistas</a>
                 <ul>
                   <li><a href="../Controllers/GESTIONAR_PISTAS_Controller.php">Gestionar Pistas</a></li>
                   <li><a href="../Controllers/HORARIO_Controller.php">Gestionar Horarios</a></li>
@@ -60,12 +60,12 @@ include '../Locales/Strings_SPANISH.php';
             <?php
             if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'ADMIN')){
               ?>
-              <li><a href="../Controllers/USER_Controller.php">Gestionar Usuarios</a></li>
+              <li><a href="../Controllers/USER_Controller.php">Usuarios</a></li>
               <?php
             }
             ?>
             <li>
-              <a class="icon fa-angle-down">Gestionar Campeonatos</a>
+              <a class="icon fa-angle-down">Campeonatos</a>
               <ul>
                 <li><a href="../Controllers/CLASIFICACION_Controller.php?action=SHOW">Rankings</a></li>
                 <li>
@@ -111,7 +111,7 @@ include '../Locales/Strings_SPANISH.php';
             </li>
 
             <li>
-              <a href="#" class="icon fa-angle-down">Gestionar Partidos</a>
+              <a href="#" class="icon fa-angle-down">Partidos</a>
               <ul>
                 <li>
                   <a>Inscripciones</a>
@@ -132,7 +132,7 @@ include '../Locales/Strings_SPANISH.php';
               </ul>
             </li>
              <li>
-              <a href="#" class="icon fa-angle-down">Gestionar Clases</a>
+              <a href="#" class="icon fa-angle-down">Clases</a>
               <ul>
                 <li>
                   <a>Inscripciones</a>
@@ -166,7 +166,7 @@ include '../Locales/Strings_SPANISH.php';
           }
           else{
             ?>
-            <a href="../Controllers/LOGIN_Controller.php" class="button">Acceder</a>
+            <a href="../Controllers/LOGIN_Controller.php" class="small button">Acceder</a>
           </li>
           <li>
             <a href="../Controllers/REGISTER_Controller.php" class="button">Registrarse</a>
