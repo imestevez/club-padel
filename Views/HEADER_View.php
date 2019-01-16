@@ -101,15 +101,17 @@ include '../Locales/Strings_SPANISH.php';
                 </li>
                 <li>
                   <a  href="../Controllers/ENFRENTAMIENTO_Controller.php?action" >Gest. de enfrentamientos</a>
-                  <ul>
                     <?php
                     if(isset($_SESSION["rol"]) && ($_SESSION["rol"] == 'DEPORTISTA')){
                       ?>
+                  <ul>
+
                     <li><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=GESHORARIOS">Gestionar horarios</a></li>
+                  </ul>
+                    
                     <?php
                     }
                     ?>
-                  </ul>
                 </li>
               </ul>
             </li>

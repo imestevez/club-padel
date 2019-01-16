@@ -44,7 +44,7 @@
 			<?php  while( $row = mysqli_fetch_array($this->conenf)){ ?>	
 									<tr>
 										<td><?php echo $row['NOMBRE']?></td>
-										<td><a href="../Controllers/CAMPEONATO_Controller.php?action=SHOWALLENF&id=<?php echo $row['ID']?>&nombre=<?php echo $row['NOMBRE']?>" class="button small" >Ver enfrentamientos</a></td>
+										<td><a href="../Controllers/ENFRENTAMIENTO_Controller.php?action=SHOW_ENF_CC&campeonato_ID=<?php echo $row['ID']?>" class="button small" >Ver enfrentamientos</a></td>
 									</tr>
 			<?php } ?>										
 								</tbody>
