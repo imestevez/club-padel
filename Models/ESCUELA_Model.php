@@ -95,7 +95,7 @@ class ESCUELA_Model{
                             //Generar noticia
                             $titulo = "Nueva clase";
                             $descripcion = "Nueva clase ".$this->dia." ".$this->horario_ID.", pista: ".$this->pista_ID;
-                            $link = "../Controller/INSCRIBIRSE_ESCUELAS_Controller.php";
+                            $link = "../Controllers/INSCRIBIRSE_ESCUELA_Controller.php";
                             $NOTICIA = new NOTICIA_Model(NULL, $titulo, $descripcion, $link);
                             $NOTICIA->ADD();
 

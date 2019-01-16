@@ -66,7 +66,7 @@ class PARTIDO_Model{
                             //Generar noticia
                             $titulo = "Nuevo partido";
                             $descripcion = "Nuevo partido ".$this->fecha." ".$this->horario_ID.", pista: ".$this->pista_ID;
-                            $link = "../Controller/INSCRIBIRSE_PARTIDOS_Controller.php";
+                            $link = "../Controllers/INSCRIBIRSE_PARTIDOS_Controller.php";
                             $NOTICIA = new NOTICIA_Model(NULL, $titulo, $descripcion, $link);
                             $NOTICIA->ADD();
 

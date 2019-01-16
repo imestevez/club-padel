@@ -604,7 +604,7 @@ class CAMPEONATO_Model{
             //Generar noticia
             $titulo = "Nuevo campeonato";
             $descripcion = "Nuevo campeonato ".$this->nombre.", límite de inscripcion hasta: ".$this->fecha;
-            $link = "../Controller/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS";
+            $link = "../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS";
             $NOTICIA = new NOTICIA_Model(NULL, $titulo, $descripcion, $link);
             $NOTICIA->ADD();                
 
