@@ -486,13 +486,14 @@ class CAMPEONATO_Model{
             $campeonato_id= $campeonatos['ID'];
             
             //Cogemos las categorias seleccionadas
-            foreach ($categorias as $key => $categoria_id) {
-                //Para cada categoría la relacionamos con el campeonato
-                $sql = "INSERT INTO CAMPEONATO_CATEGORIA(ID,CAMPEONATO_ID,CATEGORIA_ID)
-                            VALUES (NULL, '$campeonato_id', '$categoria_id')";
-                $result = $this->mysqli->query($sql);            
+            if($categorias <> NULL){
+                foreach ($categorias as $key => $categoria_id) {
+                    //Para cada categoría la relacionamos con el campeonato
+                    $sql = "INSERT INTO CAMPEONATO_CATEGORIA(ID,CAMPEONATO_ID,CATEGORIA_ID)
+                                VALUES (NULL, '$campeonato_id', '$categoria_id')";
+                    $result = $this->mysqli->query($sql);            
+                }
             }
-
             $this->mensaje = "Campeonato registrado correctamente";
         }
         else{

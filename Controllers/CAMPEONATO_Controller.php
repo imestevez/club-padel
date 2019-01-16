@@ -25,14 +25,20 @@
 
     if(isset($_REQUEST['nombre']))  {
         $nombre = $_REQUEST['nombre'];
+    }else{
+      $nombre = NULL;
     }
 
     if(isset($_REQUEST['fecha']))  {
         $fecha = $_REQUEST['fecha'];
+    }else{
+       $fecha = NULL;
     }
 
     if(isset($_REQUEST['categorias'])){
         $categorias = $_REQUEST['categorias'];
+    }else{
+       $categorias = NULL;
     }
 
     //Función para recoger los datos del formulario de add de campeonatos
