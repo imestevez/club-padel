@@ -23,6 +23,7 @@ class ESCUELA_Model{
 
 
         include_once '../Functions/Access_DB.php';
+        include_once '../Models/NOTICIA_Model.php';
         $this->mysqli = ConnectDB();
         $this->UPDATE();
 

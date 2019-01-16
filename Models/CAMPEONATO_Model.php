@@ -21,6 +21,8 @@ class CAMPEONATO_Model{
         include_once '../Models/CLASIFICACION_Model.php';
         include_once '../Models/FINALISTA_CAMPEONATO_Model.php';
         include_once '../Models/ENFRENTAMIENTO_Model.php';
+        include_once '../Models/NOTICIA_Model.php';
+
 
         $this->mysqli = ConnectDB();
 
@@ -261,7 +263,7 @@ class CAMPEONATO_Model{
                                             WHERE 
                                                 (E.GRUPO_ID = '$grupo_id')
                                             AND (E.GRUPO_ID = F.GRUPO_ID)
-                                            AND (F.ETAPA = 'F')";
+                                            AND (F.ETAPA = 'S')";
                     $result = $this->mysqli->query($sql_cmp);
 
                     while($row =  mysqli_fetch_array($result)){
