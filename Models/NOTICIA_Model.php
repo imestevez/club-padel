@@ -17,7 +17,7 @@ class NOTICIA_Model{
 	}
 
 	function SHOWALL(){
-		$sql = "SELECT * FROM NOTICIA ORDER BY ID";
+		$sql = "SELECT * FROM NOTICIA ORDER BY  ID DESC";
 		if (!($resultado = $this->mysqli->query($sql))){
 			$this->mensaje['mensaje'] =  'ERROR: Fallo en la consulta sobre la base de datos';
 			return $this->mensaje;
