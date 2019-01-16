@@ -234,7 +234,6 @@
         case 'INTRODUCIRRESULTADO':
 
             if(isset($_REQUEST["enfrentamiento_ID"])){
-                var_dump("LA ETAPA ES 1: ".$_REQUEST['etapa']);
                 $VIEW = new IntroducirResultado($_REQUEST["enfrentamiento_ID"],$_REQUEST["grupo_id"],$_REQUEST["etapa"]);
             }
         break;
@@ -244,18 +243,15 @@
             $enfrentamiento = $ENFRENTAMIENTO->SET_RESULTADO($_REQUEST["enfrentamiento_ID"],  $resultado);
             $CLASIFICACION = new CLASIFICACION_Model('','','');
             $clasificacion = $CLASIFICACION->ACTUALIZAR_CLASIFICACION($resultado,$_REQUEST["enfrentamiento_ID"]);
-                var_dump("LA ETAPA ES 2: ".$_REQUEST["etapa"]);
             
             //Comprobamos si es el ultimo enfrentamiento en tener resultado
             $CAMPEONATO = new CAMPEONATO_Model('','');
             $promocion_grupo = $CAMPEONATO->COMPROBAR_ETAPA($_REQUEST["grupo_id"],$_REQUEST["etapa"]);
-            var_dump("VAMOS A PROMOCIONA: ". $promocion_grupo);
             if( $promocion_grupo == 1){
                 $CAMPEONATO->GANADORES_GRUPO($_REQUEST["grupo_id"],$_REQUEST["etapa"]);
                 $mensaje_cambio = "Ha terminado una fase del campeonato";
                 $campeonato_id = $CAMPEONATO->GET_ID($_REQUEST["grupo_id"]);
                 $VIEW = new MESSAGE($mensaje_cambio, '../Controllers/ENFRENTAMIENTO_Controller.php');
-                var_dump("LA PROXIMA VEZ SERÁ");
 
             }
             else{

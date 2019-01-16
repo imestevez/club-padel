@@ -43,7 +43,6 @@ class ENFRENTAMIENTO_Model{
         $sql_cmp = "SELECT * FROM ENFRENTAMIENTO WHERE(
             (PAREJA_1 = '$this->pareja_1' ) and (PAREJA_2 = '$this->pareja_2')
         )";
-        var_dump("SQL DE INSERT: ".$sql_cmp);
         $result_cmp = $this->mysqli->query($sql_cmp);
         if($result_cmp){
             if(mysqli_num_rows($result_cmp) > 0){
@@ -82,7 +81,6 @@ class ENFRENTAMIENTO_Model{
     function SET_RESERVA($enfrentamiento_id){
         $sql_up = "UPDATE ENFRENTAMIENTO SET RESERVA_ID = '$this->reserva_id'
                                  WHERE (ID = '$enfrentamiento_id')";
-                                 var_dump("SQL DE SET RESERVA: ".$sql_up);
         $res = $this->mysqli->query($sql_up);
     }
 
@@ -221,7 +219,6 @@ class ENFRENTAMIENTO_Model{
                                         )
 
                                 ";
-                                echo("ESTE SQL SI: ".$sql_enf);
                     $result_enf = $this->mysqli->query($sql_enf);
             }
             else{
