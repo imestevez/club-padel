@@ -646,7 +646,9 @@ INSERT INTO RESERVA (ID, USUARIO_LOGIN, PISTA_ID, FECHA, HORARIO_ID) VALUES  (1,
                                                                               (712, 'admin', 2, '2019-01-09', 2),
                                                                               (713, 'admin', 2, '2019-01-11', 2),
                                                                               (714, 'admin', 2, '2019-01-13', 2),
-                                                                              (715, 'admin', 2, '2019-01-15', 2);
+                                                                              (715, 'admin', 2, '2019-01-15', 2),
+                                                                              (716, 'pepe', 5, '2019-01-17', 1);
+
 
 
 -- INSERTS EN TABLA CAMPEONATO_CATEGORIA
