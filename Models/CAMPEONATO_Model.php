@@ -494,6 +494,14 @@ class CAMPEONATO_Model{
                     $result = $this->mysqli->query($sql);            
                 }
             }
+
+            //Generar noticia
+            $titulo = "Nuevo campeonato";
+            $descripcion = "Nuevo campeonato ".$this->nombre.", límite de inscripcion hasta: ".$this->fecha;
+            $link = "../Controller/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS";
+            $NOTICIA = new NOTICIA_Model(NULL, $titulo, $descripcion, $link);
+            $NOTICIA->ADD();                
+
             $this->mensaje = "Campeonato registrado correctamente";
         }
         else{
