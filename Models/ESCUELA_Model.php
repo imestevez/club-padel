@@ -90,6 +90,14 @@ class ESCUELA_Model{
                             return $this->mensaje; // introduzca un valor para el usuario
                         }else{
                             //$this->mensaje['partido_ID'] = mysql_insert_id();
+
+                            //Generar noticia
+                            $titulo = "Nueva clase";
+                            $descripcion = "Nueva clase ".$this->dia." ".$this->horario_ID.", pista: ".$this->pista_ID;
+                            $link = "../Controller/INSCRIBIRSE_ESCUELAS_Controller.php";
+                            $NOTICIA = new NOTICIA_Model(NULL, $titulo, $descripcion, $link);
+                            $NOTICIA->ADD();
+
     	                    $this->mensaje['mensaje'] = 'Registrada correctamente';
                             return $this->mensaje; // introduzca un valor para el usuario
                         }
