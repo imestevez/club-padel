@@ -21,6 +21,8 @@ class CAMPEONATO_Model{
         include_once '../Models/CLASIFICACION_Model.php';
         include_once '../Models/FINALISTA_CAMPEONATO_Model.php';
         include_once '../Models/ENFRENTAMIENTO_Model.php';
+        include_once '../Models/NOTICIA_Model.php';
+
 
         $this->mysqli = ConnectDB();
 
@@ -231,14 +233,51 @@ class CAMPEONATO_Model{
 
         switch ($etapa) {
                 case 'F':
-                    //Buscamos todos los enfrentamientos para ese grupo
-                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
-                                                FINALISTA_CAMPEONATO F
-                                            WHERE 
-                                                (E.GRUPO_ID = '$grupo_id')
-                                            AND (E.GRUPO_ID = F.GRUPO_ID)
-                                            AND (F.ETAPA = 'F')";
-                    $result = $this->mysqli->query($sql_cmp);
+                    $sql_fecha = "SELECT FECHA FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'F')";
+                $result_fecha = $this->mysqli->query($sql_fecha);
+                if($row_fecha = mysqli_fetch_array($result_fecha)){
+                    $fecha_cierre = $row_fecha['FECHA'];
+                    }
+                    
+                    $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                                CT.NIVEL,
+                                                CT.GENERO,
+                                                G.NOMBRE AS GR_NOMBRE,
+                                                E.ID AS ENFRENTAMIENTO_ID,
+                                                E.PAREJA_1 AS PAREJA_1,
+                                                E.PAREJA_2 AS PAREJA_2,
+                                                E.RESULTADO AS RESULTADO
+
+                                                FROM
+
+                                                ENFRENTAMIENTO E,
+                                                GRUPO G,
+                                                CATEGORIA CT,
+                                                CAMPEONATO CA,
+                                                RESERVA R,
+                                                FINALISTA_CAMPEONATO FC
+
+                                                WHERE
+
+                                                (
+                                                    (SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') > 0 ) AND
+                                                    (E.GRUPO_ID = G.ID) AND
+                                                    (G.CAMPEONATO_ID = CA.ID) AND
+                                                    (G.CATEGORIA_ID = CT.ID) AND
+                                                    (G.ID = '$grupo_id') AND
+                                                    ( 
+                                                        (
+                                                            ( E.RESERVA_ID IS NOT NULL) AND
+                                                            ( E.RESERVA_ID IN (SELECT DISTINCT ID FROM RESERVA WHERE (FECHA > '$fecha_cierre') )
+                                                        ) 
+                                                        OR
+                                                        (E.RESERVA_ID IS NULL)
+                                                    )
+                                                )
+
+                                        ";    
+
+                    $result = $this->mysqli->query($sql_enf);
 
                     while($row =  mysqli_fetch_array($result)){
                         $resultado_partido = $row['RESULTADO'];
@@ -255,14 +294,52 @@ class CAMPEONATO_Model{
 
                     break;
                 case 'S':
-                    //Buscamos todos los enfrentamientos para ese grupo
-                    $sql_cmp = "SELECT * FROM   ENFRENTAMIENTO E,
-                                                FINALISTA_CAMPEONATO F
-                                            WHERE 
-                                                (E.GRUPO_ID = '$grupo_id')
-                                            AND (E.GRUPO_ID = F.GRUPO_ID)
-                                            AND (F.ETAPA = 'F')";
-                    $result = $this->mysqli->query($sql_cmp);
+                
+                $sql_fecha = "SELECT FECHA FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'S')";
+                $result_fecha = $this->mysqli->query($sql_fecha);
+                if($row_fecha = mysqli_fetch_array($result_fecha)){
+                    $fecha_cierre = $row_fecha['FECHA'];
+                    }
+                    
+                    $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                                CT.NIVEL,
+                                                CT.GENERO,
+                                                G.NOMBRE AS GR_NOMBRE,
+                                                E.ID AS ENFRENTAMIENTO_ID,
+                                                E.PAREJA_1 AS PAREJA_1,
+                                                E.PAREJA_2 AS PAREJA_2,
+                                                E.RESULTADO AS RESULTADO
+
+                                                FROM
+
+                                                ENFRENTAMIENTO E,
+                                                GRUPO G,
+                                                CATEGORIA CT,
+                                                CAMPEONATO CA,
+                                                RESERVA R,
+                                                FINALISTA_CAMPEONATO FC
+
+                                                WHERE
+
+                                                (
+                                                    (SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') > 0 ) AND
+                                                    (E.GRUPO_ID = G.ID) AND
+                                                    (G.CAMPEONATO_ID = CA.ID) AND
+                                                    (G.CATEGORIA_ID = CT.ID) AND
+                                                    (G.ID = '$grupo_id') AND
+                                                    ( 
+                                                        (
+                                                            ( E.RESERVA_ID IS NOT NULL) AND
+                                                            ( E.RESERVA_ID IN (SELECT DISTINCT ID FROM RESERVA WHERE (FECHA > '$fecha_cierre') )
+                                                        ) 
+                                                        OR
+                                                        (E.RESERVA_ID IS NULL)
+                                                    )
+                                                )
+
+                                        ";    
+
+                    $result = $this->mysqli->query($sql_enf);
 
                     while($row =  mysqli_fetch_array($result)){
                         $resultado_partido = $row['RESULTADO'];
@@ -280,22 +357,51 @@ class CAMPEONATO_Model{
                 case 'C':
                 $fecha_act = date("Y-m-d");
 
-                    //Seleccionamos las fechas en las que comenzo la etapa
                     $sql_fecha = "SELECT FECHA FROM FINALISTA_CAMPEONATO WHERE (GRUPO_ID = '$grupo_id') AND (ETAPA = 'C')";
-                    $result_fecha = $this->mysqli->query($sql_fecha);
-                    if($row_fecha = mysqli_fetch_array($result_fecha)){
-                        $fecha_cierre = $row_fecha['FECHA'];
+                $result_fecha = $this->mysqli->query($sql_fecha);
+                if($row_fecha = mysqli_fetch_array($result_fecha)){
+                    $fecha_cierre = $row_fecha['FECHA'];
                     }
-                    //Buscamos todos los enfrentamientos para ese grupo
-                    $sql_cmp = "SELECT DISTINCT * FROM   ENFRENTAMIENTO E,
-                                                RESERVA R
-                                            WHERE 
-                                                (E.GRUPO_ID = '$grupo_id')
-                                            AND (E.PAREJA_1 IN (SELECT PAREJA_ID FROM FINALISTA_CAMPEONATO WHERE ETAPA = 'C') )
-                                            AND (E.RESERVA_ID = R.ID)
-                                            AND (E.RESERVA_ID IS NOT NULL)
-                                            AND (R.FECHA > '$fecha_cierre')";
-                    $result = $this->mysqli->query($sql_cmp);
+                    
+                    $sql_enf = "SELECT  DISTINCT CA.NOMBRE AS CAM_NOMBRE,
+                                                CT.NIVEL,
+                                                CT.GENERO,
+                                                G.NOMBRE AS GR_NOMBRE,
+                                                E.ID AS ENFRENTAMIENTO_ID,
+                                                E.PAREJA_1 AS PAREJA_1,
+                                                E.PAREJA_2 AS PAREJA_2,
+                                                E.RESULTADO AS RESULTADO
+
+                                                FROM
+
+                                                ENFRENTAMIENTO E,
+                                                GRUPO G,
+                                                CATEGORIA CT,
+                                                CAMPEONATO CA,
+                                                RESERVA R,
+                                                FINALISTA_CAMPEONATO FC
+
+                                                WHERE
+
+                                                (
+                                                    (SELECT COUNT(GRUPO_ID) FROM FINALISTA_CAMPEONATO WHERE GRUPO_ID = '$grupo_id') > 0 ) AND
+                                                    (E.GRUPO_ID = G.ID) AND
+                                                    (G.CAMPEONATO_ID = CA.ID) AND
+                                                    (G.CATEGORIA_ID = CT.ID) AND
+                                                    (G.ID = '$grupo_id') AND
+                                                    ( 
+                                                        (
+                                                            ( E.RESERVA_ID IS NOT NULL) AND
+                                                            ( E.RESERVA_ID IN (SELECT DISTINCT ID FROM RESERVA WHERE (FECHA > '$fecha_cierre') )
+                                                        ) 
+                                                        OR
+                                                        (E.RESERVA_ID IS NULL)
+                                                    )
+                                                )
+
+                                        ";    
+
+                    $result = $this->mysqli->query($sql_enf);
                     while($row =  mysqli_fetch_array($result)){
                         $resultado_partido = $row['RESULTADO'];
                         $ganador = $this->GANADOR_PARTIDO($resultado_partido);
@@ -498,7 +604,7 @@ class CAMPEONATO_Model{
             //Generar noticia
             $titulo = "Nuevo campeonato";
             $descripcion = "Nuevo campeonato ".$this->nombre.", límite de inscripcion hasta: ".$this->fecha;
-            $link = "../Controller/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS";
+            $link = "../Controllers/CAMPEONATOUSUARIO_Controller.php?action=CAMPEONATOSABIERTOS";
             $NOTICIA = new NOTICIA_Model(NULL, $titulo, $descripcion, $link);
             $NOTICIA->ADD();                
 
