@@ -60,7 +60,7 @@ class Index {
                     if($num_rows >= 1){
                         ?>
                          <div  class="carousel-item active">
-                            <img src="../Views/images/<?=$lista[0][3]?>?>.jpg" style="width: 100%; height: 50%; opacity: 0.8;">
+                            <img src="../Views/images/<?=$lista[0][3]?>.jpg" style="width: 100%; height: 50%; opacity: 0.8;">
                         <div class="my_carousel_div">
                         <a href="<?=$lista[0][2]?>"><B><h1 style="color: white" class="display-2"><?=$lista[0][0]?></h1></B></a>
                         <p style="color: white"><?=$lista[0][1]?></p>
@@ -71,7 +71,7 @@ class Index {
                 if($num_rows >= 2){
                 ?>
                 <div  class="carousel-item">
-                  <img src="../Views/images/<?=$lista[1][3]?>?>.jpg" style="width: 100%; height: 50%; opacity: 0.8;">
+                  <img src="../Views/images/<?=$lista[1][3]?>.jpg" style="width: 100%; height: 50%; opacity: 0.8;">
                      <div class="my_carousel_div">
                     <a href="<?=$lista[1][2]?>"><B><h1 style="color: white" class="display-2"><?=$lista[1][0]?></h1></B></a>
                     <p style="color: white"><?=$lista[1][1]?></p>
@@ -82,7 +82,7 @@ class Index {
                 if($num_rows >= 3){
                 ?>
                 <div  class="carousel-item">
-                  <img src="../Views/images/<?=$lista[2][3]?>?>.jpg" style="width: 100%; height: 50%; opacity: 0.8;">
+                  <img src="../Views/images/<?=$lista[2][3]?>.jpg" style="width: 100%; height: 50%; opacity: 0.8;">
                      <div class="my_carousel_div">
                     <a href="<?=$lista[2][2]?>"><B><h1 style="color: white" class="display-2"><?=$lista[2][0]?></h1></B></a>
                     <p style="color: white"><?=$lista[2][1]?></p>
